@@ -1,0 +1,22 @@
+.loader {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%);
+  border: 10px solid #525288;
+  border-radius: 100%;
+  border-top-color: transparent;
+  z-index: 100;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: translate(-50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%) rotate(360deg);
+  }
+}
