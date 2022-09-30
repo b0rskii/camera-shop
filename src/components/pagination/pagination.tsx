@@ -1,25 +1,23 @@
 import { ReactNode, MouseEvent } from 'react';
-import { useLocation } from 'react-router-dom';
-import browserHistory from '../../browser-history';
-import { CARDS_PER_PAGE_COUNT, PAGE_QUERY } from '../../const';
+import { CARDS_PER_PAGE_COUNT, CATALOG_PAGE_QUERY } from '../../const';
 
 type PaginationProps = {
   productsTotalCount: number;
   currentPage: number;
   onSetCurrentPage: (page: number) => void;
   onSetStartItemNumber: (startItemNumber: number) => void;
+  onSetSearchParams: (params: string) => void;
 };
 
 function Pagination(props: PaginationProps): JSX.Element {
-  const location = useLocation();
-  const {productsTotalCount, currentPage, onSetCurrentPage, onSetStartItemNumber} = props;
+  const {productsTotalCount, currentPage, onSetCurrentPage} = props;
+  const {onSetStartItemNumber, onSetSearchParams} = props;
   const paginationList: ReactNode[] = [];
 
   const updateCatalog = (newPage: number) => {
     const startItemNumber = (newPage - 1) * CARDS_PER_PAGE_COUNT;
 
-    browserHistory.push(`${location.pathname}?${PAGE_QUERY}${newPage}`);
-
+    onSetSearchParams(`${CATALOG_PAGE_QUERY}=${newPage}`);
     onSetCurrentPage(newPage);
     onSetStartItemNumber(startItemNumber);
 

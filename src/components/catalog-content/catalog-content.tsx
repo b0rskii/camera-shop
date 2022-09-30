@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
-import { INITIAL_CATALOG_PAGE_NUMBER, CARDS_PER_PAGE_COUNT, PAGE_QUERY_REG_EXP } from '../../const';
+import { INITIAL_CATALOG_PAGE_NUMBER, CARDS_PER_PAGE_COUNT, CATALOG_PAGE_QUERY } from '../../const';
 import CatalogSort from '../catalog-sort/catalog-sort';
 import ProductsList from '../products-list/products-list';
 import Pagination from '../pagination/pagination';
@@ -13,16 +13,18 @@ import {
 
 
 function CatalogContent() {
-  const location = useLocation();
   const cameras = useAppSelector(getCameras);
   const camerasTotalCount = useAppSelector(getCamerasTotalCount);
   const isCamerasLoaded = useAppSelector(getCamerasLoadingStatus);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const initialCatalogPageNumber =
-    Number(location.search.match(PAGE_QUERY_REG_EXP)?.join('').split('=')[1])
+    Number(searchParams.get(CATALOG_PAGE_QUERY))
     || INITIAL_CATALOG_PAGE_NUMBER;
 
   const initialStartItemNumber = (initialCatalogPageNumber - 1) * CARDS_PER_PAGE_COUNT;
+
   const [currentPage, setCurrentPage] = useState<number>(initialCatalogPageNumber);
   const [startItemNumber, setStartItemNumber] = useState<number>(initialStartItemNumber);
 
@@ -39,6 +41,7 @@ function CatalogContent() {
         currentPage={currentPage}
         onSetCurrentPage={setCurrentPage}
         onSetStartItemNumber={setStartItemNumber}
+        onSetSearchParams={setSearchParams}
       />
     </div>
   );

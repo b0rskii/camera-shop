@@ -5,9 +5,8 @@ import HistoryRouter from './components/history-router/history-router';
 import browserHistory from './browser-history';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { /* fetchCamerasAction, */ fetchPromoAction } from './store/api-actions';
+import { fetchPromoAction } from './store/api-actions';
 
-// store.dispatch(fetchCamerasAction(0));
 store.dispatch(fetchPromoAction());
 
 const root = ReactDOM.createRoot(
