@@ -13,7 +13,7 @@ function Header() {
         <nav className="main-nav header__main-nav">
           <ul className="main-nav__list">
             <li className="main-nav__item">
-              <Link className="main-nav__link" to="catalog.html">Каталог</Link>
+              <Link className="main-nav__link" to={AppRoute.Catalog}>Каталог</Link>
             </li>
             <li className="main-nav__item">
               <Link className="main-nav__link" to="#">Гарантии</Link>

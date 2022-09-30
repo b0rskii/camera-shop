@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import MainPage from '../../pages/main-page/main-page';
 import CatalogPage from '../../pages/catalog-page/catalog-page';
 import ItemPage from '../../pages/item-page/item-page';
 import BasketPage from '../../pages/basket-page/basket-page';
@@ -8,16 +9,24 @@ function App(): JSX.Element {
   return (
     <Routes>
       <Route
+        path={AppRoute.Main}
+        element={<MainPage />}
+      />
+      <Route
         path={AppRoute.Catalog}
-        element={<CatalogPage/>}
+        element={<CatalogPage />}
       />
       <Route
         path={AppRoute.ItemId}
-        element={<ItemPage/>}
+        element={<ItemPage />}
       />
       <Route
         path={AppRoute.Basket}
-        element={<BasketPage/>}
+        element={<BasketPage />}
+      />
+      <Route
+        path="*"
+        element={<p>Страница не найдена</p>}
       />
     </Routes>
   );
