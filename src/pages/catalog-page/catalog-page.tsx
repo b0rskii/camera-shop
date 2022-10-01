@@ -3,6 +3,7 @@ import Bunner from '../../components/banner/bunner';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import CatalogFilter from '../../components/catalog-filter/catalog-filter';
 import CatalogContent from '../../components/catalog-content/catalog-content';
+import PopupAddToBasket from '../../components/popup-add-to-basket/popup-add-to-basket';
 
 function CatalogPage(): JSX.Element {
   return (
@@ -23,6 +24,7 @@ function CatalogPage(): JSX.Element {
             </div>
           </section>
         </div>
+        <PopupAddToBasket />
       </main>
     </MainLayout>
   );

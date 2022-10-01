@@ -1,13 +1,23 @@
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks';
+import { setCurrentProduct, setIsPopupOpened } from '../../store/app-process/app-process';
 import { Camera } from '../../types/camera';
+import { MAX_PRODUCT_RATE, AppRoute } from '../../const';
+import ProductCardRating from '../product-card-rating/product-card-rating';
 
 type ProductCardProps = {
   product: Camera;
 };
 
 function ProductCard({product}: ProductCardProps): JSX.Element {
-  const {previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, rating} = product;
-  const {reviewCount, price} = product;
+  const dispatch = useAppDispatch();
+  const {previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, price} = product;
+  const {id, rating, reviewCount} = product;
+
+  const buyButtonClickHandler = () => {
+    dispatch(setCurrentProduct(product));
+    dispatch(setIsPopupOpened(true));
+  };
 
   return (
     <div className="product-card">
@@ -18,35 +28,25 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
         </picture>
       </div>
       <div className="product-card__info">
-        <div className="rate product-card__rate">
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-          <p className="visually-hidden">Рейтинг: {rating}</p>
-          <p className="rate__count">
-            <span className="visually-hidden">Всего оценок:</span>{reviewCount}
-          </p>
-        </div>
+        <ProductCardRating
+          maxRating={MAX_PRODUCT_RATE}
+          rating={rating}
+          reviewCount={reviewCount}
+        />
         <p className="product-card__title">{name}</p>
         <p className="product-card__price">
           <span className="visually-hidden">Цена:</span>{price} ₽
         </p>
       </div>
       <div className="product-card__buttons">
-        <button className="btn btn--purple product-card__btn" type="button">Купить</button>
-        <Link className="btn btn--transparent" to="#">Подробнее</Link>
+        <button
+          onClick={buyButtonClickHandler}
+          className="btn btn--purple product-card__btn"
+          type="button"
+        >
+          Купить
+        </button>
+        <Link className="btn btn--transparent" to={`${AppRoute.Item}${id}`}>Подробнее</Link>
       </div>
     </div>
   );

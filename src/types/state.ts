@@ -11,7 +11,8 @@ export type DataState = {
 };
 
 export type AppState = {
-  currentCatalogPage: number;
+  currentProduct: Camera | null;
+  isPopupOpened: boolean;
 };
 
 export type State = ReturnType<typeof store.getState>;
