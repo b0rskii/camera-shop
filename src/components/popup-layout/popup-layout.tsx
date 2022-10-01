@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { useAppSelector, useAppDispatch } from '../../hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
 import { getPopupStatus } from '../../store/app-process/selectors';
 import { setIsPopupOpened } from '../../store/app-process/app-process';
 

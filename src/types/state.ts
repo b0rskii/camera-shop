@@ -1,6 +1,7 @@
-import { store } from '../store';
+import { store } from '../store/store';
 import { Camera } from './camera';
 import { Promo } from './promo';
+import { Review } from './review';
 
 export type DataState = {
   cameras: Camera[];
@@ -8,6 +9,12 @@ export type DataState = {
   isCamerasLoaded: boolean;
   promo: Promo | null;
   isPromoLoaded: boolean;
+  currentCamera: Camera | null;
+  isCurrentCameraLoaded: boolean;
+  similarCameras: Camera[];
+  isSimilarCamerasLoaded: boolean;
+  reviews: Review[];
+  isReviewsLoaded: boolean;
 };
 
 export type AppState = {

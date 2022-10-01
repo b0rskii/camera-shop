@@ -1,4 +1,4 @@
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks/hooks';
 import { getCurrentProduct } from '../../store/app-process/selectors';
 import PopupLayout from '../popup-layout/popup-layout';
 

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks/hooks';
 import { getPromo, getPromoLoadingStatus } from '../../store/data-process/selectors';
 import { AppRoute } from '../../const';
 import Loader from '../loader/loader';

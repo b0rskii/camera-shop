@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks/hooks';
 import { INITIAL_CATALOG_PAGE_NUMBER, CARDS_PER_PAGE_COUNT, CATALOG_PAGE_QUERY } from '../../const';
 import CatalogSort from '../catalog-sort/catalog-sort';
 import ProductsList from '../products-list/products-list';

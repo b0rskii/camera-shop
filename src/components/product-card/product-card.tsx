@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch } from '../../hooks/hooks';
 import { setCurrentProduct, setIsPopupOpened } from '../../store/app-process/app-process';
 import { Camera } from '../../types/camera';
 import { MAX_PRODUCT_RATE, AppRoute } from '../../const';
@@ -7,9 +7,10 @@ import ProductCardRating from '../product-card-rating/product-card-rating';
 
 type ProductCardProps = {
   product: Camera;
+  isActive?: boolean;
 };
 
-function ProductCard({product}: ProductCardProps): JSX.Element {
+function ProductCard({product, isActive}: ProductCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const {previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, price} = product;
   const {id, rating, reviewCount} = product;
@@ -20,7 +21,7 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
   };
 
   return (
-    <div className="product-card">
+    <div className={`product-card ${isActive ? 'is-active' : ''}`}>
       <div className="product-card__img">
         <picture>
           <source type="image/webp" srcSet={`${previewImgWebp}, ${previewImgWebp2x} 2x`} />

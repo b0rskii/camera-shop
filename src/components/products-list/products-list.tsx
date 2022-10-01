@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch } from '../../hooks/hooks';
 import { fetchCamerasAction } from '../../store/api-actions';
 import { Camera } from '../../types/camera';
 import ProductCard from '../product-card/product-card';
