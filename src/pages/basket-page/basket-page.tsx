@@ -1,33 +1,16 @@
-import { Link } from 'react-router-dom';
+import { BreadCrumb, PreviousBreadCrumbs } from '../../const';
 import MainLayout from '../../components/main-layout/main-layout';
+import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 
 function BasketPage() {
   return (
     <MainLayout>
       <main>
         <div className="page-content">
-          <div className="breadcrumbs">
-            <div className="container">
-              <ul className="breadcrumbs__list">
-                <li className="breadcrumbs__item">
-                  <Link className="breadcrumbs__link" to="index.html">Главная
-                    <svg width="5" height="8" aria-hidden="true">
-                      <use xlinkHref="#icon-arrow-mini"></use>
-                    </svg>
-                  </Link>
-                </li>
-                <li className="breadcrumbs__item">
-                  <Link className="breadcrumbs__link" to="catalog.html">Каталог
-                    <svg width="5" height="8" aria-hidden="true">
-                      <use xlinkHref="#icon-arrow-mini"></use>
-                    </svg>
-                  </Link>
-                </li>
-                <li className="breadcrumbs__item"><span className="breadcrumbs__link breadcrumbs__link--active">Корзина</span>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <BreadCrumbs
+            previousBreadCrumbs={PreviousBreadCrumbs.Basket}
+            currentBreadCrumbName={BreadCrumb.Basket.Name}
+          />
           <section className="basket">
             <div className="container">
               <h1 className="title title--h2">Корзина</h1>

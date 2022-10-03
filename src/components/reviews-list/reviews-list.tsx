@@ -1,7 +1,7 @@
+import { ReactNode } from 'react';
 import { Review } from '../../types/review';
 import ReviewCard from '../review-card/review-card';
 import Loader from '../loader/loader';
-import { ReactNode } from 'react';
 
 type ReviewsListProps = {
   reviews: Review[];

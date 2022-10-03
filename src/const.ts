@@ -8,7 +8,6 @@ export const DEFAULT_DISPLAYED_REVIEWS_COUNT = 3;
 export const AppRoute = {
   Main: '/',
   Catalog: '/catalog',
-  CatalogPage: '/catalog/:page',
   Item: '/item/',
   ItemId: '/item/:id',
   Basket: '/basket',
@@ -25,3 +24,32 @@ export const NameSpace = {
   Data: 'Data',
   App: 'App',
 } as const;
+
+export const BreadCrumb = {
+  Main: {
+    Name: 'Главная',
+    Path: AppRoute.Main,
+  },
+  Catalog: {
+    Name: 'Каталог',
+    Path: AppRoute.Catalog,
+  },
+  Basket: {
+    Name: 'Корзина',
+    Path: AppRoute.Basket,
+  },
+} as const;
+
+export const PreviousBreadCrumbs = {
+  Catalog: [
+    BreadCrumb.Main
+  ],
+  Item: [
+    BreadCrumb.Main,
+    BreadCrumb.Catalog
+  ],
+  Basket: [
+    BreadCrumb.Main,
+    BreadCrumb.Catalog
+  ],
+};

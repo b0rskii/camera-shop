@@ -1,15 +1,19 @@
 import { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { fetchCurrentCameraAction, fetchReviewsAction } from '../../store/api-actions';
+import { setCurrentProduct, setIsPopupOpened } from '../../store/app-process/app-process';
 import {
   getCurrentCamera,
   getCurrentCameraLoadingStatus,
   getReviews,
   getReviewsLoadingStatus,
 } from '../../store/data-process/selectors';
-import { fetchCurrentCameraAction, fetchReviewsAction } from '../../store/api-actions';
-import { setCurrentProduct, setIsPopupOpened } from '../../store/app-process/app-process';
-import { MAX_PRODUCT_RATE, DEFAULT_DISPLAYED_REVIEWS_COUNT } from '../../const';
+import {
+  MAX_PRODUCT_RATE,
+  DEFAULT_DISPLAYED_REVIEWS_COUNT,
+  PreviousBreadCrumbs,
+} from '../../const';
 import MainLayout from '../../components/main-layout/main-layout';
 import ItemsSlider from '../../components/items-slider/items-slider';
 import SimilarProductsList from '../../components/similar-products-list/similar-products-list';
@@ -17,6 +21,7 @@ import ProductCardRating from '../../components/product-card-rating/product-card
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import PopupAddToBasket from '../../components/popup-add-to-basket/popup-add-to-basket';
 import Loader from '../../components/loader/loader';
+import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 
 function ItemPage() {
   const dispatch = useAppDispatch();
@@ -49,38 +54,17 @@ function ItemPage() {
     <MainLayout>
       <main>
         <div className="page-content">
-          <div className="breadcrumbs">
-            <div className="container">
-              <ul className="breadcrumbs__list">
-                <li className="breadcrumbs__item">
-                  <Link className="breadcrumbs__link" to="index.html">
-                    Главная
-                    <svg width="5" height="8" aria-hidden="true">
-                      <use xlinkHref="#icon-arrow-mini"></use>
-                    </svg>
-                  </Link>
-                </li>
-                <li className="breadcrumbs__item">
-                  <Link className="breadcrumbs__link" to="catalog.html">
-                    Каталог
-                    <svg width="5" height="8" aria-hidden="true">
-                      <use xlinkHref="#icon-arrow-mini"></use>
-                    </svg>
-                  </Link>
-                </li>
-                <li className="breadcrumbs__item">
-                  <span className="breadcrumbs__link breadcrumbs__link--active">Ретрокамера «Das Auge IV»</span>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <BreadCrumbs
+            previousBreadCrumbs={PreviousBreadCrumbs.Item}
+            currentBreadCrumbName={name}
+          />
           <div className="page-content__section">
             <section className="product">
               <div className="container">
                 <div className="product__img">
                   <picture>
-                    <source type="image/webp" srcSet={`${previewImgWebp}, ${previewImgWebp2x} 2x`} />
-                    <img src={previewImg} srcSet={`${previewImg2x} 2x`} width="560" height="480" alt={name} />
+                    <source type="image/webp" srcSet={`/${previewImgWebp}, /${previewImgWebp2x} 2x`} />
+                    <img src={`/${previewImg}`} srcSet={`/${previewImg2x} 2x`} width="560" height="480" alt={name} />
                   </picture>
                 </div>
                 <div className="product__content">
