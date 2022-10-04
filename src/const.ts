@@ -9,7 +9,7 @@ export const AppRoute = {
   Main: '/',
   Catalog: '/catalog',
   Item: '/item/',
-  ItemId: '/item/:id',
+  ItemId: '/item/:id/*',
   Basket: '/basket',
 } as const;
 
@@ -52,4 +52,15 @@ export const PreviousBreadCrumbs = {
     BreadCrumb.Main,
     BreadCrumb.Catalog
   ],
-};
+} as const;
+
+export const ProductTab = {
+  Characteristics: {
+    Name: 'Характеристики',
+    Path: 'characteristics',
+  },
+  Description: {
+    Name: 'Описание',
+    Path: 'description',
+  },
+} as const;

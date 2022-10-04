@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { TBreadCrumb } from '../../types/bread-crumb';
 
 type BreadCrumbsProps = {
-  previousBreadCrumbs: TBreadCrumb[];
+  previousBreadCrumbs: readonly TBreadCrumb[];
   currentBreadCrumbName: string;
 };
 
