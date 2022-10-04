@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { fetchCurrentCameraAction, fetchReviewsAction } from '../../store/api-actions';
 import { setCurrentProduct, setIsPopupOpened } from '../../store/app-process/app-process';
+import { fetchCurrentCameraAction, fetchReviewsAction } from '../../store/api-actions';
 import {
   getCurrentCamera,
   getCurrentCameraLoadingStatus,
   getReviews,
-  getReviewsLoadingStatus,
+  getReviewsLoadingStatus
 } from '../../store/data-process/selectors';
 import {
   MAX_PRODUCT_RATE,
@@ -17,8 +17,7 @@ import {
 import MainLayout from '../../components/main-layout/main-layout';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import ProductTabs from '../../components/product-tabs/product-tabs';
-import ItemsSlider from '../../components/items-slider/items-slider';
-import SimilarProductsList from '../../components/similar-products-list/similar-products-list';
+import SimilarSection from '../../components/similar-section/similar-section';
 import ProductCardRating from '../../components/product-card-rating/product-card-rating';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import PopupAddToBasket from '../../components/popup-add-to-basket/popup-add-to-basket';
@@ -33,13 +32,19 @@ function ItemPage() {
   const isReviewsLoaded = useAppSelector(getReviewsLoadingStatus);
 
   useEffect(() => {
-    if (id) {
+    let isMounted = true;
+
+    if (isMounted && id) {
       dispatch(fetchCurrentCameraAction(id));
       dispatch(fetchReviewsAction(id));
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch, id]);
 
-  if (!isCameraLoaded || camera === null) {
+  if (!isCameraLoaded || camera === null || !id) {
     return <Loader />;
   }
 
@@ -112,16 +117,7 @@ function ItemPage() {
               </div>
             </section>
           </div>
-          <div className="page-content__section">
-            <section className="product-similar">
-              <div className="container">
-                <h2 className="title title--h3">Похожие товары</h2>
-                <ItemsSlider>
-                  <SimilarProductsList />
-                </ItemsSlider>
-              </div>
-            </section>
-          </div>
+          <SimilarSection id={id} />
           <div className="page-content__section">
             <section className="review-block">
               <div className="container">
