@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import MainPage from '../../pages/main-page/main-page';
 import CatalogPage from '../../pages/catalog-page/catalog-page';
-import ItemPage from '../../pages/item-page/item-page';
+import ProductPage from '../../pages/product-page/product-page';
 import BasketPage from '../../pages/basket-page/basket-page';
 
 function App(): JSX.Element {
@@ -17,8 +17,8 @@ function App(): JSX.Element {
         element={<CatalogPage />}
       />
       <Route
-        path={AppRoute.ItemId}
-        element={<ItemPage />}
+        path={AppRoute.ProductId}
+        element={<ProductPage />}
       />
       <Route
         path={AppRoute.Basket}

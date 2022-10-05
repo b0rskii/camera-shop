@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/hooks';
 import { setCurrentProduct, setIsPopupOpened } from '../../store/app-process/app-process';
 import { Camera } from '../../types/camera';
-import { MAX_PRODUCT_RATE, AppRoute } from '../../const';
-import ProductCardRating from '../product-card-rating/product-card-rating';
+import { AppRoute } from '../../const';
+import Rating from '../rating/rating';
 
 type ProductCardProps = {
   product: Camera;
@@ -29,14 +29,15 @@ function ProductCard({product, isActive}: ProductCardProps): JSX.Element {
         </picture>
       </div>
       <div className="product-card__info">
-        <ProductCardRating
-          maxRating={MAX_PRODUCT_RATE}
-          rating={rating}
-          reviewCount={reviewCount}
-        />
+        <div className="rate product-card__rate">
+          <Rating
+            rating={rating}
+            reviewCount={reviewCount}
+          />
+        </div>
         <p className="product-card__title">{name}</p>
         <p className="product-card__price">
-          <span className="visually-hidden">Цена:</span>{price} ₽
+          <span className="visually-hidden">Цена:</span>{price.toLocaleString()} ₽
         </p>
       </div>
       <div className="product-card__buttons">
@@ -47,7 +48,7 @@ function ProductCard({product, isActive}: ProductCardProps): JSX.Element {
         >
           Купить
         </button>
-        <Link className="btn btn--transparent" to={`${AppRoute.Item}${id}`}>Подробнее</Link>
+        <Link className="btn btn--transparent" to={`${AppRoute.Product}${id}`}>Подробнее</Link>
       </div>
     </div>
   );

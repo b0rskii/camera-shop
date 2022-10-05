@@ -4,7 +4,7 @@ import { AppDispatch, State } from '../types/state';
 import { Camera } from '../types/camera';
 import { Promo } from '../types/promo';
 import { Review } from '../types/review';
-import { APIRoute, CARDS_PER_PAGE_COUNT } from '../const';
+import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT } from '../const';
 
 const TOTAL_COUNT_HEADER = 'x-total-count';
 
@@ -52,7 +52,7 @@ export const fetchSimilarCamerasAction = createAsyncThunk<Camera[], string, Stor
 export const fetchReviewsAction = createAsyncThunk<Review[], string, Store>(
   'data/fetchReviews',
   async (id, {extra: api}) => {
-    const {data} = await api.get<Review[]>(`${APIRoute.Cameras}/${id}${APIRoute.Reviews}`);
+    const {data} = await api.get<Review[]>(`${APIRoute.Cameras}/${id}${APIRoute.Reviews}?${APIQuery.Sort}createAt`);
     return data;
   }
 );

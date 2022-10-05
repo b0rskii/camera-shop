@@ -1,6 +1,6 @@
 import { PreviousBreadCrumbs, BreadCrumb } from '../../const';
 import MainLayout from '../../components/main-layout/main-layout';
-import Bunner from '../../components/banner/bunner';
+import Banner from '../../components/banner/banner';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import CatalogFilter from '../../components/catalog-filter/catalog-filter';
 import CatalogContent from '../../components/catalog-content/catalog-content';
@@ -10,7 +10,7 @@ function CatalogPage(): JSX.Element {
   return (
     <MainLayout>
       <main>
-        <Bunner />
+        <Banner />
         <div className="page-content">
           <BreadCrumbs
             previousBreadCrumbs={PreviousBreadCrumbs.Catalog}

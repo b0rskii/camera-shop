@@ -4,7 +4,7 @@ import { getPromo, getPromoLoadingStatus } from '../../store/data-process/select
 import { AppRoute } from '../../const';
 import Loader from '../loader/loader';
 
-function Bunner() {
+function Banner() {
   const promo = useAppSelector(getPromo);
   const isPromoLoaded = useAppSelector(getPromoLoadingStatus);
 
@@ -28,10 +28,10 @@ function Bunner() {
         <span className="banner__message">Новинка!</span>
         <span className="title title--h1">{name}</span>
         <span className="banner__text">Профессиональная камера от&nbsp;известного производителя</span>
-        <Link className="btn" to={`${AppRoute.Item}${id}`}>Подробнее</Link>
+        <Link className="btn" to={`${AppRoute.Product}${id}`}>Подробнее</Link>
       </p>
     </div>
   );
 }
 
-export default Bunner;
+export default Banner;

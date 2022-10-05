@@ -9,21 +9,18 @@ import {
   getReviews,
   getReviewsLoadingStatus
 } from '../../store/data-process/selectors';
-import {
-  MAX_PRODUCT_RATE,
-  DEFAULT_DISPLAYED_REVIEWS_COUNT,
-  PreviousBreadCrumbs,
-} from '../../const';
+import { DEFAULT_DISPLAYED_REVIEWS_COUNT, PreviousBreadCrumbs } from '../../const';
 import MainLayout from '../../components/main-layout/main-layout';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import ProductTabs from '../../components/product-tabs/product-tabs';
 import SimilarSection from '../../components/similar-section/similar-section';
-import ProductCardRating from '../../components/product-card-rating/product-card-rating';
+import Rating from '../../components/rating/rating';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import PopupAddToBasket from '../../components/popup-add-to-basket/popup-add-to-basket';
+import UpButton from '../../components/up-button/up-button';
 import Loader from '../../components/loader/loader';
 
-function ItemPage() {
+function ProductPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const {id} = useParams();
   const camera = useAppSelector(getCurrentCamera);
@@ -75,32 +72,14 @@ function ItemPage() {
                 </div>
                 <div className="product__content">
                   <h1 className="title title--h3">{name}</h1>
-                  <ProductCardRating
-                    maxRating={MAX_PRODUCT_RATE}
-                    rating={rating}
-                    reviewCount={reviewCount}
-                  />
-                  {/* <div className="rate product__rate">
-                    <svg width="17" height="16" aria-hidden="true">
-                      <use xlinkHref="#icon-full-star"></use>
-                    </svg>
-                    <svg width="17" height="16" aria-hidden="true">
-                      <use xlinkHref="#icon-full-star"></use>
-                    </svg>
-                    <svg width="17" height="16" aria-hidden="true">
-                      <use xlinkHref="#icon-full-star"></use>
-                    </svg>
-                    <svg width="17" height="16" aria-hidden="true">
-                      <use xlinkHref="#icon-full-star"></use>
-                    </svg>
-                    <svg width="17" height="16" aria-hidden="true">
-                      <use xlinkHref="#icon-star"></use>
-                    </svg>
-                    <p className="visually-hidden">Рейтинг: 4</p>
-                    <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>12</p>
-                  </div> */}
+                  <div className="rate product__rate">
+                    <Rating
+                      rating={rating}
+                      reviewCount={reviewCount}
+                    />
+                  </div>
                   <p className="product__price">
-                    <span className="visually-hidden">Цена:</span>{price} ₽
+                    <span className="visually-hidden">Цена:</span>{price.toLocaleString()} ₽
                   </p>
                   <button
                     onClick={addToBasketButtonClickHandler}
@@ -128,7 +107,7 @@ function ItemPage() {
                 <ReviewsList
                   reviews={reviews}
                   isReviewsLoaded={isReviewsLoaded}
-                  startDisplayedCount={DEFAULT_DISPLAYED_REVIEWS_COUNT}
+                  partDispalyedReviews={DEFAULT_DISPLAYED_REVIEWS_COUNT}
                 />
               </div>
             </section>
@@ -136,8 +115,9 @@ function ItemPage() {
         </div>
         <PopupAddToBasket />
       </main>
+      <UpButton />
     </MainLayout>
   );
 }
 
-export default ItemPage;
+export default ProductPage;

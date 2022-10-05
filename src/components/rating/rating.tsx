@@ -1,10 +1,12 @@
-type ProductCardRateProps = {
-  maxRating: number;
+import { MAX_PRODUCT_RATE } from '../../const';
+
+type RatingProps = {
+  maxRating?: number;
   rating: number;
-  reviewCount: number;
+  reviewCount?: number;
 };
 
-function ProductCardRating({maxRating, rating, reviewCount}: ProductCardRateProps): JSX.Element {
+function Rating({maxRating = MAX_PRODUCT_RATE, rating, reviewCount}: RatingProps): JSX.Element {
   const getRatingList = () => {
     const ratingList = [];
 
@@ -20,14 +22,15 @@ function ProductCardRating({maxRating, rating, reviewCount}: ProductCardRateProp
   };
 
   return (
-    <div className="rate product-card__rate">
+    <>
       {getRatingList()}
       <p className="visually-hidden">Рейтинг: {rating}</p>
+      {reviewCount &&
       <p className="rate__count">
         <span className="visually-hidden">Всего оценок:</span>{reviewCount}
-      </p>
-    </div>
+      </p>}
+    </>
   );
 }
 
-export default ProductCardRating;
+export default Rating;

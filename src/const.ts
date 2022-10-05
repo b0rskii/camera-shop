@@ -8,8 +8,8 @@ export const DEFAULT_DISPLAYED_REVIEWS_COUNT = 3;
 export const AppRoute = {
   Main: '/',
   Catalog: '/catalog',
-  Item: '/item/',
-  ItemId: '/item/:id/*',
+  Product: '/product/',
+  ProductId: '/product/:id/*',
   Basket: '/basket',
 } as const;
 
@@ -19,6 +19,10 @@ export const APIRoute = {
   Similar: '/similar',
   Reviews: '/reviews',
 } as const;
+
+export const APIQuery = {
+  Sort: '_sort=',
+};
 
 export const NameSpace = {
   Data: 'Data',

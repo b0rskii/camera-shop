@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { Camera } from '../../types/camera';
-import { DISPLAYED_SLIDER_ITEMS_COUNT } from '../../const';
 import SimilarProductsList from '../similar-products-list/similar-products-list';
 
 type ItemsSliderProps = {
   products: Camera[];
+  displayedItemsCount: number;
 };
 
-function ItemsSlider({products}: ItemsSliderProps): JSX.Element {
+function ItemsSlider({products, displayedItemsCount}: ItemsSliderProps): JSX.Element {
   const [startDisplayedItem, setStartDisplayedItem] = useState(0);
+  const displayedProducts = products
+    .slice(startDisplayedItem, displayedItemsCount + startDisplayedItem);
 
   const previousButtonClickHandler = () => {
     setStartDisplayedItem(startDisplayedItem - 1);
@@ -21,10 +23,9 @@ function ItemsSlider({products}: ItemsSliderProps): JSX.Element {
   return (
     <div className="product-similar__slider">
       <SimilarProductsList
-        products={products}
-        startDisplayedItem={startDisplayedItem}
+        products={displayedProducts}
       />
-      {products.length > DISPLAYED_SLIDER_ITEMS_COUNT &&
+      {products.length > displayedItemsCount &&
       <>
         <button
           onClick={previousButtonClickHandler}
@@ -42,7 +43,7 @@ function ItemsSlider({products}: ItemsSliderProps): JSX.Element {
           className="slider-controls slider-controls--next"
           type="button"
           aria-label="Следующий слайд"
-          disabled={startDisplayedItem === products.length - DISPLAYED_SLIDER_ITEMS_COUNT}
+          disabled={startDisplayedItem === products.length - displayedItemsCount}
         >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
