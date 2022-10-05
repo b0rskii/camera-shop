@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 function Footer() {
   return (
     <footer className="footer">
       <div className="container">
         <div className="footer__info">
-          <Link className="footer__logo" to="index.html" aria-label="Переход на главную">
+          <Link className="footer__logo" to={AppRoute.Main} aria-label="Переход на главную">
             <svg width="100" height="36" aria-hidden="true">
               <use xlinkHref="#icon-logo-mono"></use>
             </svg>
@@ -40,7 +41,7 @@ function Footer() {
             <p className="footer__title">Навигация</p>
             <ul className="footer__list">
               <li className="footer__item">
-                <Link className="link" to="#">Каталог</Link>
+                <Link className="link" to={AppRoute.Catalog}>Каталог</Link>
               </li>
               <li className="footer__item">
                 <Link className="link" to="#">Гарантии</Link>

@@ -1,5 +1,4 @@
-import { MouseEvent } from 'react';
-import { Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, Route, Routes, NavLink } from 'react-router-dom';
 import { Camera } from '../../types/camera';
 import { ProductTab } from '../../const';
 
@@ -8,32 +7,19 @@ type ProductTabsProps = {
 };
 
 function ProductTabs({product}: ProductTabsProps): JSX.Element {
-  const navigate = useNavigate();
-  const params = useParams();
-  const activeTab = params['*'];
   const {vendorCode, category, type, level, description} = product;
-
-  const tabClickHandler = (evt: MouseEvent) => {
-    const path = evt.currentTarget.getAttribute('data-path');
-
-    if (path) {
-      navigate(path);
-    }
-  };
 
   return (
     <div className="tabs product__tabs">
       <div className="tabs__controls product__tabs-controls">
         {Object.values(ProductTab).map((value) => (
-          <button
-            onClick={tabClickHandler}
-            className={`tabs__control ${activeTab === value.Path ? 'is-active' : ''}`}
-            type="button"
-            data-path={value.Path}
+          <NavLink
+            to={value.Path}
+            className={({isActive}) => isActive ? 'tabs__control is-active' : 'tabs__control'}
             key={value.Name}
           >
             {value.Name}
-          </button>
+          </NavLink>
         ))}
       </div>
       <div className="tabs__content">
