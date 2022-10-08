@@ -4,6 +4,7 @@ import MainPage from '../../pages/main-page/main-page';
 import CatalogPage from '../../pages/catalog-page/catalog-page';
 import ProductPage from '../../pages/product-page/product-page';
 import BasketPage from '../../pages/basket-page/basket-page';
+import NotFoundPage from '../../pages/not-found-page/not-found-page';
 
 function App(): JSX.Element {
   return (
@@ -26,7 +27,7 @@ function App(): JSX.Element {
       />
       <Route
         path="*"
-        element={<p>Страница не найдена</p>}
+        element={<NotFoundPage />}
       />
     </Routes>
   );

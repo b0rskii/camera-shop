@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
-function Header() {
+function Header(): JSX.Element {
   return (
     <header className="header" id="header">
       <div className="container">

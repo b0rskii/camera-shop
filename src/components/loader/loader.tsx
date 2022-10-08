@@ -1,6 +1,6 @@
 import './loader.css';
 
-function Loader() {
+function Loader(): JSX.Element {
   return (
     <div className="loader"></div>
   );

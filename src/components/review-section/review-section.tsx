@@ -1,10 +1,10 @@
+import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
 import { getReviews, getReviewsLoadingStatus } from '../../store/data-process/selectors';
 import { setIsPostReviewPopupOpened } from '../../store/app-process/app-process';
 import { fetchReviewsAction } from '../../store/api-actions';
 import { DEFAULT_DISPLAYED_REVIEWS_COUNT } from '../../const';
 import ReviewsList from '../reviews-list/reviews-list';
-import { useEffect } from 'react';
 
 type ReviewSectionProps = {
   id: string;

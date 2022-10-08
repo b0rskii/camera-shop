@@ -4,7 +4,7 @@ import { getPromo, getPromoLoadingStatus } from '../../store/data-process/select
 import { AppRoute } from '../../const';
 import Loader from '../loader/loader';
 
-function Banner() {
+function Banner(): JSX.Element {
   const promo = useAppSelector(getPromo);
   const isPromoLoaded = useAppSelector(getPromoLoadingStatus);
 

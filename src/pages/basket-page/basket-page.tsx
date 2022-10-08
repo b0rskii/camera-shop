@@ -2,7 +2,7 @@ import { BreadCrumb, PreviousBreadCrumbs } from '../../const';
 import MainLayout from '../../components/main-layout/main-layout';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 
-function BasketPage() {
+function BasketPage(): JSX.Element {
   return (
     <MainLayout>
       <main>

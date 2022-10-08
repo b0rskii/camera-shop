@@ -12,7 +12,7 @@ import {
 } from '../../store/data-process/selectors';
 
 
-function CatalogContent() {
+function CatalogContent(): JSX.Element {
   const cameras = useAppSelector(getCameras);
   const camerasTotalCount = useAppSelector(getCamerasTotalCount);
   const isCamerasLoaded = useAppSelector(getCamerasLoadingStatus);
