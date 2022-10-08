@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { postReviewAction } from '../api-actions';
 import { AppState } from '../../types/state';
-import { Camera } from '../../types/camera';
+import { Camera } from '../../types/types';
 import { NameSpace } from '../../const';
 
 const initialState: AppState = {
@@ -26,6 +27,13 @@ export const appProcess = createSlice({
     setIsStatusPopupOpened: (state, action: {payload: boolean; type: string}) => {
       state.isStatusPopupOpened = action.payload;
     },
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(postReviewAction.fulfilled, (state) => {
+        state.isPostReviewPopupOpened = false;
+        state.isStatusPopupOpened = true;
+      });
   },
 });
 

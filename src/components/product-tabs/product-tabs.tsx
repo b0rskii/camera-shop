@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes, NavLink } from 'react-router-dom';
-import { Camera } from '../../types/camera';
+import { Camera } from '../../types/types';
 import { ProductTab } from '../../const';
 
 type ProductTabsProps = {

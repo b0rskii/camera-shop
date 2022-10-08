@@ -1,7 +1,6 @@
 import React, { FormEvent, ReactNode, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getCurrentCamera } from '../../store/data-process/selectors';
-import { setIsPostReviewPopupOpened } from '../../store/app-process/app-process';
 import { postReviewAction } from '../../store/api-actions';
 import { RatingInput, COMMENT_MIN_LENGTH } from '../../const';
 
@@ -49,8 +48,7 @@ function PostReviewForm(): JSX.Element {
         disadvantage: disadvantage,
         review: comment,
         rating: rating,
-      }))
-        .then(() => dispatch(setIsPostReviewPopupOpened(false)));
+      }));
     }
   };
 

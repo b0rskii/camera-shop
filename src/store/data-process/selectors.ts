@@ -1,7 +1,5 @@
 import { State } from '../../types/state';
-import { Camera } from '../../types/camera';
-import { Promo } from '../../types/promo';
-import { Review } from '../../types/review';
+import { Camera, Promo, Review } from '../../types/types';
 import { NameSpace } from '../../const';
 
 export const getCameras = (state: State): Camera[] => state[NameSpace.Data].cameras;

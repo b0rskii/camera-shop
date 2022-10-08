@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getSimilarCameras } from '../../store/data-process/selectors';
 import { fetchSimilarCamerasAction } from '../../store/api-actions';
 import { DISPLAYED_SLIDER_ITEMS_COUNT } from '../../const';
-import ItemsSlider from '../items-slider/items-slider';
+import Slider from '../slider/slider';
 
 type SimilarSectionProps = {
   id: string;
@@ -34,7 +34,7 @@ function SimilarSection({id}: SimilarSectionProps): JSX.Element | null {
       <section className="product-similar">
         <div className="container">
           <h2 className="title title--h3">Похожие товары</h2>
-          <ItemsSlider
+          <Slider
             products={similarCameras}
             displayedItemsCount={DISPLAYED_SLIDER_ITEMS_COUNT}
           />

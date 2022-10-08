@@ -1,13 +1,13 @@
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { getStatusPopupStatus } from '../../store/app-process/selectors';
-import { setIsStatusPopupOpened } from '../../store/app-process/app-process';
+import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
+import { getStatusPopupStatus } from '../../../store/app-process/selectors';
+import { setIsStatusPopupOpened } from '../../../store/app-process/app-process';
 import PopupLayout from '../popup-layout/popup-layout';
 
-type PopupStatusProps = {
+type StatusPopupProps = {
   title: string;
 };
 
-function PopupStatus({title}: PopupStatusProps): JSX.Element {
+function StatusPopup({title}: StatusPopupProps): JSX.Element {
   const dispatch = useAppDispatch();
   const isPopupOpened = useAppSelector(getStatusPopupStatus);
 
@@ -37,4 +37,4 @@ function PopupStatus({title}: PopupStatusProps): JSX.Element {
   );
 }
 
-export default PopupStatus;
+export default StatusPopup;

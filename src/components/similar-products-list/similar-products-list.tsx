@@ -1,12 +1,14 @@
-import { Camera } from '../../types/camera';
+import { Camera } from '../../types/types';
 import ProductCard from '../product-card/product-card';
 
 type SimilarProductsListProps = {
   products: Camera[];
+  startDisplayedIndex: number;
+  displayedItemsCount: number;
 }
 
 function SimilarProductsList(props: SimilarProductsListProps): JSX.Element {
-  const {products} = props;
+  const {products, startDisplayedIndex, displayedItemsCount} = props;
 
   return (
     <div className="product-similar__slider-list">
@@ -14,7 +16,7 @@ function SimilarProductsList(props: SimilarProductsListProps): JSX.Element {
         <ProductCard
           product={camera}
           key={camera.id}
-          isActive
+          isActive={i >= startDisplayedIndex && i < displayedItemsCount + startDisplayedIndex}
         />
       ))}
     </div>

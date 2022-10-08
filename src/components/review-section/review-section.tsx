@@ -23,6 +23,28 @@ function ReviewSection({id}: ReviewSectionProps): JSX.Element {
     dispatch(setIsPostReviewPopupOpened(true));
   };
 
+  if (reviews.length < 1) {
+    return (
+      <div className="page-content__section">
+        <section className="review-block">
+          <div className="container">
+            <div className="page-content__headed">
+              <h2 className="title title--h3">Отзывы</h2>
+              <button
+                onClick={postReviewButtonClickHandler}
+                className="btn"
+                type="button"
+              >
+                Оставить свой отзыв
+              </button>
+            </div>
+            <h3 className="title title--h4">Пока нет ни одного отзыва</h3>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className="page-content__section">
       <section className="review-block">

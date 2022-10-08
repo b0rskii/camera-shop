@@ -1,11 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { AppDispatch, State } from '../types/state';
-import { setIsStatusPopupOpened } from './app-process/app-process';
-import { Camera } from '../types/camera';
-import { Promo } from '../types/promo';
-import { Review } from '../types/review';
-import { PostingReview } from '../types/posting-review';
+import { Camera, Promo, Review, PostingReview } from '../types/types';
 import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT } from '../const';
 
 const TOTAL_COUNT_HEADER = 'x-total-count';
@@ -61,15 +57,10 @@ export const fetchReviewsAction = createAsyncThunk<Review[], string, Store>(
   }
 );
 
-export const postReviewAction = createAsyncThunk<Review | null, PostingReview, Store>(
+export const postReviewAction = createAsyncThunk<Review, PostingReview, Store>(
   'data/postReview',
-  async (review, {dispatch, extra: api}) => {
-    try {
-      const {data} = await api.post<Review>(APIRoute.Reviews, review);
-      dispatch(setIsStatusPopupOpened(true));
-      return data;
-    } catch {
-      return null;
-    }
+  async (review, {extra: api}) => {
+    const {data} = await api.post<Review>(APIRoute.Reviews, review);
+    return data;
   },
 );

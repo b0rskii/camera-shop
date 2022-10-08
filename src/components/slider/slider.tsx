@@ -1,29 +1,29 @@
 import { useState } from 'react';
-import { Camera } from '../../types/camera';
+import { Camera } from '../../types/types';
 import SimilarProductsList from '../similar-products-list/similar-products-list';
 
-type ItemsSliderProps = {
+type SliderProps = {
   products: Camera[];
   displayedItemsCount: number;
 };
 
-function ItemsSlider({products, displayedItemsCount}: ItemsSliderProps): JSX.Element {
-  const [startDisplayedItem, setStartDisplayedItem] = useState(0);
-  const displayedProducts = products
-    .slice(startDisplayedItem, displayedItemsCount + startDisplayedItem);
+function Slider({products, displayedItemsCount}: SliderProps): JSX.Element {
+  const [startDisplayedIndex, setStartDisplayedIndex] = useState(0);
 
   const previousButtonClickHandler = () => {
-    setStartDisplayedItem(startDisplayedItem - 1);
+    setStartDisplayedIndex(startDisplayedIndex - 1);
   };
 
   const nextButtonClickHandler = () => {
-    setStartDisplayedItem(startDisplayedItem + 1);
+    setStartDisplayedIndex(startDisplayedIndex + 1);
   };
 
   return (
     <div className="product-similar__slider">
       <SimilarProductsList
-        products={displayedProducts}
+        products={products}
+        startDisplayedIndex={startDisplayedIndex}
+        displayedItemsCount={displayedItemsCount}
       />
       {products.length > displayedItemsCount &&
       <>
@@ -32,7 +32,7 @@ function ItemsSlider({products, displayedItemsCount}: ItemsSliderProps): JSX.Ele
           className="slider-controls slider-controls--prev"
           type="button"
           aria-label="Предыдущий слайд"
-          disabled={startDisplayedItem === 0}
+          disabled={startDisplayedIndex === 0}
         >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
@@ -43,7 +43,7 @@ function ItemsSlider({products, displayedItemsCount}: ItemsSliderProps): JSX.Ele
           className="slider-controls slider-controls--next"
           type="button"
           aria-label="Следующий слайд"
-          disabled={startDisplayedItem === products.length - displayedItemsCount}
+          disabled={startDisplayedIndex === products.length - displayedItemsCount}
         >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
@@ -54,4 +54,4 @@ function ItemsSlider({products, displayedItemsCount}: ItemsSliderProps): JSX.Ele
   );
 }
 
-export default ItemsSlider;
+export default Slider;

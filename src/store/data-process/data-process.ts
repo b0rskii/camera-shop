@@ -69,9 +69,7 @@ export const dataProcess = createSlice({
         state.isReviewsLoaded = true;
       })
       .addCase(postReviewAction.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.reviews = [action.payload, ...state.reviews];
-        }
+        state.reviews = [action.payload, ...state.reviews];
       });
   },
 });

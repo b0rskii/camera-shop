@@ -1,5 +1,5 @@
 import { MouseEvent, ReactNode, useEffect, useState } from 'react';
-import { Review } from '../../types/review';
+import { Review } from '../../types/types';
 import ReviewCard from '../review-card/review-card';
 import Loader from '../loader/loader';
 

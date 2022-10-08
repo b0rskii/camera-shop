@@ -1,4 +1,4 @@
-import { Review } from '../../types/review';
+import { Review } from '../../types/types';
 import { formatDateToReview, formatDateToAttribute } from '../../utils/utils';
 import Rating from '../rating/rating';
 

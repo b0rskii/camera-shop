@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/hooks';
 import { fetchCamerasAction } from '../../store/api-actions';
-import { Camera } from '../../types/camera';
+import { Camera } from '../../types/types';
 import ProductCard from '../product-card/product-card';
 import Loader from '../loader/loader';
 import './products-list.css';

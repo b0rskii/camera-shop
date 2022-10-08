@@ -1,9 +1,9 @@
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { getCurrentProduct, getAddToBasketPopupStatus } from '../../store/app-process/selectors';
-import { setIsAddToBasketPopupOpened } from '../../store/app-process/app-process';
+import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
+import { getCurrentProduct, getAddToBasketPopupStatus } from '../../../store/app-process/selectors';
+import { setIsAddToBasketPopupOpened } from '../../../store/app-process/app-process';
 import PopupLayout from '../popup-layout/popup-layout';
 
-function PopupAddToBasket(): JSX.Element | null {
+function AddToBasketPopup(): JSX.Element | null {
   const dispatch = useAppDispatch();
   const product = useAppSelector(getCurrentProduct);
   const isPopupOpened = useAppSelector(getAddToBasketPopupStatus);
@@ -59,4 +59,4 @@ function PopupAddToBasket(): JSX.Element | null {
   );
 }
 
-export default PopupAddToBasket;
+export default AddToBasketPopup;

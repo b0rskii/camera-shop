@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { TBreadCrumb } from '../../types/bread-crumb';
+import { TBreadCrumb } from '../../types/types';
 
 type BreadCrumbsProps = {
   previousBreadCrumbs: readonly TBreadCrumb[];

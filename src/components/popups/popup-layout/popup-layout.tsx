@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect, useRef } from 'react';
-import { fixScrollbarOpen, fixScrollbarClose } from '../../utils/utils';
-import { KeyName } from '../../const';
+import { fixScrollbarOpen, fixScrollbarClose } from '../../../utils/utils';
+import { KeyName } from '../../../const';
 
 const FOCUSABLE_ELEMENTS = [
   'a[href]',
@@ -52,7 +52,7 @@ function PopupLayout({isPopupOpened, onSetIsPopupOpened, children}: PopupLayoutP
     const firstFocusableElement = focusableElements[0];
     const lastFocusableElement = focusableElements[focusableElements.length - 1];
 
-    firstFocusableElement.focus();
+    lastFocusableElement.focus();
 
     const tabKeyDownHandler = (evt: globalThis.KeyboardEvent) => {
       if (!evt.shiftKey && evt.key === KeyName.Tab && document.activeElement === lastFocusableElement) {

@@ -1,7 +1,5 @@
 import { store } from '../store/store';
-import { Camera } from './camera';
-import { Promo } from './promo';
-import { Review } from './review';
+import { Camera, Promo, Review } from './types';
 
 export type DataState = {
   cameras: Camera[];

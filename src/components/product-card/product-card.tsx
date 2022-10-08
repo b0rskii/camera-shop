@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/hooks';
 import { setCurrentProduct, setIsAddToBasketPopupOpened } from '../../store/app-process/app-process';
-import { Camera } from '../../types/camera';
+import { Camera } from '../../types/types';
 import { AppRoute } from '../../const';
 import Rating from '../rating/rating';
 

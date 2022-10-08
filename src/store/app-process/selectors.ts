@@ -1,5 +1,5 @@
 import { State } from '../../types/state';
-import { Camera } from '../../types/camera';
+import { Camera } from '../../types/types';
 import { NameSpace } from '../../const';
 
 export const getCurrentProduct = (state: State): Camera | null => state[NameSpace.App].currentProduct;
