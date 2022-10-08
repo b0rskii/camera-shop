@@ -6,7 +6,8 @@ import {
   fetchPromoAction,
   fetchSimilarCamerasAction,
   fetchCurrentCameraAction,
-  fetchReviewsAction
+  fetchReviewsAction,
+  postReviewAction
 } from '../api-actions';
 
 const initialState: DataState = {
@@ -66,6 +67,11 @@ export const dataProcess = createSlice({
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
         state.reviews = action.payload;
         state.isReviewsLoaded = true;
+      })
+      .addCase(postReviewAction.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.reviews = [action.payload, ...state.reviews];
+        }
       });
   },
 });

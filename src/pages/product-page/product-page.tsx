@@ -1,23 +1,20 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { setCurrentProduct, setIsPopupOpened } from '../../store/app-process/app-process';
-import { fetchCurrentCameraAction, fetchReviewsAction } from '../../store/api-actions';
-import {
-  getCurrentCamera,
-  getCurrentCameraLoadingStatus,
-  getReviews,
-  getReviewsLoadingStatus
-} from '../../store/data-process/selectors';
-import { DEFAULT_DISPLAYED_REVIEWS_COUNT, PreviousBreadCrumbs } from '../../const';
+import { setCurrentProduct, setIsAddToBasketPopupOpened } from '../../store/app-process/app-process';
+import { fetchCurrentCameraAction } from '../../store/api-actions';
+import { getCurrentCamera, getCurrentCameraLoadingStatus } from '../../store/data-process/selectors';
+import { PreviousBreadCrumbs, StatusMessage } from '../../const';
 import MainLayout from '../../components/main-layout/main-layout';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import ProductTabs from '../../components/product-tabs/product-tabs';
 import SimilarSection from '../../components/similar-section/similar-section';
+import ReviewSection from '../../components/review-section/review-section';
 import Rating from '../../components/rating/rating';
-import ReviewsList from '../../components/reviews-list/reviews-list';
 import PopupAddToBasket from '../../components/popup-add-to-basket/popup-add-to-basket';
 import UpButton from '../../components/up-button/up-button';
+import PopupPostReview from '../../components/popup-post-review/popup-post-review';
+import PopupStatus from '../../components/popup-status/popup-status';
 import Loader from '../../components/loader/loader';
 
 function ProductPage(): JSX.Element {
@@ -25,15 +22,12 @@ function ProductPage(): JSX.Element {
   const {id} = useParams();
   const camera = useAppSelector(getCurrentCamera);
   const isCameraLoaded = useAppSelector(getCurrentCameraLoadingStatus);
-  const reviews = useAppSelector(getReviews);
-  const isReviewsLoaded = useAppSelector(getReviewsLoadingStatus);
 
   useEffect(() => {
     let isMounted = true;
 
     if (isMounted && id) {
       dispatch(fetchCurrentCameraAction(id));
-      dispatch(fetchReviewsAction(id));
     }
 
     return () => {
@@ -47,7 +41,7 @@ function ProductPage(): JSX.Element {
 
   const addToBasketButtonClickHandler = () => {
     dispatch(setCurrentProduct(camera));
-    dispatch(setIsPopupOpened(true));
+    dispatch(setIsAddToBasketPopupOpened(true));
   };
 
   const {previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name} = camera;
@@ -97,23 +91,11 @@ function ProductPage(): JSX.Element {
             </section>
           </div>
           <SimilarSection id={id} />
-          <div className="page-content__section">
-            <section className="review-block">
-              <div className="container">
-                <div className="page-content__headed">
-                  <h2 className="title title--h3">Отзывы</h2>
-                  <button className="btn" type="button">Оставить свой отзыв</button>
-                </div>
-                <ReviewsList
-                  reviews={reviews}
-                  isReviewsLoaded={isReviewsLoaded}
-                  partDispalyedReviews={DEFAULT_DISPLAYED_REVIEWS_COUNT}
-                />
-              </div>
-            </section>
-          </div>
+          <ReviewSection id={id} />
         </div>
         <PopupAddToBasket />
+        <PopupPostReview />
+        <PopupStatus title={StatusMessage.PostReviewSuccess} />
       </main>
       <UpButton />
     </MainLayout>

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/hooks';
-import { setCurrentProduct, setIsPopupOpened } from '../../store/app-process/app-process';
+import { setCurrentProduct, setIsAddToBasketPopupOpened } from '../../store/app-process/app-process';
 import { Camera } from '../../types/camera';
 import { AppRoute } from '../../const';
 import Rating from '../rating/rating';
@@ -17,7 +17,7 @@ function ProductCard({product, isActive}: ProductCardProps): JSX.Element {
 
   const buyButtonClickHandler = () => {
     dispatch(setCurrentProduct(product));
-    dispatch(setIsPopupOpened(true));
+    dispatch(setIsAddToBasketPopupOpened(true));
   };
 
   return (

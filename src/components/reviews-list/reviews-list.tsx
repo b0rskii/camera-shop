@@ -52,8 +52,8 @@ function ReviewsList({reviews, isReviewsLoaded, partDispalyedReviews}: ReviewsLi
     );
   }
 
-  const showMoreButtonClickHandler = (evt: MouseEvent) => {
-    evt.currentTarget.parentElement?.querySelector('button')?.blur();
+  const showMoreButtonClickHandler = (evt: MouseEvent<HTMLButtonElement>) => {
+    evt.currentTarget.blur();
     setDisplayedReviews(displayedReviews + partDispalyedReviews);
   };
 

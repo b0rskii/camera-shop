@@ -19,7 +19,9 @@ export type DataState = {
 
 export type AppState = {
   currentProduct: Camera | null;
-  isPopupOpened: boolean;
+  isAddToBasketPopupOpened: boolean;
+  isPostReviewPopupOpened: boolean;
+  isStatusPopupOpened: boolean;
 };
 
 export type State = ReturnType<typeof store.getState>;

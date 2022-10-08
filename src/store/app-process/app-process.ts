@@ -5,7 +5,9 @@ import { NameSpace } from '../../const';
 
 const initialState: AppState = {
   currentProduct: null,
-  isPopupOpened: false,
+  isAddToBasketPopupOpened: false,
+  isPostReviewPopupOpened: false,
+  isStatusPopupOpened: false,
 };
 
 export const appProcess = createSlice({
@@ -15,10 +17,21 @@ export const appProcess = createSlice({
     setCurrentProduct: (state, action: {payload: Camera | null; type: string}) => {
       state.currentProduct = action.payload;
     },
-    setIsPopupOpened: (state, action: {payload: boolean; type: string}) => {
-      state.isPopupOpened = action.payload;
+    setIsAddToBasketPopupOpened: (state, action: {payload: boolean; type: string}) => {
+      state.isAddToBasketPopupOpened = action.payload;
+    },
+    setIsPostReviewPopupOpened: (state, action: {payload: boolean; type: string}) => {
+      state.isPostReviewPopupOpened = action.payload;
+    },
+    setIsStatusPopupOpened: (state, action: {payload: boolean; type: string}) => {
+      state.isStatusPopupOpened = action.payload;
     },
   },
 });
 
-export const { setIsPopupOpened, setCurrentProduct } = appProcess.actions;
+export const {
+  setCurrentProduct,
+  setIsAddToBasketPopupOpened,
+  setIsPostReviewPopupOpened,
+  setIsStatusPopupOpened
+} = appProcess.actions;

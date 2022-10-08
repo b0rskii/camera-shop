@@ -4,6 +4,12 @@ export const CATALOG_PAGE_QUERY = 'page';
 export const MAX_PRODUCT_RATE = 5;
 export const DISPLAYED_SLIDER_ITEMS_COUNT = 3;
 export const DEFAULT_DISPLAYED_REVIEWS_COUNT = 3;
+export const COMMENT_MIN_LENGTH = 5;
+
+export const KeyName = {
+  Esc: 'Escape',
+  Tab: 'Tab',
+} as const;
 
 export const AppRoute = {
   Main: '/',
@@ -22,6 +28,7 @@ export const APIRoute = {
 
 export const APIQuery = {
   Sort: '_sort=',
+  DescSort: '_order=desc',
 };
 
 export const NameSpace = {
@@ -67,4 +74,16 @@ export const ProductTab = {
     Name: 'Описание',
     Path: 'description',
   },
+} as const;
+
+export const RatingInput = {
+  1: 'Ужасно',
+  2: 'Плохо',
+  3: 'Нормально',
+  4: 'Хорошо',
+  5: 'Отлично',
+} as const;
+
+export const StatusMessage = {
+  PostReviewSuccess: 'Спасибо за отзыв',
 } as const;
