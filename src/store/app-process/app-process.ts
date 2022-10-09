@@ -8,7 +8,7 @@ const initialState: AppState = {
   currentProduct: null,
   isAddToBasketPopupOpened: false,
   isPostReviewPopupOpened: false,
-  isStatusPopupOpened: false,
+  isSuccessPopupOpened: false,
 };
 
 export const appProcess = createSlice({
@@ -24,15 +24,15 @@ export const appProcess = createSlice({
     setIsPostReviewPopupOpened: (state, action: {payload: boolean; type: string}) => {
       state.isPostReviewPopupOpened = action.payload;
     },
-    setIsStatusPopupOpened: (state, action: {payload: boolean; type: string}) => {
-      state.isStatusPopupOpened = action.payload;
+    setIsSuccessPopupOpened: (state, action: {payload: boolean; type: string}) => {
+      state.isSuccessPopupOpened = action.payload;
     },
   },
   extraReducers(builder) {
     builder
       .addCase(postReviewAction.fulfilled, (state) => {
         state.isPostReviewPopupOpened = false;
-        state.isStatusPopupOpened = true;
+        state.isSuccessPopupOpened = true;
       });
   },
 });
@@ -41,5 +41,5 @@ export const {
   setCurrentProduct,
   setIsAddToBasketPopupOpened,
   setIsPostReviewPopupOpened,
-  setIsStatusPopupOpened
+  setIsSuccessPopupOpened
 } = appProcess.actions;

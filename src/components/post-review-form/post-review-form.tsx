@@ -9,6 +9,7 @@ function PostReviewForm(): JSX.Element {
   const cameraId = useAppSelector(getCurrentCamera)?.id;
 
   const [isFirstSubmit, setIsFirstSubmit] = useState(true);
+  const [isDisabled, setDisabled] = useState(false);
 
   const [rating, setRating] = useState(0);
   const [isRatingFocused, setIsRatingFocused] = useState(false);
@@ -41,6 +42,8 @@ function PostReviewForm(): JSX.Element {
     }
 
     if (isRatingValid && isNameValid && isAdvantageValid && isDisadvantageValid && isCommentValid && cameraId) {
+      setDisabled(true);
+
       dispatch(postReviewAction({
         cameraId: cameraId,
         userName: name,
@@ -48,7 +51,7 @@ function PostReviewForm(): JSX.Element {
         disadvantage: disadvantage,
         review: comment,
         rating: rating,
-      }));
+      })).finally(() => setDisabled(false));
     }
   };
 
@@ -176,7 +179,13 @@ function PostReviewForm(): JSX.Element {
           <div className="custom-textarea__error">Нужно добавить комментарий</div>
         </div>
       </div>
-      <button className="btn btn--purple form-review__btn" type="submit">Отправить отзыв</button>
+      <button
+        className="btn btn--purple form-review__btn"
+        type="submit"
+        disabled={isDisabled}
+      >
+          Отправить отзыв
+      </button>
     </form>
   );
 }

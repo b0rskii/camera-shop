@@ -1,18 +1,18 @@
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import { getStatusPopupStatus } from '../../../store/app-process/selectors';
-import { setIsStatusPopupOpened } from '../../../store/app-process/app-process';
+import { getSuccessPopupStatus } from '../../../store/app-process/selectors';
+import { setIsSuccessPopupOpened } from '../../../store/app-process/app-process';
 import PopupLayout from '../popup-layout/popup-layout';
 
-type StatusPopupProps = {
+type SuccessPopupProps = {
   title: string;
 };
 
-function StatusPopup({title}: StatusPopupProps): JSX.Element {
+function SuccessPopup({title}: SuccessPopupProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const isPopupOpened = useAppSelector(getStatusPopupStatus);
+  const isPopupOpened = useAppSelector(getSuccessPopupStatus);
 
   const setIsPopupOpened = (status: boolean) => {
-    dispatch(setIsStatusPopupOpened(status));
+    dispatch(setIsSuccessPopupOpened(status));
   };
 
   return (
@@ -26,7 +26,7 @@ function StatusPopup({title}: StatusPopupProps): JSX.Element {
       </svg>
       <div className="modal__buttons">
         <button
-          onClick={() => dispatch(setIsStatusPopupOpened(false))}
+          onClick={() => dispatch(setIsSuccessPopupOpened(false))}
           className="btn btn--purple modal__btn modal__btn--fit-width"
           type="button"
         >
@@ -37,4 +37,4 @@ function StatusPopup({title}: StatusPopupProps): JSX.Element {
   );
 }
 
-export default StatusPopup;
+export default SuccessPopup;

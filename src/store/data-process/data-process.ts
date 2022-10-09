@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { DataState } from '../../types/state';
-import { NameSpace } from '../../const';
+import { NameSpace, DEFAULT_ERROR_MESSAGE } from '../../const';
 import {
   fetchCamerasAction,
   fetchPromoAction,
@@ -14,24 +14,40 @@ const initialState: DataState = {
   cameras: [],
   camerasTotalCount: 0,
   isCamerasLoaded: false,
+  camerasLoadingError: null,
+
   promo: null,
   isPromoLoaded: false,
+  promoLoadingError: null,
+
   currentCamera: null,
   isCurrentCameraLoaded: false,
+  currentCameraLoadingError: null,
+
   similarCameras: [],
   isSimilarCamerasLoaded: false,
+  similarCamerasLoadingError: null,
+
   reviews: [],
   isReviewsLoaded: false,
+  reviewsLoadingError: null,
+
+  error: null,
 };
 
 export const dataProcess = createSlice({
   name: NameSpace.Data,
   initialState,
-  reducers: {},
+  reducers: {
+    setError: (state, action: {payload: string | null; type: string}) => {
+      state.error = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchCamerasAction.pending, (state) => {
         state.isCamerasLoaded = false;
+        state.camerasLoadingError = null;
       })
       .addCase(fetchCamerasAction.fulfilled, (state, action) => {
         const camerasTotalCount = Number(action.payload.totalCount);
@@ -42,34 +58,73 @@ export const dataProcess = createSlice({
 
         state.cameras = action.payload.cameras;
         state.isCamerasLoaded = true;
+        state.camerasLoadingError = null;
+      })
+      .addCase(fetchCamerasAction.rejected, (state) => {
+        state.isCamerasLoaded = true;
+        state.camerasLoadingError = DEFAULT_ERROR_MESSAGE;
+      })
+
+      .addCase(fetchPromoAction.pending, (state) => {
+        state.isPromoLoaded = false;
+        state.promoLoadingError = null;
       })
       .addCase(fetchPromoAction.fulfilled, (state, action) => {
         state.promo = action.payload;
         state.isPromoLoaded = true;
+        state.promoLoadingError = null;
       })
-      .addCase(fetchCurrentCameraAction.pending, (state, action) => {
+      .addCase(fetchPromoAction.rejected, (state) => {
+        state.isPromoLoaded = true;
+        state.promoLoadingError = DEFAULT_ERROR_MESSAGE;
+      })
+
+      .addCase(fetchCurrentCameraAction.pending, (state) => {
         state.isCurrentCameraLoaded = false;
+        state.currentCameraLoadingError = null;
       })
       .addCase(fetchCurrentCameraAction.fulfilled, (state, action) => {
         state.currentCamera = action.payload;
         state.isCurrentCameraLoaded = true;
+        state.currentCameraLoadingError = null;
       })
+      .addCase(fetchCurrentCameraAction.rejected, (state) => {
+        state.isCurrentCameraLoaded = true;
+        state.currentCameraLoadingError = DEFAULT_ERROR_MESSAGE;
+      })
+
       .addCase(fetchSimilarCamerasAction.pending, (state) => {
         state.isSimilarCamerasLoaded = false;
+        state.similarCamerasLoadingError = null;
       })
       .addCase(fetchSimilarCamerasAction.fulfilled, (state, action) => {
         state.similarCameras = action.payload;
         state.isSimilarCamerasLoaded = true;
+        state.similarCamerasLoadingError = null;
       })
+      .addCase(fetchSimilarCamerasAction.rejected, (state) => {
+        state.isSimilarCamerasLoaded = true;
+        state.similarCamerasLoadingError = DEFAULT_ERROR_MESSAGE;
+      })
+
       .addCase(fetchReviewsAction.pending, (state) => {
         state.isReviewsLoaded = false;
+        state.reviewsLoadingError = null;
       })
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
         state.reviews = action.payload;
         state.isReviewsLoaded = true;
+        state.reviewsLoadingError = null;
       })
+      .addCase(fetchReviewsAction.rejected, (state) => {
+        state.isReviewsLoaded = true;
+        state.reviewsLoadingError = DEFAULT_ERROR_MESSAGE;
+      })
+
       .addCase(postReviewAction.fulfilled, (state, action) => {
         state.reviews = [action.payload, ...state.reviews];
       });
   },
 });
+
+export const { setError } = dataProcess.actions;

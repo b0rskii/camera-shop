@@ -1,21 +1,19 @@
 import { MouseEvent, ReactNode, useEffect, useState } from 'react';
 import { Review } from '../../types/types';
 import ReviewCard from '../review-card/review-card';
-import Loader from '../loader/loader';
 
 type ReviewsListProps = {
   reviews: Review[];
-  isReviewsLoaded: boolean;
   partDispalyedReviews: number;
 };
 
-function ReviewsList({reviews, isReviewsLoaded, partDispalyedReviews}: ReviewsListProps): JSX.Element {
+function ReviewsList({reviews, partDispalyedReviews}: ReviewsListProps): JSX.Element {
   const [displayedReviews, setDisplayedReviews] = useState(partDispalyedReviews);
 
   useEffect(() => {
     let isMounted = true;
 
-    if (isReviewsLoaded && reviews.length < displayedReviews) {
+    if (reviews.length < displayedReviews) {
       return;
     }
 
@@ -31,11 +29,7 @@ function ReviewsList({reviews, isReviewsLoaded, partDispalyedReviews}: ReviewsLi
       document.removeEventListener('scroll', scrollHandler);
       isMounted = false;
     };
-  }, [displayedReviews, partDispalyedReviews, reviews, isReviewsLoaded]);
-
-  if (!isReviewsLoaded) {
-    return <Loader />;
-  }
+  }, [displayedReviews, partDispalyedReviews, reviews]);
 
   const reviewsList: ReactNode[] = [];
 

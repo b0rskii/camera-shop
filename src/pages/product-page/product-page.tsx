@@ -2,7 +2,11 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { fetchCurrentCameraAction } from '../../store/api-actions';
-import { getCurrentCamera, getCurrentCameraLoadingStatus } from '../../store/data-process/selectors';
+import {
+  getCurrentCamera,
+  getCurrentCameraLoadingStatus,
+  getCurrentCameraLoadingError
+} from '../../store/data-process/selectors';
 import { PreviousBreadCrumbs, StatusMessage } from '../../const';
 import MainLayout from '../../components/main-layout/main-layout';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
@@ -12,14 +16,16 @@ import ReviewSection from '../../components/review-section/review-section';
 import AddToBasketPopup from '../../components/popups/add-to-basket-popup/add-to-basket-popup';
 import UpButton from '../../components/up-button/up-button';
 import PostReviewPopup from '../../components/popups/post-review-popup/post-review-popup';
-import StatusPopup from '../../components/popups/status-popup/status-popup';
+import SuccessPopup from '../../components/popups/success-popup/success-popup';
 import Loader from '../../components/loader/loader';
+import Error from '../../components/error/error';
 
 function ProductPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const {id} = useParams();
   const camera = useAppSelector(getCurrentCamera);
   const isCameraLoaded = useAppSelector(getCurrentCameraLoadingStatus);
+  const cameraLoadingError = useAppSelector(getCurrentCameraLoadingError);
 
   useEffect(() => {
     let isMounted = true;
@@ -32,6 +38,10 @@ function ProductPage(): JSX.Element {
       isMounted = false;
     };
   }, [dispatch, id]);
+
+  if (cameraLoadingError) {
+    return <Error message={cameraLoadingError} />;
+  }
 
   if (!isCameraLoaded || camera === null || !id) {
     return <Loader />;
@@ -51,7 +61,7 @@ function ProductPage(): JSX.Element {
         </div>
         <AddToBasketPopup />
         <PostReviewPopup />
-        <StatusPopup title={StatusMessage.PostReviewSuccess} />
+        <SuccessPopup title={StatusMessage.PostReviewSuccess} />
       </main>
       <UpButton />
     </MainLayout>

@@ -1,12 +1,22 @@
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/hooks';
-import { getPromo, getPromoLoadingStatus } from '../../store/data-process/selectors';
+import { getPromo, getPromoLoadingStatus, getPromoLoadingError } from '../../store/data-process/selectors';
 import { AppRoute } from '../../const';
 import Loader from '../loader/loader';
+import Error from '../error/error';
 
 function Banner(): JSX.Element {
   const promo = useAppSelector(getPromo);
   const isPromoLoaded = useAppSelector(getPromoLoadingStatus);
+  const promoLoadingError = useAppSelector(getPromoLoadingError);
+
+  if (promoLoadingError) {
+    return (
+      <div className="banner">
+        <Error message={promoLoadingError} />
+      </div>
+    );
+  }
 
   if (!isPromoLoaded || promo === null) {
     return (
