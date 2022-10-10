@@ -64,7 +64,7 @@ function Pagination(props: PaginationProps): JSX.Element {
   return (
     <div className="pagination">
       <ul className="pagination__list">
-        {currentPage > 1 && paginationList.length > 0 &&
+        {currentPage > 1 && productsTotalCount > 0 &&
         <li className="pagination__item">
           <a
             onClick={prevButtonClickHandler}

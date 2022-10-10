@@ -24,6 +24,7 @@ export type DataState = {
   reviewsLoadingError: string | null;
 
   error: string | null;
+  defaultError: string;
 };
 
 export type AppState = {

@@ -13,10 +13,7 @@ export const createAPI = (): AxiosInstance => {
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {
-      if (error) {
-        processErrorHandle(error.message);
-      }
-
+      processErrorHandle(error.message);
       throw error;
     }
   );

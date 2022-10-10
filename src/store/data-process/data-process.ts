@@ -33,6 +33,7 @@ const initialState: DataState = {
   reviewsLoadingError: null,
 
   error: null,
+  defaultError: DEFAULT_ERROR_MESSAGE,
 };
 
 export const dataProcess = createSlice({
@@ -62,7 +63,7 @@ export const dataProcess = createSlice({
       })
       .addCase(fetchCamerasAction.rejected, (state) => {
         state.isCamerasLoaded = true;
-        state.camerasLoadingError = DEFAULT_ERROR_MESSAGE;
+        state.camerasLoadingError = state.defaultError;
       })
 
       .addCase(fetchPromoAction.pending, (state) => {
@@ -76,7 +77,7 @@ export const dataProcess = createSlice({
       })
       .addCase(fetchPromoAction.rejected, (state) => {
         state.isPromoLoaded = true;
-        state.promoLoadingError = DEFAULT_ERROR_MESSAGE;
+        state.promoLoadingError = state.defaultError;
       })
 
       .addCase(fetchCurrentCameraAction.pending, (state) => {
@@ -90,7 +91,7 @@ export const dataProcess = createSlice({
       })
       .addCase(fetchCurrentCameraAction.rejected, (state) => {
         state.isCurrentCameraLoaded = true;
-        state.currentCameraLoadingError = DEFAULT_ERROR_MESSAGE;
+        state.currentCameraLoadingError = state.defaultError;
       })
 
       .addCase(fetchSimilarCamerasAction.pending, (state) => {
@@ -104,7 +105,7 @@ export const dataProcess = createSlice({
       })
       .addCase(fetchSimilarCamerasAction.rejected, (state) => {
         state.isSimilarCamerasLoaded = true;
-        state.similarCamerasLoadingError = DEFAULT_ERROR_MESSAGE;
+        state.similarCamerasLoadingError = state.defaultError;
       })
 
       .addCase(fetchReviewsAction.pending, (state) => {
@@ -118,7 +119,7 @@ export const dataProcess = createSlice({
       })
       .addCase(fetchReviewsAction.rejected, (state) => {
         state.isReviewsLoaded = true;
-        state.reviewsLoadingError = DEFAULT_ERROR_MESSAGE;
+        state.reviewsLoadingError = state.defaultError;
       })
 
       .addCase(postReviewAction.fulfilled, (state, action) => {

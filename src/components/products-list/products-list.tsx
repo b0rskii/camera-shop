@@ -13,8 +13,8 @@ type ProductsListProps = {
 };
 
 function ProductsList(props: ProductsListProps): JSX.Element {
-  const {products, isPoductsLoaded, startItemNumber} = props;
   const dispatch = useAppDispatch();
+  const {products, isPoductsLoaded, startItemNumber} = props;
 
   useEffect(() => {
     let isMounted = true;
