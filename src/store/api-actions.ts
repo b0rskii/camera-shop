@@ -15,7 +15,9 @@ type Store = {
 export const fetchCamerasAction = createAsyncThunk<{cameras: Camera[]; totalCount: string}, number, Store>(
   'data/fetchCameras',
   async (start, {extra: api}) => {
-    const {data, headers} = await api.get<Camera[]>(`${APIRoute.Cameras}?_start=${start}&_limit=${CARDS_PER_PAGE_COUNT}`);
+    const {data, headers} = await api.get<Camera[]>(
+      `${APIRoute.Cameras}?${APIQuery.Start}=${start}&${APIQuery.Limit}=${CARDS_PER_PAGE_COUNT}`
+    );
     return {
       cameras: data,
       totalCount: headers[TOTAL_COUNT_HEADER],
@@ -51,7 +53,7 @@ export const fetchReviewsAction = createAsyncThunk<Review[], string, Store>(
   'data/fetchReviews',
   async (id, {extra: api}) => {
     const {data} = await api.get<Review[]>(
-      `${APIRoute.Cameras}/${id}${APIRoute.Reviews}?${APIQuery.Sort}createAt&${APIQuery.DescSort}`
+      `${APIRoute.Cameras}/${id}${APIRoute.Reviews}?${APIQuery.Sort}=createAt&${APIQuery.DescSort}`
     );
     return data;
   }

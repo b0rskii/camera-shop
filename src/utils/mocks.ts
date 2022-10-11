@@ -1,4 +1,4 @@
-import { Camera, Promo, Review } from '../types/types';
+import { Camera, Promo, Review, PostingReview } from '../types/types';
 
 export const Mock = {
   CamerasTotalCount: '50',
@@ -84,3 +84,12 @@ export const makeMockReviews = (): Review[] => {
 
   return reviews;
 };
+
+export const makeMockPostingReview = (): PostingReview => ({
+  cameraId: 1,
+  userName: 'Кирилл',
+  advantage: 'Легкая в плане веса, удобная в интерфейсе',
+  disadvantage: 'Быстро садиться зарядка',
+  review: 'Это моя первая камера. Я в восторге, нареканий нет',
+  rating: 4,
+});

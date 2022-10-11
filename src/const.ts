@@ -28,7 +28,9 @@ export const APIRoute = {
 } as const;
 
 export const APIQuery = {
-  Sort: '_sort=',
+  Start: '_start',
+  Limit: '_limit',
+  Sort: '_sort',
   DescSort: '_order=desc',
 };
 
