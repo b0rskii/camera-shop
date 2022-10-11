@@ -30,30 +30,49 @@ describe('Reducer: appProcess', () => {
     const camera = makeMockCamera();
 
     expect(appProcess.reducer(initialState, setCurrentProduct(camera)))
-      .toEqual({...initialState, currentProduct: camera});
+      .toEqual({
+        ...initialState,
+        currentProduct: camera
+      });
   });
 
   it('should change add to basket popup status to given value', () => {
     expect(appProcess.reducer(initialState, setIsAddToBasketPopupOpened(true)))
-      .toEqual({...initialState, isAddToBasketPopupOpened: true});
+      .toEqual({
+        ...initialState,
+        isAddToBasketPopupOpened: true
+      });
   });
 
   it('should change post review popup status to given value', () => {
     expect(appProcess.reducer(initialState, setIsPostReviewPopupOpened(true)))
-      .toEqual({...initialState, isPostReviewPopupOpened: true});
+      .toEqual({
+        ...initialState,
+        isPostReviewPopupOpened: true
+      });
   });
 
   it('should change success popup status to given value', () => {
     expect(appProcess.reducer(initialState, setIsSuccessPopupOpened(true)))
-      .toEqual({...initialState, isSuccessPopupOpened: true});
+      .toEqual({
+        ...initialState,
+        isSuccessPopupOpened: true
+      });
   });
 
   describe('postReviewAction test', () => {
     it('if fulfilled should set post review popup status to "false", success popup status to "true"', () => {
-      const state = {...initialState, isPostReviewPopupOpened: true};
+      const state = {
+        ...initialState,
+        isPostReviewPopupOpened: true
+      };
 
       expect(appProcess.reducer(initialState, postReviewAction.fulfilled))
-        .toEqual({...state, isPostReviewPopupOpened: false, isSuccessPopupOpened: true});
+        .toEqual({
+          ...state,
+          isPostReviewPopupOpened: false,
+          isSuccessPopupOpened: true
+        });
     });
   });
 });

@@ -57,16 +57,30 @@ describe('Reducer: dataProcess', () => {
 
   describe('fetchCamerasAction test', () => {
     it('if pending should set cameras loaded status to "false", cameras loading error to "null"', () => {
-      const state = {...initialState, isCamerasLoaded: true, camerasLoadingError: 'error'};
+      const state = {
+        ...initialState,
+        isCamerasLoaded: true,
+        camerasLoadingError: 'error'
+      };
 
       expect(dataProcess.reducer(state, fetchCamerasAction.pending))
-        .toEqual({...state, isCamerasLoaded: false, camerasLoadingError: null});
+        .toEqual({
+          ...state,
+          isCamerasLoaded: false,
+          camerasLoadingError: null
+        });
     });
 
     it('if fulfilled should change cameras to given value, set cameras loaded status to "true", change cameras total count to given value, cameras loading error to "null"', () => {
       const cameras = makeMockCameras();
-      const state = {...initialState, camerasLoadingError: 'error'};
-      const payload = {cameras: cameras, totalCount: Mock.CamerasTotalCount};
+      const state = {
+        ...initialState,
+        camerasLoadingError: 'error'
+      };
+      const payload = {
+        cameras: cameras,
+        totalCount: Mock.CamerasTotalCount
+      };
 
       expect(dataProcess.reducer(state, {type: fetchCamerasAction.fulfilled.type, payload}))
         .toEqual({
@@ -90,15 +104,26 @@ describe('Reducer: dataProcess', () => {
 
   describe('fetchPromoAction test', () => {
     it('if pending should set promo loaded status to "false", promo loading error to "null"', () => {
-      const state = {...initialState, isPromoLoaded: true, promoLoadingError: 'error'};
+      const state = {
+        ...initialState,
+        isPromoLoaded: true,
+        promoLoadingError: 'error'
+      };
 
       expect(dataProcess.reducer(state, fetchPromoAction.pending))
-        .toEqual({...state, isPromoLoaded: false, promoLoadingError: null});
+        .toEqual({
+          ...state,
+          isPromoLoaded: false,
+          promoLoadingError: null
+        });
     });
 
     it('if fulfilled should change promo to given value, set promo loaded status to "true", promo loading error to "null"', () => {
       const promo = makeMockPromo();
-      const state = {...initialState, promoLoadingError: 'error'};
+      const state = {
+        ...initialState,
+        promoLoadingError: 'error'
+      };
 
       expect(dataProcess.reducer(state, {type: fetchPromoAction.fulfilled.type, payload: promo}))
         .toEqual({
@@ -121,15 +146,26 @@ describe('Reducer: dataProcess', () => {
 
   describe('fetchCurrentCameraAction test', () => {
     it('if pending should set current camera loaded status to "false", current camera loading error to "null"', () => {
-      const state = {...initialState, isCurrentCameraLoaded: true, currentCameraLoadingError: 'error'};
+      const state = {
+        ...initialState,
+        isCurrentCameraLoaded: true,
+        currentCameraLoadingError: 'error'
+      };
 
       expect(dataProcess.reducer(state, fetchCurrentCameraAction.pending))
-        .toEqual({...state, isCurrentCameraLoaded: false, currentCameraLoadingError: null});
+        .toEqual({
+          ...state,
+          isCurrentCameraLoaded: false,
+          currentCameraLoadingError: null
+        });
     });
 
     it('if fulfilled should change current camera to given value, set current camera loaded status to "true", current camera loading error to "null"', () => {
       const currentCamera = makeMockCamera();
-      const state = {...initialState, promoLoadingError: 'error'};
+      const state = {
+        ...initialState,
+        promoLoadingError: 'error'
+      };
 
       expect(dataProcess.reducer(state, {type: fetchCurrentCameraAction.fulfilled.type, payload: currentCamera}))
         .toEqual({
@@ -152,15 +188,26 @@ describe('Reducer: dataProcess', () => {
 
   describe('fetchSimilarCamerasAction test', () => {
     it('if pending should set similar cameras loaded status to "false", similar cameras loading error to "null"', () => {
-      const state = {...initialState, isSimilarCamerasLoaded: true, similarCamerasLoadingError: 'error'};
+      const state = {
+        ...initialState,
+        isSimilarCamerasLoaded: true,
+        similarCamerasLoadingError: 'error'
+      };
 
       expect(dataProcess.reducer(state, fetchSimilarCamerasAction.pending))
-        .toEqual({...state, isSimilarCamerasLoaded: false, similarCamerasLoadingError: null});
+        .toEqual({
+          ...state,
+          isSimilarCamerasLoaded: false,
+          similarCamerasLoadingError: null
+        });
     });
 
     it('if fulfilled should change similar cameras to given value, set similar cameras loaded status to "true", similar cameras loading error to "null"', () => {
       const similarCameras = makeMockCameras();
-      const state = {...initialState, similarCamerasLoadingError: 'error'};
+      const state = {
+        ...initialState,
+        similarCamerasLoadingError: 'error'
+      };
 
       expect(dataProcess.reducer(state, {type: fetchSimilarCamerasAction.fulfilled.type, payload: similarCameras}))
         .toEqual({
@@ -183,15 +230,26 @@ describe('Reducer: dataProcess', () => {
 
   describe('fetchReviewsAction test', () => {
     it('if pending should set reviews loaded status to "false", reviews loading error to "null"', () => {
-      const state = {...initialState, isReviewsLoaded: true, reviewsLoadingError: 'error'};
+      const state = {
+        ...initialState,
+        isReviewsLoaded: true,
+        reviewsLoadingError: 'error'
+      };
 
       expect(dataProcess.reducer(state, fetchReviewsAction.pending))
-        .toEqual({...state, isReviewsLoaded: false, reviewsLoadingError: null});
+        .toEqual({
+          ...state,
+          isReviewsLoaded: false,
+          reviewsLoadingError: null
+        });
     });
 
     it('if fulfilled should change reviews to given value, set reviews loaded status to "true", reviews loading error to "null"', () => {
       const reviews = makeMockReviews();
-      const state = {...initialState, reviewsLoadingError: 'error'};
+      const state = {
+        ...initialState,
+        reviewsLoadingError: 'error'
+      };
 
       expect(dataProcess.reducer(state, {type: fetchReviewsAction.fulfilled.type, payload: reviews}))
         .toEqual({
@@ -216,11 +274,17 @@ describe('Reducer: dataProcess', () => {
     it('if fulfilled should add new review to start of reviews', () => {
       const reviews = makeMockReviews();
       const newReview = makeMockReview();
-      const state = {...initialState, reviews: reviews};
+      const state = {
+        ...initialState,
+        reviews: reviews
+      };
       const updatedReviews = [newReview, ...reviews];
 
       expect(dataProcess.reducer(state, {type: postReviewAction.fulfilled.type, payload: newReview}))
-        .toEqual({...state, reviews: updatedReviews});
+        .toEqual({
+          ...state,
+          reviews: updatedReviews
+        });
     });
   });
 });
