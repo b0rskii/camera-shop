@@ -53,7 +53,7 @@ function ReviewsList({reviews, partDispalyedReviews}: ReviewsListProps): JSX.Ele
 
   return (
     <>
-      <ul className="review-block__list">
+      <ul className="review-block__list" data-testid="reviews-list">
         {reviewsList}
       </ul>
       {reviews.length > displayedReviews &&

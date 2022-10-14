@@ -12,7 +12,7 @@ function Rating({maxRating = MAX_PRODUCT_RATE, rating, reviewCount}: RatingProps
 
     for (let i = 0; i < maxRating; i++) {
       ratingList.push(
-        <svg width="17" height="16" aria-hidden="true" key={i + 1}>
+        <svg width="17" height="16" aria-hidden="true" key={i + 1} data-testid="rating-icon">
           <use xlinkHref={rating > i ? '#icon-full-star' : '#icon-star'}></use>
         </svg>
       );

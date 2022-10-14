@@ -19,7 +19,7 @@ function Slider({products, displayedItemsCount}: SliderProps): JSX.Element {
   };
 
   return (
-    <div className="product-similar__slider">
+    <div className="product-similar__slider" data-testid="slider">
       <SimilarProductsList
         products={products}
         startDisplayedIndex={startDisplayedIndex}
@@ -33,6 +33,7 @@ function Slider({products, displayedItemsCount}: SliderProps): JSX.Element {
           type="button"
           aria-label="Предыдущий слайд"
           disabled={startDisplayedIndex === 0}
+          data-testid="control-prev"
         >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
@@ -44,6 +45,7 @@ function Slider({products, displayedItemsCount}: SliderProps): JSX.Element {
           type="button"
           aria-label="Следующий слайд"
           disabled={startDisplayedIndex === products.length - displayedItemsCount}
+          data-testid="control-next"
         >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>

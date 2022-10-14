@@ -19,7 +19,7 @@ function CatalogPage(): JSX.Element {
 
   return (
     <MainLayout>
-      <main>
+      <main data-testid="catalog-page">
         <Banner />
         <div className="page-content">
           <BreadCrumbs

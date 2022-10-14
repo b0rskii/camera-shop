@@ -82,9 +82,14 @@ function PopupLayout({isPopupOpened, onSetIsPopupOpened, children}: PopupLayoutP
   };
 
   return (
-    <div className="modal is-active">
+    <div className="modal is-active" data-testid="popup-layout">
       <div className="modal__wrapper">
-        <div onClick={popupClickHandler} className="modal__overlay"></div>
+        <div
+          onClick={popupClickHandler}
+          className="modal__overlay"
+          data-testid="popup-overlay"
+        >
+        </div>
         <div
           onClick={(evt) => evt.stopPropagation()}
           className="modal__content"
@@ -96,6 +101,7 @@ function PopupLayout({isPopupOpened, onSetIsPopupOpened, children}: PopupLayoutP
             className="cross-btn"
             type="button"
             aria-label="Закрыть попап"
+            data-testid="close-button"
           >
             <svg width="10" height="10" aria-hidden="true">
               <use xlinkHref="#icon-close"></use>

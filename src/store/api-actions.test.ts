@@ -197,7 +197,7 @@ describe('Async actions', () => {
     const store = mockStore();
 
     mockAPI
-      .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Reviews}?${APIQuery.Sort}createAt&${APIQuery.DescSort}`)
+      .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Reviews}?${APIQuery.Sort}=createAt&${APIQuery.DescSort}`)
       .reply(200, reviews);
 
     await store.dispatch(fetchReviewsAction(ID));
@@ -217,7 +217,7 @@ describe('Async actions', () => {
     const store = mockStore();
 
     mockAPI
-      .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Reviews}?${APIQuery.Sort}createAt&${APIQuery.DescSort}`)
+      .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Reviews}?${APIQuery.Sort}=createAt&${APIQuery.DescSort}`)
       .reply(400, reviews);
 
     await store.dispatch(fetchReviewsAction(ID));

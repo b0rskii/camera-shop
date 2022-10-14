@@ -58,7 +58,7 @@ export const PreviousBreadCrumbs = {
   Catalog: [
     BreadCrumb.Main
   ],
-  Item: [
+  Product: [
     BreadCrumb.Main,
     BreadCrumb.Catalog
   ],

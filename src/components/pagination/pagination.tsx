@@ -1,8 +1,9 @@
 import { ReactNode, MouseEvent } from 'react';
-import { CARDS_PER_PAGE_COUNT, CATALOG_PAGE_QUERY } from '../../const';
+import { CATALOG_PAGE_QUERY } from '../../const';
 
 type PaginationProps = {
   productsTotalCount: number;
+  productsPerPageCount: number;
   currentPage: number;
   onSetCurrentPage: (page: number) => void;
   onSetStartItemNumber: (startItemNumber: number) => void;
@@ -10,12 +11,12 @@ type PaginationProps = {
 };
 
 function Pagination(props: PaginationProps): JSX.Element {
-  const {productsTotalCount, currentPage, onSetCurrentPage} = props;
+  const {productsTotalCount, productsPerPageCount, currentPage, onSetCurrentPage} = props;
   const {onSetStartItemNumber, onSetSearchParams} = props;
   const paginationList: ReactNode[] = [];
 
   const updateCatalog = (newPage: number) => {
-    const startItemNumber = (newPage - 1) * CARDS_PER_PAGE_COUNT;
+    const startItemNumber = (newPage - 1) * productsPerPageCount;
 
     onSetSearchParams(`${CATALOG_PAGE_QUERY}=${newPage}`);
     onSetCurrentPage(newPage);
@@ -40,13 +41,13 @@ function Pagination(props: PaginationProps): JSX.Element {
   };
 
   const getPaginationList = () => {
-    const pagesCount = Math.ceil(productsTotalCount / CARDS_PER_PAGE_COUNT);
+    const pagesCount = Math.ceil(productsTotalCount / productsPerPageCount);
 
     for (let i = 0; i < pagesCount; i++) {
       const pageNumber = String(i + 1);
 
       paginationList.push(
-        <li className="pagination__item" key={pageNumber}>
+        <li className="pagination__item" key={pageNumber} data-testid="pagination-item">
           <a
             onClick={pageNumberButtonClickHandler}
             className={`pagination__link ${Number(pageNumber) === currentPage ? 'pagination__link--active' : ''}`}

@@ -49,10 +49,10 @@ function ProductPage(): JSX.Element {
 
   return (
     <MainLayout>
-      <main>
+      <main data-testid="product-page">
         <div className="page-content">
           <BreadCrumbs
-            previousBreadCrumbs={PreviousBreadCrumbs.Item}
+            previousBreadCrumbs={PreviousBreadCrumbs.Product}
             currentBreadCrumbName={camera.name}
           />
           <ProductSection camera={camera} />

@@ -70,6 +70,7 @@ function PostReviewForm(): JSX.Element {
           name="rate"
           type="radio"
           value={value}
+          data-testid="rating-input"
         />
         <label className="rate__label" htmlFor={`star-${value}`} title={title} />
       </React.Fragment>

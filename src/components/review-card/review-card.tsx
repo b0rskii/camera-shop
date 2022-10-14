@@ -10,7 +10,7 @@ function ReviewCard({review}: ReviewCardProps): JSX.Element {
   const {userName, createAt, rating, advantage, disadvantage, review: comment} = review;
 
   return (
-    <li className="review-card">
+    <li className="review-card" data-testid="review-card">
       <div className="review-card__head">
         <p className="title title--h4">{userName}</p>
         <time

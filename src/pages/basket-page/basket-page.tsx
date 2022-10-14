@@ -5,7 +5,7 @@ import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 function BasketPage(): JSX.Element {
   return (
     <MainLayout>
-      <main>
+      <main data-testid="basket-page">
         <div className="page-content">
           <BreadCrumbs
             previousBreadCrumbs={PreviousBreadCrumbs.Basket}
