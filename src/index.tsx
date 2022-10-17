@@ -10,7 +10,7 @@ import { fetchPromoAction } from './store/api-actions';
 store.dispatch(fetchPromoAction());
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement,
+  document.querySelector('#root') as HTMLElement,
 );
 
 root.render(
