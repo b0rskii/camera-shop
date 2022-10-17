@@ -34,7 +34,7 @@ function PostReviewForm(): JSX.Element {
 
   const ratingInputs: ReactNode[] = [];
 
-  const formSubmitHandler = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (isFirstSubmit) {
@@ -78,7 +78,7 @@ function PostReviewForm(): JSX.Element {
   });
 
   return (
-    <form onSubmit={formSubmitHandler} method="post" noValidate>
+    <form onSubmit={handleFormSubmit} method="post" noValidate>
       <div className="form-review__rate">
         <fieldset className={`rate form-review__item ${!isRatingValid && !isFirstSubmit && !isRatingFocused ? 'is-invalid' : ''}`}>
           <legend className="rate__caption">

@@ -17,16 +17,16 @@ function ReviewsList({reviews, partDispalyedReviews}: ReviewsListProps): JSX.Ele
       return;
     }
 
-    const scrollHandler = () => {
+    const handleScroll = () => {
       if (window.scrollY === document.body.scrollHeight - window.innerHeight && isMounted) {
         setDisplayedReviews(displayedReviews + partDispalyedReviews);
       }
     };
 
-    document.addEventListener('scroll', scrollHandler);
+    document.addEventListener('scroll', handleScroll);
 
     return () => {
-      document.removeEventListener('scroll', scrollHandler);
+      document.removeEventListener('scroll', handleScroll);
       isMounted = false;
     };
   }, [displayedReviews, partDispalyedReviews, reviews]);
@@ -46,7 +46,7 @@ function ReviewsList({reviews, partDispalyedReviews}: ReviewsListProps): JSX.Ele
     );
   }
 
-  const showMoreButtonClickHandler = (evt: MouseEvent<HTMLButtonElement>) => {
+  const handleShowMoreButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.currentTarget.blur();
     setDisplayedReviews(displayedReviews + partDispalyedReviews);
   };
@@ -59,7 +59,7 @@ function ReviewsList({reviews, partDispalyedReviews}: ReviewsListProps): JSX.Ele
       {reviews.length > displayedReviews &&
         <div className="review-block__buttons">
           <button
-            onClick={showMoreButtonClickHandler}
+            onClick={handleShowMoreButtonClick}
             className="btn btn--purple"
             type="button"
           >

@@ -13,7 +13,7 @@ function ProductSection({camera}: ProductSectionProps): JSX.Element {
   const {previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name} = camera;
   const {rating, reviewCount, price} = camera;
 
-  const addToBasketButtonClickHandler = () => {
+  const handleAddToBasketButtonClick = () => {
     dispatch(setCurrentProduct(camera));
     dispatch(setIsAddToBasketPopupOpened(true));
   };
@@ -40,7 +40,7 @@ function ProductSection({camera}: ProductSectionProps): JSX.Element {
               <span className="visually-hidden">Цена:</span>{price.toLocaleString()} ₽
             </p>
             <button
-              onClick={addToBasketButtonClickHandler}
+              onClick={handleAddToBasketButtonClick}
               className="btn btn--purple"
               type="button"
             >

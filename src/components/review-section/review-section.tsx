@@ -26,7 +26,7 @@ function ReviewSection({id}: ReviewSectionProps): JSX.Element {
     dispatch(fetchReviewsAction(id));
   }, [dispatch, id]);
 
-  const postReviewButtonClickHandler = () => {
+  const handlePostReviewButtonClick = () => {
     dispatch(setIsPostReviewPopupOpened(true));
   };
 
@@ -38,7 +38,7 @@ function ReviewSection({id}: ReviewSectionProps): JSX.Element {
             <h2 className="title title--h3">Отзывы</h2>
             {isReviewsLoaded &&
             <button
-              onClick={postReviewButtonClickHandler}
+              onClick={handlePostReviewButtonClick}
               className="btn"
               type="button"
             >

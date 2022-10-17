@@ -15,7 +15,7 @@ function ProductCard({product, isActive}: ProductCardProps): JSX.Element {
   const {previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, price} = product;
   const {id, rating, reviewCount} = product;
 
-  const buyButtonClickHandler = () => {
+  const handleBuyButtonClick = () => {
     dispatch(setCurrentProduct(product));
     dispatch(setIsAddToBasketPopupOpened(true));
   };
@@ -42,7 +42,7 @@ function ProductCard({product, isActive}: ProductCardProps): JSX.Element {
       </div>
       <div className="product-card__buttons">
         <button
-          onClick={buyButtonClickHandler}
+          onClick={handleBuyButtonClick}
           className="btn btn--purple product-card__btn"
           type="button"
         >
