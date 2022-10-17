@@ -5,9 +5,6 @@ import HistoryRouter from './components/history-router/history-router';
 import browserHistory from './browser-history';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
-import { fetchPromoAction } from './store/api-actions';
-
-store.dispatch(fetchPromoAction());
 
 const root = ReactDOM.createRoot(
   document.querySelector('#root') as HTMLElement,
@@ -20,5 +17,5 @@ root.render(
         <App />
       </HistoryRouter>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

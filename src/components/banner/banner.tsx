@@ -1,14 +1,23 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
 import { getPromo, getPromoLoadingStatus, getPromoLoadingError } from '../../store/data-process/selectors';
+import { fetchPromoAction } from '../../store/api-actions';
 import { AppRoute } from '../../const';
 import Loader from '../loader/loader';
 import Error from '../error/error';
 
 function Banner(): JSX.Element {
+  const dispatch = useAppDispatch();
   const promo = useAppSelector(getPromo);
   const isPromoLoaded = useAppSelector(getPromoLoadingStatus);
   const promoLoadingError = useAppSelector(getPromoLoadingError);
+
+  useEffect(() => {
+    if (!promo) {
+      dispatch(fetchPromoAction());
+    }
+  }, [dispatch, promo]);
 
   if (promoLoadingError) {
     return (

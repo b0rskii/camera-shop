@@ -17,15 +17,7 @@ function ProductsList(props: ProductsListProps): JSX.Element {
   const {products, isPoductsLoaded, startItemNumber} = props;
 
   useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted) {
-      dispatch(fetchCamerasAction(startItemNumber));
-    }
-
-    return () => {
-      isMounted = false;
-    };
+    dispatch(fetchCamerasAction(startItemNumber));
   }, [dispatch, startItemNumber]);
 
   if (!isPoductsLoaded) {
