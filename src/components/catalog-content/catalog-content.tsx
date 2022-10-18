@@ -36,7 +36,7 @@ function CatalogContent(): JSX.Element {
       <CatalogSort />
       <ProductsList
         products={cameras}
-        isPoductsLoaded={isCamerasLoaded}
+        isProductsLoaded={isCamerasLoaded}
         startItemNumber={startItemNumber}
       />
       <Pagination

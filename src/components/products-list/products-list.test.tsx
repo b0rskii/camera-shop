@@ -31,7 +31,7 @@ describe('Component: ProductsList', () => {
         <HistoryRouter history={history}>
           <ProductsList
             products={cameras}
-            isPoductsLoaded
+            isProductsLoaded
             startItemNumber={START_ITEM_NUMBER}
           />
         </HistoryRouter>
@@ -51,7 +51,7 @@ describe('Component: ProductsList', () => {
         <HistoryRouter history={history}>
           <ProductsList
             products={cameras}
-            isPoductsLoaded={false}
+            isProductsLoaded={false}
             startItemNumber={START_ITEM_NUMBER}
           />
         </HistoryRouter>
