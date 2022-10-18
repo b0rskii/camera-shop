@@ -9,7 +9,7 @@ describe('Component: ErrorMessage', () => {
   it('should render correctly if error', () => {
     const ERROR_MESSAGE = 'error';
     const store = makeMockStore({
-      Data: {
+      Error: {
         error: ERROR_MESSAGE,
       }
     });
@@ -26,7 +26,7 @@ describe('Component: ErrorMessage', () => {
 
   it('should not render if error null', () => {
     const store = makeMockStore({
-      Data: {
+      Error: {
         error: null,
       }
     });

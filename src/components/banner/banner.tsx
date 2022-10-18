@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
-import { getPromo, getPromoLoadingStatus, getPromoLoadingError } from '../../store/data-process/selectors';
+import { getPromo, getPromoLoadingStatus, getPromoLoadingError } from '../../store/promo-slice/selectors';
 import { fetchPromoAction } from '../../store/api-actions';
 import { AppRoute } from '../../const';
 import Loader from '../loader/loader';

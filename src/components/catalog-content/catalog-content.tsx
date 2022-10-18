@@ -5,7 +5,7 @@ import {
   getCameras,
   getCamerasTotalCount,
   getCamerasLoadingStatus
-} from '../../store/data-process/selectors';
+} from '../../store/cameras-slice/selectors';
 import {
   INITIAL_CATALOG_PAGE_NUMBER,
   CARDS_PER_PAGE_COUNT,

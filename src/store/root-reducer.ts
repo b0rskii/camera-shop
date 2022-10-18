@@ -1,9 +1,19 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { dataProcess } from './data-process/data-process';
-import { appProcess } from './app-process/app-process';
 import { NameSpace } from '../const';
+import camerasReducer from './cameras-slice/cameras-slice';
+import currentCameraReducer from './current-camera-slice/current-camera-slice';
+import promoReducer from './promo-slice/promo-slice';
+import similarCamerasReducer from './similar-cameras-slice/similar-cameras-slice';
+import reviewsReducer from './reviews-slice/reviews-slice';
+import errorReducer from './error-slice/error-slice';
+import appReducer from './app-slice/app-slice';
 
 export const rootReducer = combineReducers({
-  [NameSpace.Data]: dataProcess.reducer,
-  [NameSpace.App]: appProcess.reducer,
+  [NameSpace.Cameras]: camerasReducer,
+  [NameSpace.CurrentCamera]: currentCameraReducer,
+  [NameSpace.Promo]: promoReducer,
+  [NameSpace.SimilarCameras]: similarCamerasReducer,
+  [NameSpace.Reviews]: reviewsReducer,
+  [NameSpace.Error]: errorReducer,
+  [NameSpace.App]: appReducer,
 });

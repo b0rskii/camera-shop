@@ -30,7 +30,7 @@ const Valid = {
 
 const camera = makeMockCamera();
 const store = makeMockStore({
-  Data: {
+  CurrentCamera: {
     currentCamera: camera,
   }
 });

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { setIsPostReviewPopupOpened } from '../../store/app-process/app-process';
+import { postReviewPopupStatusUpdate } from '../../store/app-slice/app-slice';
 import { Action } from '@reduxjs/toolkit';
 import { api } from '../../store/store';
 import { State } from '../../types/state';
@@ -11,6 +11,8 @@ import { createMemoryHistory } from 'history';
 import { makeMockReviews } from '../../utils/mocks';
 import HistoryRouter from '../history-router/history-router';
 import ReviewSection from './review-section';
+
+const DEFAULT_ERROR = 'error';
 
 const middlewares = [thunk.withExtraArgument(api)];
 const makeMockStore = configureMockStore<
@@ -25,10 +27,11 @@ describe('Component: ReviewSection', () => {
     const ID = '1';
     const reviews = makeMockReviews();
     const store = makeMockStore({
-      Data: {
+      Reviews: {
         reviews: reviews,
-        isReviewsLoaded: true,
-        reviewsLoadingError: null,
+        isLoaded: true,
+        loadingError: null,
+        defaultError: DEFAULT_ERROR,
       }
     });
 
@@ -49,10 +52,11 @@ describe('Component: ReviewSection', () => {
   it('should render component correctly if loaded without error and there are no reviews', () => {
     const ID = '1';
     const store = makeMockStore({
-      Data: {
+      Reviews: {
         reviews: [],
-        isReviewsLoaded: true,
-        reviewsLoadingError: null,
+        isLoaded: true,
+        loadingError: null,
+        defaultError: DEFAULT_ERROR,
       }
     });
 
@@ -73,10 +77,11 @@ describe('Component: ReviewSection', () => {
   it('should render loader if reviews loading', () => {
     const ID = '1';
     const store = makeMockStore({
-      Data: {
+      Reviews: {
         reviews: [],
-        isReviewsLoaded: false,
-        reviewsLoadingError: null,
+        isLoaded: false,
+        loadingError: null,
+        defaultError: DEFAULT_ERROR,
       }
     });
 
@@ -96,12 +101,12 @@ describe('Component: ReviewSection', () => {
 
   it('should render component correctly if loaded with error', () => {
     const ID = '1';
-    const DEFAULT_ERROR = 'error';
     const store = makeMockStore({
-      Data: {
+      Reviews: {
         reviews: [],
-        isReviewsLoaded: true,
-        reviewsLoadingError: DEFAULT_ERROR,
+        isLoaded: true,
+        loadingError: DEFAULT_ERROR,
+        defaultError: DEFAULT_ERROR,
       }
     });
 
@@ -123,10 +128,11 @@ describe('Component: ReviewSection', () => {
     const ID = '1';
     const reviews = makeMockReviews();
     const store = makeMockStore({
-      Data: {
+      Reviews: {
         reviews: reviews,
-        isReviewsLoaded: true,
-        reviewsLoadingError: null,
+        isLoaded: true,
+        loadingError: null,
+        defaultError: DEFAULT_ERROR,
       }
     });
 
@@ -142,6 +148,6 @@ describe('Component: ReviewSection', () => {
 
     const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
 
-    expect(actionsTypes).toContainEqual(setIsPostReviewPopupOpened.type);
+    expect(actionsTypes).toContainEqual(postReviewPopupStatusUpdate.type);
   });
 });

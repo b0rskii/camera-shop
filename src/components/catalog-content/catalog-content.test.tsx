@@ -24,10 +24,10 @@ describe('Component: CatalogContent', () => {
     const CAMERAS_TOTAL_COUNT = 50;
     const cameras = makeMockCameras();
     const store = makeMockStore({
-      Data: {
+      Cameras: {
         cameras: cameras,
-        camerasTotalCount: CAMERAS_TOTAL_COUNT,
-        isCamerasLoaded: true,
+        totalCount: CAMERAS_TOTAL_COUNT,
+        isLoaded: true,
       }
     });
 

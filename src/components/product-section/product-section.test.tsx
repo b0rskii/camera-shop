@@ -4,7 +4,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
 import { Action } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import { setCurrentProduct, setIsAddToBasketPopupOpened } from '../../store/app-process/app-process';
+import { currentProductUpdate, addToBasketPopupStatusUpdate } from '../../store/app-slice/app-slice';
 import { makeMockCamera } from '../../utils/mocks';
 import HistoryRouter from '../history-router/history-router';
 import ProductSection from './product-section';
@@ -47,8 +47,8 @@ describe('Component: ProductSection', () => {
     const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
 
     expect(actionsTypes).toEqual([
-      setCurrentProduct.type,
-      setIsAddToBasketPopupOpened.type
+      currentProductUpdate.type,
+      addToBasketPopupStatusUpdate.type
     ]);
   });
 });

@@ -23,10 +23,10 @@ describe('Component: SimilarSection', () => {
     const ID = '1';
     const cameras = makeMockCameras();
     const store = makeMockStore({
-      Data: {
+      SimilarCameras: {
         similarCameras: cameras,
-        isSimilarCamerasLoaded: true,
-        similarCamerasLoadingError: null,
+        isLoaded: true,
+        loadingError: null,
       }
     });
 
@@ -45,10 +45,10 @@ describe('Component: SimilarSection', () => {
   it('should not render component if loaded without error and there are no similar cameras', () => {
     const ID = '1';
     const store = makeMockStore({
-      Data: {
+      SimilarCameras: {
         similarCameras: [],
-        isSimilarCamerasLoaded: true,
-        similarCamerasLoadingError: null,
+        isLoaded: true,
+        loadingError: null,
       }
     });
 
@@ -66,10 +66,10 @@ describe('Component: SimilarSection', () => {
   it('should render loader if similar cameras loading', () => {
     const ID = '1';
     const store = makeMockStore({
-      Data: {
+      SimilarCameras: {
         similarCameras: [],
-        isSimilarCamerasLoaded: false,
-        similarCamerasLoadingError: null,
+        isLoaded: false,
+        loadingError: null,
       }
     });
 
@@ -90,10 +90,10 @@ describe('Component: SimilarSection', () => {
     const ID = '1';
     const ERROR = 'error';
     const store = makeMockStore({
-      Data: {
+      SimilarCameras: {
         similarCameras: [],
-        isSimilarCamerasLoaded: true,
-        similarCamerasLoadingError: ERROR,
+        isLoaded: true,
+        loadingError: ERROR,
       }
     });
 

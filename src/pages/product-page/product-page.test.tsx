@@ -26,16 +26,20 @@ describe('Component: ProductPage', () => {
     const ID = 1;
     const camera = makeMockCamera();
     const store = makeMockStore({
-      Data: {
+      CurrentCamera: {
         currentCamera: camera,
-        isCurrentCameraLoaded: true,
-        currentCameraLoadingError: null,
+        isLoaded: true,
+        loadingError: null,
+      },
+      SimilarCameras: {
         similarCameras: [],
-        isSimilarCamerasLoaded: false,
-        similarCamerasLoadingError: null,
+        isLoaded: false,
+        loadingError: null,
+      },
+      Reviews: {
         reviews: [],
-        isReviewsLoaded: false,
-        reviewsLoadingError: null,
+        isLoaded: false,
+        loadingError: null,
       },
       App: {
         currentProduct: null,

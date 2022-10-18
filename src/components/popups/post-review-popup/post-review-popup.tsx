@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import { getPostReviewPopupStatus } from '../../../store/app-process/selectors';
-import { setIsPostReviewPopupOpened } from '../../../store/app-process/app-process';
+import { getPostReviewPopupStatus } from '../../../store/app-slice/selectors';
+import { postReviewPopupStatusUpdate } from '../../../store/app-slice/app-slice';
 import PopupLayout from '../popup-layout/popup-layout';
 import PostReviewForm from '../../post-review-form/post-review-form';
 
@@ -9,7 +9,7 @@ function PostReviewPopup(): JSX.Element {
   const isPopupOpened = useAppSelector(getPostReviewPopupStatus);
 
   const setIsPopupOpened = (status: boolean) => {
-    dispatch(setIsPostReviewPopupOpened(status));
+    dispatch(postReviewPopupStatusUpdate(status));
   };
 
   return (
