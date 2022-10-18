@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import HistoryRouter from './components/history-router/history-router';
@@ -11,11 +10,9 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <HistoryRouter history={browserHistory}>
-        <App />
-      </HistoryRouter>
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <HistoryRouter history={browserHistory}>
+      <App />
+    </HistoryRouter>
+  </Provider>
 );
