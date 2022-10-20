@@ -21,10 +21,10 @@ const history = createMemoryHistory();
 describe('Component: CatalogSection', () => {
   it('should render correctly', () => {
     const store = makeMockStore({
-      Data: {
+      Cameras: {
         cameras: [],
-        camerasTotalCount: 0,
-        isCamerasLoaded: false,
+        totalCount: 0,
+        isLoaded: false,
       }
     });
 

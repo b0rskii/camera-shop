@@ -1,15 +1,15 @@
-import { appProcess } from './app-process';
+import appReducer from './app-slice';
 import { AppState } from '../../types/state';
 import { makeMockCamera } from '../../utils/mocks';
 import { postReviewAction } from '../api-actions';
 import {
-  setCurrentProduct,
-  setIsAddToBasketPopupOpened,
-  setIsPostReviewPopupOpened,
-  setIsSuccessPopupOpened
-} from './app-process';
+  currentProductUpdate,
+  addToBasketPopupStatusUpdate,
+  postReviewPopupStatusUpdate,
+  successPopupStatusUpdate
+} from './app-slice';
 
-describe('Reducer: appProcess', () => {
+describe('Reducer: appReducer', () => {
   let initialState: AppState;
 
   beforeEach(() => {
@@ -22,14 +22,14 @@ describe('Reducer: appProcess', () => {
   });
 
   it('without additional parameters should return initial state', () => {
-    expect(appProcess.reducer(undefined, {type: 'UnknownAction'}))
+    expect(appReducer(undefined, {type: 'UnknownAction'}))
       .toEqual(initialState);
   });
 
   it('should change current product to given value', () => {
     const camera = makeMockCamera();
 
-    expect(appProcess.reducer(initialState, setCurrentProduct(camera)))
+    expect(appReducer(initialState, currentProductUpdate(camera)))
       .toEqual({
         ...initialState,
         currentProduct: camera
@@ -37,7 +37,7 @@ describe('Reducer: appProcess', () => {
   });
 
   it('should change add to basket popup status to given value', () => {
-    expect(appProcess.reducer(initialState, setIsAddToBasketPopupOpened(true)))
+    expect(appReducer(initialState, addToBasketPopupStatusUpdate(true)))
       .toEqual({
         ...initialState,
         isAddToBasketPopupOpened: true
@@ -45,7 +45,7 @@ describe('Reducer: appProcess', () => {
   });
 
   it('should change post review popup status to given value', () => {
-    expect(appProcess.reducer(initialState, setIsPostReviewPopupOpened(true)))
+    expect(appReducer(initialState, postReviewPopupStatusUpdate(true)))
       .toEqual({
         ...initialState,
         isPostReviewPopupOpened: true
@@ -53,7 +53,7 @@ describe('Reducer: appProcess', () => {
   });
 
   it('should change success popup status to given value', () => {
-    expect(appProcess.reducer(initialState, setIsSuccessPopupOpened(true)))
+    expect(appReducer(initialState, successPopupStatusUpdate(true)))
       .toEqual({
         ...initialState,
         isSuccessPopupOpened: true
@@ -67,7 +67,7 @@ describe('Reducer: appProcess', () => {
         isPostReviewPopupOpened: true
       };
 
-      expect(appProcess.reducer(initialState, postReviewAction.fulfilled))
+      expect(appReducer(initialState, postReviewAction.fulfilled))
         .toEqual({
           ...state,
           isPostReviewPopupOpened: false,

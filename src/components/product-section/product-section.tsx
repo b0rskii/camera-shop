@@ -1,5 +1,5 @@
 import { useAppDispatch } from '../../hooks/hooks';
-import { setCurrentProduct, setIsAddToBasketPopupOpened } from '../../store/app-process/app-process';
+import { currentProductUpdate, addToBasketPopupStatusUpdate } from '../../store/app-slice/app-slice';
 import { Camera } from '../../types/types';
 import Rating from '../../components/rating/rating';
 import ProductTabs from '../../components/product-tabs/product-tabs';
@@ -13,9 +13,9 @@ function ProductSection({camera}: ProductSectionProps): JSX.Element {
   const {previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name} = camera;
   const {rating, reviewCount, price} = camera;
 
-  const addToBasketButtonClickHandler = () => {
-    dispatch(setCurrentProduct(camera));
-    dispatch(setIsAddToBasketPopupOpened(true));
+  const handleAddToBasketButtonClick = () => {
+    dispatch(currentProductUpdate(camera));
+    dispatch(addToBasketPopupStatusUpdate(true));
   };
 
   return (
@@ -40,7 +40,7 @@ function ProductSection({camera}: ProductSectionProps): JSX.Element {
               <span className="visually-hidden">Цена:</span>{price.toLocaleString()} ₽
             </p>
             <button
-              onClick={addToBasketButtonClickHandler}
+              onClick={handleAddToBasketButtonClick}
               className="btn btn--purple"
               type="button"
             >

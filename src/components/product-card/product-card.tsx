@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/hooks';
-import { setCurrentProduct, setIsAddToBasketPopupOpened } from '../../store/app-process/app-process';
+import { currentProductUpdate, addToBasketPopupStatusUpdate } from '../../store/app-slice/app-slice';
 import { Camera } from '../../types/types';
 import { AppRoute } from '../../const';
 import Rating from '../rating/rating';
@@ -15,9 +15,9 @@ function ProductCard({product, isActive}: ProductCardProps): JSX.Element {
   const {previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, price} = product;
   const {id, rating, reviewCount} = product;
 
-  const buyButtonClickHandler = () => {
-    dispatch(setCurrentProduct(product));
-    dispatch(setIsAddToBasketPopupOpened(true));
+  const handleBuyButtonClick = () => {
+    dispatch(currentProductUpdate(product));
+    dispatch(addToBasketPopupStatusUpdate(true));
   };
 
   return (
@@ -42,7 +42,7 @@ function ProductCard({product, isActive}: ProductCardProps): JSX.Element {
       </div>
       <div className="product-card__buttons">
         <button
-          onClick={buyButtonClickHandler}
+          onClick={handleBuyButtonClick}
           className="btn btn--purple product-card__btn"
           type="button"
         >

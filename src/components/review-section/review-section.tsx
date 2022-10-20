@@ -4,8 +4,8 @@ import {
   getReviews,
   getReviewsLoadingStatus,
   getReviewsLoadingError
-} from '../../store/data-process/selectors';
-import { setIsPostReviewPopupOpened } from '../../store/app-process/app-process';
+} from '../../store/reviews-slice/selectors';
+import { postReviewPopupStatusUpdate } from '../../store/app-slice/app-slice';
 import { fetchReviewsAction } from '../../store/api-actions';
 import { DEFAULT_DISPLAYED_REVIEWS_COUNT } from '../../const';
 import ReviewsList from '../reviews-list/reviews-list';
@@ -26,8 +26,8 @@ function ReviewSection({id}: ReviewSectionProps): JSX.Element {
     dispatch(fetchReviewsAction(id));
   }, [dispatch, id]);
 
-  const postReviewButtonClickHandler = () => {
-    dispatch(setIsPostReviewPopupOpened(true));
+  const handlePostReviewButtonClick = () => {
+    dispatch(postReviewPopupStatusUpdate(true));
   };
 
   return (
@@ -38,7 +38,7 @@ function ReviewSection({id}: ReviewSectionProps): JSX.Element {
             <h2 className="title title--h3">Отзывы</h2>
             {isReviewsLoaded &&
             <button
-              onClick={postReviewButtonClickHandler}
+              onClick={handlePostReviewButtonClick}
               className="btn"
               type="button"
             >

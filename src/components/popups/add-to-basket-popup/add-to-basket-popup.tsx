@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import { getCurrentProduct, getAddToBasketPopupStatus } from '../../../store/app-process/selectors';
-import { setIsAddToBasketPopupOpened } from '../../../store/app-process/app-process';
+import { getCurrentProduct, getAddToBasketPopupStatus } from '../../../store/app-slice/selectors';
+import { addToBasketPopupStatusUpdate } from '../../../store/app-slice/app-slice';
 import PopupLayout from '../popup-layout/popup-layout';
 
 function AddToBasketPopup(): JSX.Element | null {
@@ -13,7 +13,7 @@ function AddToBasketPopup(): JSX.Element | null {
   }
 
   const setIsPopupOpened = (status: boolean) => {
-    dispatch(setIsAddToBasketPopupOpened(status));
+    dispatch(addToBasketPopupStatusUpdate(status));
   };
 
   const {previewImgWebp, previewImgWebp2x, previewImg, previewImg2x} = product;

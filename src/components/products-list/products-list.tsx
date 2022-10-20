@@ -8,27 +8,19 @@ import './products-list.css';
 
 type ProductsListProps = {
   products: Camera[];
-  isPoductsLoaded: boolean;
+  isProductsLoaded: boolean;
   startItemNumber: number;
 };
 
 function ProductsList(props: ProductsListProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const {products, isPoductsLoaded, startItemNumber} = props;
+  const {products, isProductsLoaded, startItemNumber} = props;
 
   useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted) {
-      dispatch(fetchCamerasAction(startItemNumber));
-    }
-
-    return () => {
-      isMounted = false;
-    };
+    dispatch(fetchCamerasAction(startItemNumber));
   }, [dispatch, startItemNumber]);
 
-  if (!isPoductsLoaded) {
+  if (!isProductsLoaded) {
     return (
       <div className="loader-wrapper">
         <Loader />

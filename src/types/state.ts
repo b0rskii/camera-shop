@@ -1,30 +1,44 @@
 import { store } from '../store/store';
 import { Camera, Promo, Review } from './types';
 
-export type DataState = {
+export type CamerasState = {
   cameras: Camera[];
-  camerasTotalCount: number;
-  isCamerasLoaded: boolean;
-  camerasLoadingError: string | null;
-
-  promo: Promo | null;
-  isPromoLoaded: boolean;
-  promoLoadingError: string | null;
-
-  currentCamera: Camera | null;
-  isCurrentCameraLoaded: boolean;
-  currentCameraLoadingError: string | null;
-
-  similarCameras: Camera[];
-  isSimilarCamerasLoaded: boolean;
-  similarCamerasLoadingError: string | null;
-
-  reviews: Review[];
-  isReviewsLoaded: boolean;
-  reviewsLoadingError: string | null;
-
-  error: string | null;
+  totalCount: number;
+  isLoaded: boolean;
+  loadingError: string | null;
   defaultError: string;
+};
+
+export type PromoState = {
+  promo: Promo | null;
+  isLoaded: boolean;
+  loadingError: string | null;
+  defaultError: string;
+};
+
+export type CurrentCameraState = {
+  currentCamera: Camera | null;
+  isLoaded: boolean;
+  loadingError: string | null;
+  defaultError: string;
+};
+
+export type SimilarCamerasState = {
+  similarCameras: Camera[];
+  isLoaded: boolean;
+  loadingError: string | null;
+  defaultError: string;
+};
+
+export type ReviewsState = {
+  reviews: Review[];
+  isLoaded: boolean;
+  loadingError: string | null;
+  defaultError: string;
+};
+
+export type ErrorState = {
+  error: string | null;
 };
 
 export type AppState = {

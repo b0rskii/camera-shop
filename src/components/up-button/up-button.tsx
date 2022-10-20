@@ -1,7 +1,7 @@
 import { MouseEvent } from 'react';
 
 function UpButton(): JSX.Element {
-  const upButtonClickHandler = (evt: MouseEvent) => {
+  const handleUpButtonClick = (evt: MouseEvent) => {
     evt.preventDefault();
     window.scrollTo({
       top: 0,
@@ -11,7 +11,7 @@ function UpButton(): JSX.Element {
 
   return (
     <a
-      onClick={upButtonClickHandler}
+      onClick={handleUpButtonClick}
       className="up-btn"
       href="#up"
     >

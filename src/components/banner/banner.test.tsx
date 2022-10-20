@@ -2,6 +2,10 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
+import { Action } from '@reduxjs/toolkit';
+import { api } from '../../store/store';
+import { State } from '../../types/state';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { createMemoryHistory } from 'history';
 import { Route, Routes } from 'react-router-dom';
 import { makeMockPromo } from '../../utils/mocks';
@@ -9,17 +13,23 @@ import { DEFAULT_ERROR_MESSAGE, AppRoute } from '../../const';
 import HistoryRouter from '../history-router/history-router';
 import Banner from './banner';
 
-const makeMockStore = configureMockStore();
+const middlewares = [thunk.withExtraArgument(api)];
+const makeMockStore = configureMockStore<
+  State,
+  Action,
+  ThunkDispatch<State, typeof api, Action>
+>(middlewares);
+
 const history = createMemoryHistory();
 
 describe('Component: Banner', () => {
   it('should render component correctly if loaded without error', () => {
     const promo = makeMockPromo();
     const store = makeMockStore({
-      Data: {
+      Promo: {
         promo: promo,
-        isPromoLoaded: true,
-        promoLoadingError: null,
+        isLoaded: true,
+        loadingError: null,
       }
     });
 
@@ -37,10 +47,10 @@ describe('Component: Banner', () => {
 
   it('should render loader component if data loading', () => {
     const store = makeMockStore({
-      Data: {
+      Promo: {
         promo: null,
-        isPromoLoaded: false,
-        promoLoadingError: null,
+        isLoaded: false,
+        loadingError: null,
       }
     });
 
@@ -57,10 +67,10 @@ describe('Component: Banner', () => {
 
   it('should render error component if data loaded with error', () => {
     const store = makeMockStore({
-      Data: {
+      Promo: {
         promo: null,
-        isPromoLoaded: true,
-        promoLoadingError: DEFAULT_ERROR_MESSAGE,
+        isLoaded: true,
+        loadingError: DEFAULT_ERROR_MESSAGE,
         defaultError: DEFAULT_ERROR_MESSAGE,
       }
     });
@@ -80,10 +90,10 @@ describe('Component: Banner', () => {
     const ID = 1;
     const promo = makeMockPromo();
     const store = makeMockStore({
-      Data: {
+      Promo: {
         promo: promo,
-        isPromoLoaded: true,
-        promoLoadingError: null,
+        isLoaded: true,
+        loadingError: null,
       }
     });
 

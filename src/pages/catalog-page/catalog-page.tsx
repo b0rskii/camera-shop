@@ -1,5 +1,5 @@
 import { useAppSelector } from '../../hooks/hooks';
-import { getCamerasLoadingError } from '../../store/data-process/selectors';
+import { getCamerasLoadingError } from '../../store/cameras-slice/selectors';
 import { PreviousBreadCrumbs, BreadCrumb } from '../../const';
 import MainLayout from '../../components/main-layout/main-layout';
 import Banner from '../../components/banner/banner';

@@ -20,3 +20,12 @@
     transform: translate(-50%) rotate(360deg);
   }
 }
+
+.loader-container {
+  position: relative;
+  max-height: 100px;
+  height: 75px;
+  width: 100%;
+  max-width: 1112px;
+  margin: 0 auto;
+}

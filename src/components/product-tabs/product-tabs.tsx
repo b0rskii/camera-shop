@@ -61,7 +61,7 @@ function ProductTabs({product}: ProductTabsProps): JSX.Element {
           />
           <Route
             path="*"
-            element={<Navigate to={ProductTab.Description.Path} />}
+            element={<Navigate to={ProductTab.Description.Path} replace />}
           />
         </Routes>
       </div>

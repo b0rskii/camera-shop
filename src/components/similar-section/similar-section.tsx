@@ -4,7 +4,7 @@ import {
   getSimilarCameras,
   getSimilarCamerasLoadingStatus,
   getSimilarCamerasLoadingError
-} from '../../store/data-process/selectors';
+} from '../../store/similar-cameras-slice/selectors';
 import { fetchSimilarCamerasAction } from '../../store/api-actions';
 import { DISPLAYED_SLIDER_ITEMS_COUNT } from '../../const';
 import Slider from '../slider/slider';

@@ -28,30 +28,39 @@ const camera = makeMockCamera();
 const cameras = makeMockCameras();
 
 const store = makeMockStore({
-  Data: {
+  Cameras: {
     cameras: cameras,
-    camerasTotalCount: CAMERAS_TOTAL_COUNT,
-    isCamerasLoaded: true,
-    camerasLoadingError: null,
-
-    promo: null,
-    isPromoLoaded: false,
-    promoLoadingError: null,
-
-    currentCamera: camera,
-    isCurrentCameraLoaded: true,
-    currentCameraLoadingError: null,
-
-    similarCameras: [],
-    isSimilarCamerasLoaded: false,
-    similarCamerasLoadingError: null,
-
-    reviews: [],
-    isReviewsLoaded: false,
-    reviewsLoadingError: null,
-
-    error: null,
+    totalCount: CAMERAS_TOTAL_COUNT,
+    isLoaded: true,
+    loadingError: null,
     defaultError: DEFAULT_ERROR,
+  },
+  Promo: {
+    promo: null,
+    isLoaded: false,
+    loadingError: null,
+    defaultError: DEFAULT_ERROR,
+  },
+  CurrentCamera: {
+    currentCamera: camera,
+    isLoaded: true,
+    loadingError: null,
+    defaultError: DEFAULT_ERROR,
+  },
+  SimilarCameras: {
+    similarCameras: [],
+    isLoaded: false,
+    loadingError: null,
+    defaultError: DEFAULT_ERROR,
+  },
+  Reviews: {
+    reviews: [],
+    isLoaded: false,
+    loadingError: null,
+    defaultError: DEFAULT_ERROR,
+  },
+  Error: {
+    error: null,
   },
   App: {
     currentProduct: null,

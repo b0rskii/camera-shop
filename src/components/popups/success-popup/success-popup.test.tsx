@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import { setIsSuccessPopupOpened } from '../../../store/app-process/app-process';
+import { successPopupStatusUpdate } from '../../../store/app-slice/app-slice';
 import { Action } from 'redux';
 import SuccessPopup from './success-popup';
 
@@ -64,7 +64,7 @@ describe('Component: SuccessPopup', () => {
     const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
 
     expect(actionsTypes).toEqual([
-      setIsSuccessPopupOpened.type
+      successPopupStatusUpdate.type
     ]);
   });
 });

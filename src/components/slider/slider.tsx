@@ -10,11 +10,11 @@ type SliderProps = {
 function Slider({products, displayedItemsCount}: SliderProps): JSX.Element {
   const [startDisplayedIndex, setStartDisplayedIndex] = useState(0);
 
-  const previousButtonClickHandler = () => {
+  const handlePreviousButtonClick = () => {
     setStartDisplayedIndex(startDisplayedIndex - 1);
   };
 
-  const nextButtonClickHandler = () => {
+  const handleNextButtonClick = () => {
     setStartDisplayedIndex(startDisplayedIndex + 1);
   };
 
@@ -28,7 +28,7 @@ function Slider({products, displayedItemsCount}: SliderProps): JSX.Element {
       {products.length > displayedItemsCount &&
       <>
         <button
-          onClick={previousButtonClickHandler}
+          onClick={handlePreviousButtonClick}
           className="slider-controls slider-controls--prev"
           type="button"
           aria-label="Предыдущий слайд"
@@ -40,7 +40,7 @@ function Slider({products, displayedItemsCount}: SliderProps): JSX.Element {
           </svg>
         </button>
         <button
-          onClick={nextButtonClickHandler}
+          onClick={handleNextButtonClick}
           className="slider-controls slider-controls--next"
           type="button"
           aria-label="Следующий слайд"

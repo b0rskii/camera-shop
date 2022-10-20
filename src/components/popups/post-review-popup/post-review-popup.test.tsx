@@ -10,7 +10,7 @@ describe('Component: PostReviewPopup', () => {
   it('should render correctly if popup opened status is true', () => {
     const camera = makeMockCamera();
     const store = makeMockStore({
-      Data: {
+      CurrentCamera: {
         currentCamera: camera,
       },
       App: {
@@ -30,7 +30,7 @@ describe('Component: PostReviewPopup', () => {
   it('should not render if popup opened status is false', () => {
     const camera = makeMockCamera();
     const store = makeMockStore({
-      Data: {
+      CurrentCamera: {
         currentCamera: camera
       },
       App: {

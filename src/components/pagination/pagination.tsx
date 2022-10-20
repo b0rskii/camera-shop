@@ -25,17 +25,17 @@ function Pagination(props: PaginationProps): JSX.Element {
     document.querySelector('.catalog')?.scrollIntoView();
   };
 
-  const prevButtonClickHandler = (evt: MouseEvent) => {
+  const handlePrevButtonClick = (evt: MouseEvent) => {
     evt.preventDefault();
     updateCatalog(currentPage - 1);
   };
 
-  const nextButtonClickHandler = (evt: MouseEvent) => {
+  const handleNextButtonClick = (evt: MouseEvent) => {
     evt.preventDefault();
     updateCatalog(currentPage + 1);
   };
 
-  const pageNumberButtonClickHandler = (evt: MouseEvent) => {
+  const handlePageNumberButtonClick = (evt: MouseEvent) => {
     evt.preventDefault();
     updateCatalog(Number(evt.currentTarget.textContent));
   };
@@ -49,7 +49,7 @@ function Pagination(props: PaginationProps): JSX.Element {
       paginationList.push(
         <li className="pagination__item" key={pageNumber} data-testid="pagination-item">
           <a
-            onClick={pageNumberButtonClickHandler}
+            onClick={handlePageNumberButtonClick}
             className={`pagination__link ${Number(pageNumber) === currentPage ? 'pagination__link--active' : ''}`}
             href={pageNumber}
           >
@@ -68,7 +68,7 @@ function Pagination(props: PaginationProps): JSX.Element {
         {currentPage > 1 && productsTotalCount > 0 &&
         <li className="pagination__item">
           <a
-            onClick={prevButtonClickHandler}
+            onClick={handlePrevButtonClick}
             className="pagination__link pagination__link--text"
             href="2"
           >
@@ -81,7 +81,7 @@ function Pagination(props: PaginationProps): JSX.Element {
         {currentPage < paginationList.length &&
         <li className="pagination__item">
           <a
-            onClick={nextButtonClickHandler}
+            onClick={handleNextButtonClick}
             className="pagination__link pagination__link--text"
             href="2"
           >

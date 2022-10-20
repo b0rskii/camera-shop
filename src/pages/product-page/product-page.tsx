@@ -6,7 +6,7 @@ import {
   getCurrentCamera,
   getCurrentCameraLoadingStatus,
   getCurrentCameraLoadingError
-} from '../../store/data-process/selectors';
+} from '../../store/current-camera-slice/selectors';
 import { PreviousBreadCrumbs, StatusMessage } from '../../const';
 import MainLayout from '../../components/main-layout/main-layout';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';

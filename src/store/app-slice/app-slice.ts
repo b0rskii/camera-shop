@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { postReviewAction } from '../api-actions';
 import { AppState } from '../../types/state';
 import { Camera } from '../../types/types';
@@ -11,20 +11,20 @@ const initialState: AppState = {
   isSuccessPopupOpened: false,
 };
 
-export const appProcess = createSlice({
+const appSlice = createSlice({
   name: NameSpace.App,
   initialState,
   reducers: {
-    setCurrentProduct: (state, action: {payload: Camera | null; type: string}) => {
+    currentProductUpdate: (state, action: PayloadAction<Camera | null>) => {
       state.currentProduct = action.payload;
     },
-    setIsAddToBasketPopupOpened: (state, action: {payload: boolean; type: string}) => {
+    addToBasketPopupStatusUpdate: (state, action: PayloadAction<boolean>) => {
       state.isAddToBasketPopupOpened = action.payload;
     },
-    setIsPostReviewPopupOpened: (state, action: {payload: boolean; type: string}) => {
+    postReviewPopupStatusUpdate: (state, action: PayloadAction<boolean>) => {
       state.isPostReviewPopupOpened = action.payload;
     },
-    setIsSuccessPopupOpened: (state, action: {payload: boolean; type: string}) => {
+    successPopupStatusUpdate: (state, action: PayloadAction<boolean>) => {
       state.isSuccessPopupOpened = action.payload;
     },
   },
@@ -38,8 +38,10 @@ export const appProcess = createSlice({
 });
 
 export const {
-  setCurrentProduct,
-  setIsAddToBasketPopupOpened,
-  setIsPostReviewPopupOpened,
-  setIsSuccessPopupOpened
-} = appProcess.actions;
+  currentProductUpdate,
+  addToBasketPopupStatusUpdate,
+  postReviewPopupStatusUpdate,
+  successPopupStatusUpdate
+} = appSlice.actions;
+
+export default appSlice.reducer;

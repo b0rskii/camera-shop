@@ -35,7 +35,12 @@ export const APIQuery = {
 };
 
 export const NameSpace = {
-  Data: 'Data',
+  Cameras: 'Cameras',
+  Promo: 'Promo',
+  CurrentCamera: 'CurrentCamera',
+  SimilarCameras: 'SimilarCameras',
+  Reviews: 'Reviews',
+  Error: 'Error',
   App: 'App',
 } as const;
 

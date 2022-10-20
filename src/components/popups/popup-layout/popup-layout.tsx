@@ -24,7 +24,7 @@ function PopupLayout({isPopupOpened, onSetIsPopupOpened, children}: PopupLayoutP
       return;
     }
 
-    const escapeKeyDownHandler = (evt: globalThis.KeyboardEvent) => {
+    const handleEscapeKeyDown = (evt: globalThis.KeyboardEvent) => {
       if (evt.key === KeyName.Esc) {
         onSetIsPopupOpened(false);
       }
@@ -32,12 +32,12 @@ function PopupLayout({isPopupOpened, onSetIsPopupOpened, children}: PopupLayoutP
 
     fixScrollbarOpen();
     document.body.style.overflow = 'hidden';
-    document.addEventListener('keydown', escapeKeyDownHandler);
+    document.addEventListener('keydown', handleEscapeKeyDown);
 
     return () => {
       fixScrollbarClose();
       document.body.style.overflow = '';
-      document.removeEventListener('keydown', escapeKeyDownHandler);
+      document.removeEventListener('keydown', handleEscapeKeyDown);
     };
   }, [isPopupOpened, onSetIsPopupOpened]);
 
@@ -54,7 +54,7 @@ function PopupLayout({isPopupOpened, onSetIsPopupOpened, children}: PopupLayoutP
 
     lastFocusableElement.focus();
 
-    const tabKeyDownHandler = (evt: globalThis.KeyboardEvent) => {
+    const handleTabKeyDown = (evt: globalThis.KeyboardEvent) => {
       if (!evt.shiftKey && evt.key === KeyName.Tab && document.activeElement === lastFocusableElement) {
         evt.preventDefault();
         firstFocusableElement.focus();
@@ -66,10 +66,10 @@ function PopupLayout({isPopupOpened, onSetIsPopupOpened, children}: PopupLayoutP
       }
     };
 
-    document.addEventListener('keydown',tabKeyDownHandler);
+    document.addEventListener('keydown', handleTabKeyDown);
 
     return () => {
-      document.removeEventListener('keydown',tabKeyDownHandler);
+      document.removeEventListener('keydown', handleTabKeyDown);
     };
   }, [isPopupOpened]);
 
@@ -77,7 +77,7 @@ function PopupLayout({isPopupOpened, onSetIsPopupOpened, children}: PopupLayoutP
     return null;
   }
 
-  const popupClickHandler = () => {
+  const handlePopupClick = () => {
     onSetIsPopupOpened(false);
   };
 
@@ -85,7 +85,7 @@ function PopupLayout({isPopupOpened, onSetIsPopupOpened, children}: PopupLayoutP
     <div className="modal is-active" data-testid="popup-layout">
       <div className="modal__wrapper">
         <div
-          onClick={popupClickHandler}
+          onClick={handlePopupClick}
           className="modal__overlay"
           data-testid="popup-overlay"
         >
@@ -97,7 +97,7 @@ function PopupLayout({isPopupOpened, onSetIsPopupOpened, children}: PopupLayoutP
         >
           {children}
           <button
-            onClick={popupClickHandler}
+            onClick={handlePopupClick}
             className="cross-btn"
             type="button"
             aria-label="Закрыть попап"
