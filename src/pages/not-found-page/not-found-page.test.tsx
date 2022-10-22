@@ -9,7 +9,7 @@ import NotFoundPage from './not-found-page';
 const history = createMemoryHistory();
 
 describe('Component: NotFoundPage', () => {
-  it('should redirect to main page when user clicked on link', async () => {
+  it('should render correctly and redirect when user clicked on link', async () => {
     history.push('/fake');
 
     render(
@@ -31,11 +31,11 @@ describe('Component: NotFoundPage', () => {
 
     expect(screen.getByText(/Страница не найдена/i)).toBeInTheDocument();
     expect(linkToMain).toBeInTheDocument();
-    expect(screen.queryByText('MainPage')).not.toBeInTheDocument();
+
+    const prevPath = history.location.pathname;
 
     await userEvent.click(linkToMain);
 
-    expect(screen.queryByText(/Страница не найдена/i)).not.toBeInTheDocument();
-    expect(screen.getByText('MainPage')).toBeInTheDocument();
+    expect(history.location.pathname).not.toBe(prevPath);
   });
 });

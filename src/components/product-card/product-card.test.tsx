@@ -5,9 +5,7 @@ import { Provider } from 'react-redux';
 import { Action } from '@reduxjs/toolkit';
 import { currentProductUpdate, addToBasketPopupStatusUpdate } from '../../store/app-slice/app-slice';
 import { createMemoryHistory } from 'history';
-import { Route, Routes } from 'react-router-dom';
 import { makeMockCamera } from '../../utils/mocks';
-import { AppRoute } from '../../const';
 import HistoryRouter from '../history-router/history-router';
 import ProductCard from './product-card';
 
@@ -55,8 +53,7 @@ describe('Component: ProductCard', () => {
     ]);
   });
 
-  it('should redirect to target page when user clicked to link', async () => {
-    const ID = 1;
+  it('should redirect when user clicked to link', async () => {
     const camera = makeMockCamera();
     const store = makeMockStore();
 
@@ -65,24 +62,15 @@ describe('Component: ProductCard', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <Routes>
-            <Route
-              path="/fake"
-              element={<ProductCard product={camera} />}
-            />
-            <Route
-              path={`${AppRoute.Product}${ID}`}
-              element={<h1>ProductPage</h1>}
-            />
-          </Routes>
+          <ProductCard product={camera} />
         </HistoryRouter>
       </Provider>
     );
 
-    expect(screen.queryByText('ProductPage')).not.toBeInTheDocument();
+    const prevPath = history.location.pathname;
 
     await userEvent.click(screen.getByText(/Подробнее/i));
 
-    expect(screen.getByText('ProductPage')).toBeInTheDocument();
+    expect(history.location.pathname).not.toBe(prevPath);
   });
 });
