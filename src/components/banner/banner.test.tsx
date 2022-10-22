@@ -7,9 +7,8 @@ import { api } from '../../store/store';
 import { State } from '../../types/state';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { createMemoryHistory } from 'history';
-import { Route, Routes } from 'react-router-dom';
 import { makeMockPromo } from '../../utils/mocks';
-import { DEFAULT_ERROR_MESSAGE, AppRoute } from '../../const';
+import { DEFAULT_ERROR_MESSAGE } from '../../const';
 import HistoryRouter from '../history-router/history-router';
 import Banner from './banner';
 
@@ -86,8 +85,7 @@ describe('Component: Banner', () => {
     expect(screen.getByText(DEFAULT_ERROR_MESSAGE)).toBeInTheDocument();
   });
 
-  it('should redirect to product page when user clicked to link', async () => {
-    const ID = 1;
+  it('should redirect when user clicked to link', async () => {
     const promo = makeMockPromo();
     const store = makeMockStore({
       Promo: {
@@ -97,29 +95,18 @@ describe('Component: Banner', () => {
       }
     });
 
-    history.push(AppRoute.Catalog);
-
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <Routes>
-            <Route
-              path={AppRoute.Catalog}
-              element={<Banner />}
-            />
-            <Route
-              path={`${AppRoute.Product}${ID}`}
-              element={<h1>ProductPage</h1>}
-            />
-          </Routes>
+          <Banner />
         </HistoryRouter>
       </Provider>
     );
 
-    expect(screen.queryByText(/ProductPage/i)).not.toBeInTheDocument();
+    const prevPath = history.location.pathname;
 
-    await userEvent.click(screen.getByText('Подробнее'));
+    await userEvent.click(screen.getByText(/Подробнее/i));
 
-    expect(screen.getByText(/ProductPage/i)).toBeInTheDocument();
+    expect(history.location.pathname).not.toBe(prevPath);
   });
 });

@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
-import { Route, Routes } from 'react-router-dom';
 import { makeMockCamera } from '../../utils/mocks';
 import { AppRoute, PreviousBreadCrumbs } from '../../const';
 import HistoryRouter from '../history-router/history-router';
@@ -31,7 +30,7 @@ describe('Component: BreadCrumbs', () => {
     });
   });
 
-  it('should redirect to target page when user clicked to link', async () => {
+  it('should redirect when user clicked to link', async () => {
     const camera = makeMockCamera();
     const previousBreadCrumbs = PreviousBreadCrumbs.Product;
     const currentBreadCrumbName = camera.name;
@@ -41,28 +40,17 @@ describe('Component: BreadCrumbs', () => {
 
     render(
       <HistoryRouter history={history}>
-        <Routes>
-          <Route
-            path={AppRoute.Product}
-            element={
-              <BreadCrumbs
-                previousBreadCrumbs={previousBreadCrumbs}
-                currentBreadCrumbName={currentBreadCrumbName}
-              />
-            }
-          />
-          <Route
-            path={targetPage.Path}
-            element={<h1>CatalogPage</h1>}
-          />
-        </Routes>
+        <BreadCrumbs
+          previousBreadCrumbs={previousBreadCrumbs}
+          currentBreadCrumbName={currentBreadCrumbName}
+        />
       </HistoryRouter>
     );
 
-    expect(screen.queryByText(/CatalogPage/i)).not.toBeInTheDocument();
+    const prevPath = history.location.pathname;
 
     await userEvent.click(screen.getByText(targetPage.Name));
 
-    expect(screen.getByText(/CatalogPage/i)).toBeInTheDocument();
+    expect(history.location.pathname).not.toBe(prevPath);
   });
 });

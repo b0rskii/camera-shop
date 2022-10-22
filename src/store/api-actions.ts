@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { Camera, Promo, Review, PostingReview } from '../types/types';
-import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT } from '../const';
+import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT, NameSpace } from '../const';
 
 const TOTAL_COUNT_HEADER = 'x-total-count';
 
@@ -10,7 +10,7 @@ type ThunkAPI = {
 };
 
 export const fetchCamerasAction = createAsyncThunk<{cameras: Camera[]; totalCount: string}, number, ThunkAPI>(
-  'data/fetchCameras',
+  `${NameSpace.Cameras}/fetchCameras`,
   async (start, {extra: api}) => {
     const {data, headers} = await api.get<Camera[]>(
       `${APIRoute.Cameras}?${APIQuery.Start}=${start}&${APIQuery.Limit}=${CARDS_PER_PAGE_COUNT}`
@@ -23,7 +23,7 @@ export const fetchCamerasAction = createAsyncThunk<{cameras: Camera[]; totalCoun
 );
 
 export const fetchPromoAction = createAsyncThunk<Promo, undefined, ThunkAPI>(
-  'data/fetchPromo',
+  `${NameSpace.Promo}/fetchPromo`,
   async (_arg, {extra: api}) => {
     const {data} = await api.get<Promo>(APIRoute.Promo);
     return data;
@@ -31,7 +31,7 @@ export const fetchPromoAction = createAsyncThunk<Promo, undefined, ThunkAPI>(
 );
 
 export const fetchCurrentCameraAction = createAsyncThunk<Camera, string, ThunkAPI>(
-  'data/fetchCurrentCamera',
+  `${NameSpace.CurrentCamera}/fetchCurrentCamera`,
   async (id, {extra: api}) => {
     const {data} = await api.get<Camera>(`${APIRoute.Cameras}/${id}`);
     return data;
@@ -39,7 +39,7 @@ export const fetchCurrentCameraAction = createAsyncThunk<Camera, string, ThunkAP
 );
 
 export const fetchSimilarCamerasAction = createAsyncThunk<Camera[], string, ThunkAPI>(
-  'data/fetchSimilarCameras',
+  `${NameSpace.SimilarCameras}/fetchSimilarCameras`,
   async (id, {extra: api}) => {
     const {data} = await api.get<Camera[]>(`${APIRoute.Cameras}/${id}${APIRoute.Similar}`);
     return data;
@@ -47,7 +47,7 @@ export const fetchSimilarCamerasAction = createAsyncThunk<Camera[], string, Thun
 );
 
 export const fetchReviewsAction = createAsyncThunk<Review[], string, ThunkAPI>(
-  'data/fetchReviews',
+  `${NameSpace.Reviews}/fetchReviews`,
   async (id, {extra: api}) => {
     const {data} = await api.get<Review[]>(
       `${APIRoute.Cameras}/${id}${APIRoute.Reviews}?${APIQuery.Sort}=createAt&${APIQuery.DescSort}`
@@ -57,7 +57,7 @@ export const fetchReviewsAction = createAsyncThunk<Review[], string, ThunkAPI>(
 );
 
 export const postReviewAction = createAsyncThunk<Review, PostingReview, ThunkAPI>(
-  'data/postReview',
+  `${NameSpace.Reviews}/postReview`,
   async (review, {extra: api}) => {
     const {data} = await api.post<Review>(APIRoute.Reviews, review);
     return data;
