@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import { getPostReviewPopupStatus } from '../../../store/app-slice/selectors';
 import { postReviewPopupStatusUpdate } from '../../../store/app-slice/app-slice';
 import PopupLayout from '../popup-layout/popup-layout';
-import PostReviewForm from '../../post-review-form/post-review-form';
+import PostReviewForm from '../../forms/post-review-form/post-review-form';
 
 function PostReviewPopup(): JSX.Element {
   const dispatch = useAppDispatch();

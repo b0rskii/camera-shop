@@ -22,6 +22,14 @@ export const fetchCamerasAction = createAsyncThunk<{cameras: Camera[]; totalCoun
   }
 );
 
+export const fetchSearchingCamerasAction = createAsyncThunk<Camera[], string, ThunkAPI>(
+  `${NameSpace.Cameras}/fetchSearchingCameras`,
+  async (searchText, {extra: api}) => {
+    const {data} = await api.get<Camera[]>(`${APIRoute.Cameras}?name${APIQuery.Like}=${searchText}`);
+    return data;
+  }
+);
+
 export const fetchPromoAction = createAsyncThunk<Promo, undefined, ThunkAPI>(
   `${NameSpace.Promo}/fetchPromo`,
   async (_arg, {extra: api}) => {

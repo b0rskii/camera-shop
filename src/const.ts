@@ -32,7 +32,8 @@ export const APIQuery = {
   Limit: '_limit',
   Sort: '_sort',
   DescSort: '_order=desc',
-};
+  Like: '_like',
+} as const;
 
 export const NameSpace = {
   Cameras: 'Cameras',

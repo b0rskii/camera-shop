@@ -6,6 +6,7 @@ export type CamerasState = {
   totalCount: number;
   isLoaded: boolean;
   loadingError: string | null;
+  searchingCameras: Camera[];
   defaultError: string;
 };
 

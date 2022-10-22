@@ -33,6 +33,7 @@ const store = makeMockStore({
     totalCount: CAMERAS_TOTAL_COUNT,
     isLoaded: true,
     loadingError: null,
+    searchingCameras: [],
     defaultError: DEFAULT_ERROR,
   },
   Promo: {
