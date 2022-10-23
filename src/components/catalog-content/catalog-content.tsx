@@ -9,7 +9,7 @@ import {
 import {
   INITIAL_CATALOG_PAGE_NUMBER,
   CARDS_PER_PAGE_COUNT,
-  CATALOG_PAGE_QUERY
+  AppQuery
 } from '../../const';
 import CatalogSort from '../catalog-sort/catalog-sort';
 import ProductsList from '../products-list/products-list';
@@ -23,7 +23,7 @@ function CatalogContent(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const initialCatalogPageNumber =
-    Number(searchParams.get(CATALOG_PAGE_QUERY))
+    Number(searchParams.get(AppQuery.CatalogPage))
     || INITIAL_CATALOG_PAGE_NUMBER;
 
   const initialStartItemNumber = (initialCatalogPageNumber - 1) * CARDS_PER_PAGE_COUNT;

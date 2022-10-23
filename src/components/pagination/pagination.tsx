@@ -1,5 +1,6 @@
+import { URLSearchParamsInit, NavigateOptions } from 'react-router-dom';
 import { ReactNode, MouseEvent } from 'react';
-import { CATALOG_PAGE_QUERY } from '../../const';
+import { AppQuery } from '../../const';
 
 type PaginationProps = {
   productsTotalCount: number;
@@ -7,7 +8,10 @@ type PaginationProps = {
   currentPage: number;
   onSetCurrentPage: (page: number) => void;
   onSetStartItemNumber: (startItemNumber: number) => void;
-  onSetSearchParams: (params: string) => void;
+  onSetSearchParams: (nextInit?: URLSearchParamsInit
+    | ((prev: URLSearchParams) => URLSearchParamsInit)
+    | undefined, navigateOpts?: NavigateOptions
+    | undefined) => void;
 };
 
 function Pagination(props: PaginationProps): JSX.Element {
@@ -18,7 +22,11 @@ function Pagination(props: PaginationProps): JSX.Element {
   const updateCatalog = (newPage: number) => {
     const startItemNumber = (newPage - 1) * productsPerPageCount;
 
-    onSetSearchParams(`${CATALOG_PAGE_QUERY}=${newPage}`);
+    onSetSearchParams((params) => {
+      params.set(AppQuery.CatalogPage, newPage.toString());
+      return params;
+    });
+
     onSetCurrentPage(newPage);
     onSetStartItemNumber(startItemNumber);
 

@@ -48,4 +48,3 @@ export type Review = {
   createAt: string;
   cameraId: number;
 };
-

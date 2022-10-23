@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/hooks';
 import { fetchCamerasAction } from '../../store/api-actions';
 import { Camera } from '../../types/types';
@@ -14,11 +15,15 @@ type ProductsListProps = {
 
 function ProductsList(props: ProductsListProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const [params] = useSearchParams();
   const {products, isProductsLoaded, startItemNumber} = props;
 
   useEffect(() => {
-    dispatch(fetchCamerasAction(startItemNumber));
-  }, [dispatch, startItemNumber]);
+    dispatch(fetchCamerasAction({
+      startItem: startItemNumber,
+      params
+    }));
+  }, [dispatch, params, startItemNumber]);
 
   if (!isProductsLoaded) {
     return (

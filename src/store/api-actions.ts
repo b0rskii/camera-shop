@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { Camera, Promo, Review, PostingReview } from '../types/types';
-import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT, NameSpace } from '../const';
+import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT, NameSpace, AppQuery } from '../const';
 
 const TOTAL_COUNT_HEADER = 'x-total-count';
 
@@ -9,12 +9,31 @@ type ThunkAPI = {
   extra: AxiosInstance;
 };
 
-export const fetchCamerasAction = createAsyncThunk<{cameras: Camera[]; totalCount: string}, number, ThunkAPI>(
+type FetchCamerasReturn = {
+  cameras: Camera[];
+  totalCount: string;
+};
+
+type FetchCamerasArguments = {
+  startItem: number;
+  params: URLSearchParams;
+};
+
+export const fetchCamerasAction = createAsyncThunk<FetchCamerasReturn, FetchCamerasArguments, ThunkAPI>(
   `${NameSpace.Cameras}/fetchCameras`,
-  async (start, {extra: api}) => {
-    const {data, headers} = await api.get<Camera[]>(
-      `${APIRoute.Cameras}?${APIQuery.Start}=${start}&${APIQuery.Limit}=${CARDS_PER_PAGE_COUNT}`
-    );
+  async ({startItem, params}, {extra: api}) => {
+    const sort = params.get(AppQuery.CatalogSort);
+    const order = params.get(AppQuery.CatalogSortOrder);
+
+    const {data, headers} = await api.get<Camera[]>(APIRoute.Cameras, {
+      params: {
+        [APIQuery.Sort]: sort,
+        [APIQuery.Order]: order,
+        [APIQuery.Start]: startItem,
+        [APIQuery.Limit]: CARDS_PER_PAGE_COUNT,
+      },
+    });
+
     return {
       cameras: data,
       totalCount: headers[TOTAL_COUNT_HEADER],
