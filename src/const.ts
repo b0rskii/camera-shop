@@ -37,8 +37,12 @@ export const APIQuery = {
   Limit: '_limit',
   Sort: '_sort',
   Order: '_order',
-  DescSort: '_order=desc',
   Like: '_like',
+} as const;
+
+export const SortOrder = {
+  Asc: 'asc',
+  Desc: 'desc',
 } as const;
 
 export const NameSpace = {

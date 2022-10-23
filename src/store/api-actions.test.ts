@@ -4,7 +4,7 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { State } from '../types/state';
 import { api } from './store';
-import { APIRoute, APIQuery } from '../const';
+import { APIRoute } from '../const';
 import {
   makeMockCameras,
   makeMockPromo,
@@ -206,7 +206,7 @@ describe('Async actions', () => {
     const store = mockStore();
 
     mockAPI
-      .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Reviews}?${APIQuery.Sort}=createAt&${APIQuery.DescSort}`)
+      .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Reviews}`)
       .reply(200, reviews);
 
     await store.dispatch(fetchReviewsAction(ID));
@@ -226,7 +226,7 @@ describe('Async actions', () => {
     const store = mockStore();
 
     mockAPI
-      .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Reviews}?${APIQuery.Sort}=createAt&${APIQuery.DescSort}`)
+      .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Reviews}`)
       .reply(400, reviews);
 
     await store.dispatch(fetchReviewsAction(ID));

@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { Camera, Promo, Review, PostingReview } from '../types/types';
-import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT, NameSpace, AppQuery } from '../const';
+import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT, NameSpace, AppQuery, SortOrder } from '../const';
 
 const TOTAL_COUNT_HEADER = 'x-total-count';
 
@@ -44,7 +44,11 @@ export const fetchCamerasAction = createAsyncThunk<FetchCamerasReturn, FetchCame
 export const fetchSearchingCamerasAction = createAsyncThunk<Camera[], string, ThunkAPI>(
   `${NameSpace.Cameras}/fetchSearchingCameras`,
   async (searchText, {extra: api}) => {
-    const {data} = await api.get<Camera[]>(`${APIRoute.Cameras}?name${APIQuery.Like}=${searchText}`);
+    const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
+      params: {
+        [`name${APIQuery.Like}`]: searchText,
+      },
+    });
     return data;
   }
 );
@@ -76,9 +80,12 @@ export const fetchSimilarCamerasAction = createAsyncThunk<Camera[], string, Thun
 export const fetchReviewsAction = createAsyncThunk<Review[], string, ThunkAPI>(
   `${NameSpace.Reviews}/fetchReviews`,
   async (id, {extra: api}) => {
-    const {data} = await api.get<Review[]>(
-      `${APIRoute.Cameras}/${id}${APIRoute.Reviews}?${APIQuery.Sort}=createAt&${APIQuery.DescSort}`
-    );
+    const {data} = await api.get<Review[]>(`${APIRoute.Cameras}/${id}${APIRoute.Reviews}`, {
+      params: {
+        [APIQuery.Sort]: 'createAt',
+        [APIQuery.Order]: SortOrder.Desc,
+      },
+    });
     return data;
   }
 );
