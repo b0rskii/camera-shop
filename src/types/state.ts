@@ -49,5 +49,22 @@ export type AppState = {
   isSuccessPopupOpened: boolean;
 };
 
+export type CatalogSortState = {
+  sort: string | null;
+  order: string | null;
+};
+
+export type CatalogFilterState = {
+  minPrice: string | null;
+  maxPrice: string | null;
+  category: string[];
+  type: string[];
+  level: string[];
+  minPriceLimit: number;
+  maxPriceLimit: number;
+  nearestMinPrice: string | null;
+  nearestMaxPrice: string | null;
+};
+
 export type State = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

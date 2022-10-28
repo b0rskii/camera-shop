@@ -21,7 +21,6 @@ import {
   fetchReviewsAction,
   postReviewAction
 } from './api-actions';
-import { URLSearchParams } from 'url';
 
 describe('Async actions', () => {
   const mockAPI = new MockAdapter(api);
@@ -36,18 +35,26 @@ describe('Async actions', () => {
   it('when GET /cameras and server response "ok" should set actions types to pending and fulfilled', async () => {
     const START_ITEM_NUMBER = 0;
     const cameras = makeMockCameras();
-    const searchParams = new URLSearchParams();
 
-    const store = mockStore();
+    const store = mockStore({
+      CatalogSort: {
+        sort: null,
+        order: null,
+      },
+      CatalogFilter: {
+        minPrice: null,
+        maxPrice: null,
+        category: [],
+        type: [],
+        level: [],
+      }
+    });
 
     mockAPI
       .onGet(APIRoute.Cameras)
       .reply(200, cameras, Headers);
 
-    await store.dispatch(fetchCamerasAction({
-      startItem: START_ITEM_NUMBER,
-      params: searchParams,
-    }));
+    await store.dispatch(fetchCamerasAction(START_ITEM_NUMBER));
 
     const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
 
@@ -60,7 +67,6 @@ describe('Async actions', () => {
   it('when GET /cameras and server response not "ok" should set actions types to pending and rejected', async () => {
     const START_ITEM_NUMBER = 0;
     const cameras = makeMockCameras();
-    const searchParams = new URLSearchParams();
 
     const store = mockStore();
 
@@ -68,10 +74,7 @@ describe('Async actions', () => {
       .onGet(APIRoute.Cameras)
       .reply(400, cameras, Headers);
 
-    await store.dispatch(fetchCamerasAction({
-      startItem: START_ITEM_NUMBER,
-      params: searchParams,
-    }));
+    await store.dispatch(fetchCamerasAction(START_ITEM_NUMBER));
 
     const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
 

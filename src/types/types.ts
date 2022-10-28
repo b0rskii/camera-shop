@@ -48,3 +48,9 @@ export type Review = {
   createAt: string;
   cameraId: number;
 };
+
+export type Filter = {
+  Name: string;
+  Title: string;
+  DisableFilter: string | null;
+};

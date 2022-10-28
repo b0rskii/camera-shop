@@ -1,6 +1,13 @@
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { getCatalogSort } from '../../store/sort-slice/selectors';
+import {
+  getCatalogFilterCategory,
+  getCatalogFilterLevel,
+  getCatalogFilterMaxPrice,
+  getCatalogFilterMinPrice,
+  getCatalogFilterType
+} from '../../store/filter-slice/selectors';
 import { fetchCamerasAction } from '../../store/api-actions';
 import { Camera } from '../../types/types';
 import ProductCard from '../product-card/product-card';
@@ -15,15 +22,19 @@ type ProductsListProps = {
 
 function ProductsList(props: ProductsListProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const [params] = useSearchParams();
   const {products, isProductsLoaded, startItemNumber} = props;
 
+  const {sort, order} = useAppSelector(getCatalogSort);
+
+  const minPrice = useAppSelector(getCatalogFilterMinPrice);
+  const maxPrice = useAppSelector(getCatalogFilterMaxPrice);
+  const category = useAppSelector(getCatalogFilterCategory);
+  const type = useAppSelector(getCatalogFilterType);
+  const level = useAppSelector(getCatalogFilterLevel);
+
   useEffect(() => {
-    dispatch(fetchCamerasAction({
-      startItem: startItemNumber,
-      params
-    }));
-  }, [dispatch, params, startItemNumber]);
+    dispatch(fetchCamerasAction(startItemNumber));
+  }, [dispatch, startItemNumber, sort, order, minPrice, maxPrice, category, type, level]);
 
   if (!isProductsLoaded) {
     return (
@@ -35,12 +46,17 @@ function ProductsList(props: ProductsListProps): JSX.Element {
 
   return (
     <div className="cards catalog__cards">
-      {products.map((product) => (
-        <ProductCard
-          product={product}
-          key={product.id}
-        />
-      ))}
+      {products.length
+        ? (
+          products.map((product) => (
+            <ProductCard
+              product={product}
+              key={product.id}
+            />
+          ))
+        ) : (
+          <h3>По вашему запросу ничего не найдено</h3>
+        )}
     </div>
   );
 }

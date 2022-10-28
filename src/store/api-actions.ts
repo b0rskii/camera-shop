@@ -2,10 +2,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { Camera, Promo, Review, PostingReview } from '../types/types';
 import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT, NameSpace, AppQuery, SortOrder } from '../const';
+import { AppDispatch, State } from '../types/state';
 
 const TOTAL_COUNT_HEADER = 'x-total-count';
 
 type ThunkAPI = {
+  dispatch: AppDispatch;
+  state: State;
   extra: AxiosInstance;
 };
 
@@ -14,21 +17,30 @@ type FetchCamerasReturn = {
   totalCount: string;
 };
 
-type FetchCamerasArguments = {
-  startItem: number;
-  params: URLSearchParams;
-};
-
-export const fetchCamerasAction = createAsyncThunk<FetchCamerasReturn, FetchCamerasArguments, ThunkAPI>(
+export const fetchCamerasAction = createAsyncThunk<FetchCamerasReturn, number, ThunkAPI>(
   `${NameSpace.Cameras}/fetchCameras`,
-  async ({startItem, params}, {extra: api}) => {
-    const sort = params.get(AppQuery.CatalogSort);
-    const order = params.get(AppQuery.CatalogSortOrder);
+  async (startItem, {getState, dispatch, extra: api}) => {
+    dispatch(fetchMinPriceCameraAction());
+    dispatch(fetchMaxPriceCameraAction());
+
+    const state: State = getState();
+    const {sort, order} = state.CatalogSort;
+    const {minPrice, maxPrice, category, type, level} = state.CatalogFilter;
+
+    if (minPrice && maxPrice && minPrice !== maxPrice) {
+      dispatch(fetchNearestMinPriceCameraAction(minPrice));
+      dispatch(fetchNearestMaxPriceCameraAction(maxPrice));
+    }
 
     const {data, headers} = await api.get<Camera[]>(APIRoute.Cameras, {
       params: {
         [APIQuery.Sort]: sort,
         [APIQuery.Order]: order,
+        [`${AppQuery.CatalogPriceFilter}${APIQuery.Min}`]: minPrice,
+        [`${AppQuery.CatalogPriceFilter}${APIQuery.Max}`]: maxPrice,
+        [AppQuery.CatalogCategoryFilter]: category,
+        [AppQuery.CatalogTypeFilter]: type,
+        [AppQuery.CatalogLevelFilter]: level,
         [APIQuery.Start]: startItem,
         [APIQuery.Limit]: CARDS_PER_PAGE_COUNT,
       },
@@ -38,7 +50,66 @@ export const fetchCamerasAction = createAsyncThunk<FetchCamerasReturn, FetchCame
       cameras: data,
       totalCount: headers[TOTAL_COUNT_HEADER],
     };
-  }
+  },
+);
+
+export const fetchMinPriceCameraAction = createAsyncThunk<Camera[], undefined, ThunkAPI>(
+  `${NameSpace.Cameras}/fetchMinPriceCamera`,
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
+      params: {
+        [APIQuery.Sort]: AppQuery.CatalogPriceFilter,
+        [APIQuery.Start]: 0,
+        [APIQuery.Limit]: 1,
+      },
+    });
+    return data;
+  },
+);
+
+export const fetchMaxPriceCameraAction = createAsyncThunk<Camera[], undefined, ThunkAPI>(
+  `${NameSpace.Cameras}/fetchMaxPriceCamera`,
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
+      params: {
+        [APIQuery.Sort]: AppQuery.CatalogPriceFilter,
+        [APIQuery.Order]: SortOrder.Desc,
+        [APIQuery.Start]: 0,
+        [APIQuery.Limit]: 1,
+      },
+    });
+    return data;
+  },
+);
+
+export const fetchNearestMinPriceCameraAction = createAsyncThunk<Camera[], string, ThunkAPI>(
+  `${NameSpace.Cameras}/fetchNearestMinPriceCamera`,
+  async (minPrice, {extra: api}) => {
+    const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
+      params: {
+        [`${AppQuery.CatalogPriceFilter}${APIQuery.Min}`]: minPrice,
+        [APIQuery.Sort]: AppQuery.CatalogPriceFilter,
+        [APIQuery.Order]: SortOrder.Asc,
+        [APIQuery.Limit]: 1,
+      },
+    });
+    return data;
+  },
+);
+
+export const fetchNearestMaxPriceCameraAction = createAsyncThunk<Camera[], string, ThunkAPI>(
+  `${NameSpace.Cameras}/fetchNearestMaxPriceCamera`,
+  async (maxPrice, {extra: api}) => {
+    const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
+      params: {
+        [`${AppQuery.CatalogPriceFilter}${APIQuery.Max}`]: maxPrice,
+        [APIQuery.Sort]: AppQuery.CatalogPriceFilter,
+        [APIQuery.Order]: SortOrder.Desc,
+        [APIQuery.Limit]: 1,
+      },
+    });
+    return data;
+  },
 );
 
 export const fetchSearchingCamerasAction = createAsyncThunk<Camera[], string, ThunkAPI>(
@@ -46,7 +117,7 @@ export const fetchSearchingCamerasAction = createAsyncThunk<Camera[], string, Th
   async (searchText, {extra: api}) => {
     const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
       params: {
-        [`name${APIQuery.Like}`]: searchText,
+        [`${AppQuery.CameraName}${APIQuery.Like}`]: searchText,
       },
     });
     return data;

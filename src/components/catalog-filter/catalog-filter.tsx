@@ -1,96 +1,161 @@
-function CatalogFilter() {
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import {
+  getCatalogFilterCategory,
+  getCatalogFilterLevel,
+  getCatalogFilterType
+} from '../../store/filter-slice/selectors';
+import {
+  catalogFilterCategoryUpdate,
+  catalogFilterLevelUpdate,
+  catalogFilterReset,
+  catalogFilterTypeUpdate,
+} from '../../store/filter-slice/filter-slice';
+import { AppQuery } from '../../const';
+import PriceFilter from '../filters/price-filter/price-filter';
+import CheckBoxFilter from '../filters/check-box-filter/check-box-filter';
+
+const CategoryFilter = {
+  Name: AppQuery.CatalogCategoryFilter,
+  Title: 'Категория',
+  Filters: [
+    {
+      Name: 'photocamera',
+      Title: 'Фотоаппарат',
+      DisableFilter: null,
+    },
+    {
+      Name: 'videocamera',
+      Title: 'Видеокамера',
+      DisableFilter: null,
+    },
+  ],
+};
+
+const TypeFilter = {
+  Name: AppQuery.CatalogTypeFilter,
+  Title: 'Тип камеры',
+  Filters: [
+    {
+      Name: 'digital',
+      Title: 'Цифровая',
+      DisableFilter: null,
+    },
+    {
+      Name: 'film',
+      Title: 'Плёночная',
+      DisableFilter: 'Видеокамера',
+    },
+    {
+      Name: 'snapshot',
+      Title: 'Моментальная',
+      DisableFilter: 'Видеокамера',
+    },
+    {
+      Name: 'collection',
+      Title: 'Коллекционная',
+      DisableFilter: null,
+    },
+  ],
+};
+
+const LevelFilter = {
+  Name: AppQuery.CatalogLevelFilter,
+  Title: 'Уровень',
+  Filters: [
+    {
+      Name: 'zero',
+      Title: 'Нулевой',
+      DisableFilter: null,
+    },
+    {
+      Name: 'non-professional',
+      Title: 'Любительский',
+      DisableFilter: null,
+    },
+    {
+      Name: 'professional',
+      Title: 'Профессиональный',
+      DisableFilter: null,
+    },
+  ],
+};
+
+function CatalogFilter(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const [, setSearchParams] = useSearchParams();
+
+  const category = useAppSelector(getCatalogFilterCategory);
+  const type = useAppSelector(getCatalogFilterType);
+  const level = useAppSelector(getCatalogFilterLevel);
+
+  useEffect(() => {
+    setSearchParams((params) => {
+      params.delete(AppQuery.CatalogCategoryFilter);
+      category.forEach((item) => {
+        params.append(AppQuery.CatalogCategoryFilter, item);
+      });
+
+      params.delete(AppQuery.CatalogTypeFilter);
+      type.forEach((item) => {
+        params.append(AppQuery.CatalogTypeFilter, item);
+      });
+
+      params.delete(AppQuery.CatalogLevelFilter);
+      level.forEach((item) => {
+        params.append(AppQuery.CatalogLevelFilter, item);
+      });
+
+      return params;
+    });
+  }, [setSearchParams, category, type, level]);
+
+  const handleCategoryFilterChange = (filter: string) => {
+    dispatch(catalogFilterCategoryUpdate(filter));
+  };
+
+  const handleTypeFilterChange = (filter: string) => {
+    dispatch(catalogFilterTypeUpdate(filter));
+  };
+
+  const handleLevelFilterChange = (filter: string) => {
+    dispatch(catalogFilterLevelUpdate(filter));
+  };
+
+  const handleResetButtonClick = () => {
+    dispatch(catalogFilterReset());
+  };
+
   return (
     <div className="catalog-filter">
       <form action="#">
         <h2 className="visually-hidden">Фильтр</h2>
-        <fieldset className="catalog-filter__block">
-          <legend className="title title--h5">Цена, ₽</legend>
-          <div className="catalog-filter__price-range">
-            <div className="custom-input">
-              <label>
-                <input type="number" name="price" placeholder="от" />
-              </label>
-            </div>
-            <div className="custom-input">
-              <label>
-                <input type="number" name="priceUp" placeholder="до" />
-              </label>
-            </div>
-          </div>
-        </fieldset>
-        <fieldset className="catalog-filter__block">
-          <legend className="title title--h5">Категория</legend>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="photocamera" defaultChecked />
-              <span className="custom-checkbox__icon"></span>
-              <span className="custom-checkbox__label">Фотокамера</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="videocamera" />
-              <span className="custom-checkbox__icon"></span>
-              <span className="custom-checkbox__label">Видеокамера</span>
-            </label>
-          </div>
-        </fieldset>
-        <fieldset className="catalog-filter__block">
-          <legend className="title title--h5">Тип камеры</legend>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="digital" defaultChecked />
-              <span className="custom-checkbox__icon"></span>
-              <span className="custom-checkbox__label">Цифровая</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="film" disabled />
-              <span className="custom-checkbox__icon"></span>
-              <span className="custom-checkbox__label">Плёночная</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="snapshot" />
-              <span className="custom-checkbox__icon"></span>
-              <span className="custom-checkbox__label">Моментальная</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="collection" defaultChecked disabled />
-              <span className="custom-checkbox__icon"></span>
-              <span className="custom-checkbox__label">Коллекционная</span>
-            </label>
-          </div>
-        </fieldset>
-        <fieldset className="catalog-filter__block">
-          <legend className="title title--h5">Уровень</legend>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="zero" defaultChecked />
-              <span className="custom-checkbox__icon"></span>
-              <span className="custom-checkbox__label">Нулевой</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="non-professional" />
-              <span className="custom-checkbox__icon"></span>
-              <span className="custom-checkbox__label">Любительский</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="professional" />
-              <span className="custom-checkbox__icon"></span>
-              <span className="custom-checkbox__label">Профессиональный</span>
-            </label>
-          </div>
-        </fieldset>
-        <button className="btn catalog-filter__reset-btn" type="reset">
+        <PriceFilter />
+        <CheckBoxFilter
+          title={CategoryFilter.Title}
+          filters={CategoryFilter.Filters}
+          filterData={category}
+          onFilterChange={handleCategoryFilterChange}
+        />
+        <CheckBoxFilter
+          title={TypeFilter.Title}
+          filters={TypeFilter.Filters}
+          filterData={type}
+          onFilterChange={handleTypeFilterChange}
+          extraData={category}
+        />
+        <CheckBoxFilter
+          title={LevelFilter.Title}
+          filters={LevelFilter.Filters}
+          filterData={level}
+          onFilterChange={handleLevelFilterChange}
+        />
+        <button
+          onClick={handleResetButtonClick}
+          className="btn catalog-filter__reset-btn"
+          type="button"
+        >
           Сбросить фильтры
         </button>
       </form>

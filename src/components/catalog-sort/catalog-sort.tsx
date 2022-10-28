@@ -1,5 +1,8 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { getCatalogSort } from '../../store/sort-slice/selectors';
+import { catalogSortUpdate } from '../../store/sort-slice/sort-slice';
 import { AppQuery } from '../../const';
 
 const SortType = {
@@ -29,22 +32,28 @@ const SortOrder = {
 };
 
 function CatalogSort(): JSX.Element {
-  const [params, setParams] = useSearchParams();
-  const sortParam = params.get(AppQuery.CatalogSort);
-  const orderParam = params.get(AppQuery.CatalogSortOrder);
+  const dispatch = useAppDispatch();
+  const [, setSearchParams] = useSearchParams();
 
-  const [sort, setSort] = useState(sortParam);
-  const [order, setOrder] = useState(orderParam);
+  const {sort, order} = useAppSelector(getCatalogSort);
+
+  useEffect(() => {
+    setSearchParams((params) => {
+      if (sort) {
+        params.set(AppQuery.CatalogSort, sort);
+      }
+      if (order) {
+        params.set(AppQuery.CatalogSortOrder, order);
+      }
+      return params;
+    });
+  }, [setSearchParams, sort, order]);
 
   const updateSort = (sortBy: string, sortOrder: string) => {
-    setParams((searchParams) => {
-      searchParams.set(AppQuery.CatalogSort, sortBy);
-      searchParams.set(AppQuery.CatalogSortOrder, sortOrder);
-      return searchParams;
-    });
-
-    setSort(sortBy);
-    setOrder(sortOrder);
+    dispatch(catalogSortUpdate({
+      sort: sortBy,
+      order: sortOrder,
+    }));
   };
 
   const handleSortTypeChange = (sortBy: string) => {

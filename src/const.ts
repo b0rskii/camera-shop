@@ -9,6 +9,7 @@ export const DEFAULT_ERROR_MESSAGE = 'Произошла ошибка. Попр�
 export const KeyName = {
   Esc: 'Escape',
   Tab: 'Tab',
+  Enter: 'Enter',
 } as const;
 
 export const AppRoute = {
@@ -20,9 +21,16 @@ export const AppRoute = {
 } as const;
 
 export const AppQuery = {
+  CameraName: 'name',
   CatalogPage: 'page',
   CatalogSort: 'sort',
   CatalogSortOrder: 'order',
+  CatalogPriceFilter: 'price',
+  CatalogMinPriceFilter: 'min_price',
+  CatalogMaxPriceFilter: 'max_price',
+  CatalogCategoryFilter: 'category',
+  CatalogTypeFilter: 'type',
+  CatalogLevelFilter: 'level',
 } as const;
 
 export const APIRoute = {
@@ -38,6 +46,8 @@ export const APIQuery = {
   Sort: '_sort',
   Order: '_order',
   Like: '_like',
+  Min: '_gte',
+  Max: '_lte',
 } as const;
 
 export const SortOrder = {
@@ -53,7 +63,8 @@ export const NameSpace = {
   Reviews: 'Reviews',
   Error: 'Error',
   App: 'App',
-  Sort: 'Sort',
+  CatalogSort: 'CatalogSort',
+  CatalogFilter: 'CatalogFilter',
 } as const;
 
 export const BreadCrumb = {
@@ -107,3 +118,8 @@ export const RatingInput = {
 export const StatusMessage = {
   PostReviewSuccess: 'Спасибо за отзыв',
 } as const;
+
+export const InitialCatalogPriceLimit = {
+  Min: 0,
+  Max: Infinity,
+};
