@@ -30,7 +30,7 @@ const initialState: CatalogFilterState = {
   nearestMaxPrice: null,
 };
 
-const filterSlice = createSlice({
+const catalogFilterSlice = createSlice({
   name: NameSpace.CatalogFilter,
   initialState,
   reducers: {
@@ -147,6 +147,6 @@ export const {
   catalogFilterTypeUpdate,
   catalogFilterLevelUpdate,
   catalogFilterReset
-} = filterSlice.actions;
+} = catalogFilterSlice.actions;
 
-export default filterSlice.reducer;
+export default catalogFilterSlice.reducer;

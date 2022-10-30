@@ -5,13 +5,13 @@ import {
   getCatalogFilterCategory,
   getCatalogFilterLevel,
   getCatalogFilterType
-} from '../../store/filter-slice/selectors';
+} from '../../store/catalog-filter-slice/selectors';
 import {
   catalogFilterCategoryUpdate,
   catalogFilterLevelUpdate,
   catalogFilterReset,
   catalogFilterTypeUpdate,
-} from '../../store/filter-slice/filter-slice';
+} from '../../store/catalog-filter-slice/catalog-filter-slice';
 import { AppQuery } from '../../const';
 import PriceFilter from '../filters/price-filter/price-filter';
 import CheckBoxFilter from '../filters/check-box-filter/check-box-filter';

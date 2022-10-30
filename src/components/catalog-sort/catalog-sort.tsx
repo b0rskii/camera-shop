@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { getCatalogSort } from '../../store/sort-slice/selectors';
-import { catalogSortUpdate } from '../../store/sort-slice/sort-slice';
+import { getCatalogSort } from '../../store/catalog-sort-slice/selectors';
+import { catalogSortUpdate } from '../../store/catalog-sort-slice/catalog-sort-slice';
 import { AppQuery } from '../../const';
 
 const SortType = {

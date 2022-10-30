@@ -7,8 +7,8 @@ import similarCamerasReducer from './similar-cameras-slice/similar-cameras-slice
 import reviewsReducer from './reviews-slice/reviews-slice';
 import errorReducer from './error-slice/error-slice';
 import appReducer from './app-slice/app-slice';
-import catalogSortReducer from './sort-slice/sort-slice';
-import catalogFilterReducer from './filter-slice/filter-slice';
+import catalogSortReducer from './catalog-sort-slice/catalog-sort-slice';
+import catalogFilterReducer from './catalog-filter-slice/catalog-filter-slice';
 
 export const rootReducer = combineReducers({
   [NameSpace.Cameras]: camerasReducer,

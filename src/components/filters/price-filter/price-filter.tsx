@@ -8,8 +8,8 @@ import {
   getCatalogFilterMaxPriceLimit,
   getCatalogFilterNearestMaxPrice,
   getCatalogFilterNearestMinPrice
-} from '../../../store/filter-slice/selectors';
-import { catalogFilterMaxPriceUpdate, catalogFilterMinPriceUpdate } from '../../../store/filter-slice/filter-slice';
+} from '../../../store/catalog-filter-slice/selectors';
+import { catalogFilterMaxPriceUpdate, catalogFilterMinPriceUpdate } from '../../../store/catalog-filter-slice/catalog-filter-slice';
 import { AppQuery, InitialCatalogPriceLimit, KeyName } from '../../../const';
 
 function PriceFilter(): JSX.Element {

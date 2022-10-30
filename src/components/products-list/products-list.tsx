@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { getCatalogSort } from '../../store/sort-slice/selectors';
+import { getCatalogSort } from '../../store/catalog-sort-slice/selectors';
 import {
   getCatalogFilterCategory,
   getCatalogFilterLevel,
   getCatalogFilterMaxPrice,
   getCatalogFilterMinPrice,
   getCatalogFilterType
-} from '../../store/filter-slice/selectors';
+} from '../../store/catalog-filter-slice/selectors';
 import { fetchCamerasAction } from '../../store/api-actions';
 import { Camera } from '../../types/types';
 import ProductCard from '../product-card/product-card';

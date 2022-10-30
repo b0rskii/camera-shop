@@ -14,7 +14,7 @@ const initialState: CatalogSortState = {
   order: order,
 };
 
-const sortSlice = createSlice({
+const catalogSortSlice = createSlice({
   name: NameSpace.CatalogSort,
   initialState,
   reducers: {
@@ -25,5 +25,5 @@ const sortSlice = createSlice({
   },
 });
 
-export const { catalogSortUpdate } = sortSlice.actions;
-export default sortSlice.reducer;
+export const { catalogSortUpdate } = catalogSortSlice.actions;
+export default catalogSortSlice.reducer;
