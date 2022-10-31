@@ -7,7 +7,7 @@ import { State } from '../../types/state';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { makeMockCamera, makeMockCameras } from '../../utils/mocks';
-import { AppRoute } from '../../const';
+import { AppRoute, InitialCatalogPriceLimit } from '../../const';
 import HistoryRouter from '../../components/history-router/history-router';
 import App from './app';
 
@@ -68,7 +68,22 @@ const store = makeMockStore({
     isAddToBasketPopupOpened: false,
     isPostReviewPopupOpened: false,
     isSuccessPopupOpened: false,
-  }
+  },
+  CatalogSort: {
+    sort: null,
+    order: null,
+  },
+  CatalogFilter: {
+    minPrice: null,
+    maxPrice: null,
+    category: [],
+    type: [],
+    level: [],
+    minPriceLimit: InitialCatalogPriceLimit.Min,
+    maxPriceLimit: InitialCatalogPriceLimit.Max,
+    nearestMinPrice: null,
+    nearestMaxPrice: null,
+  },
 });
 
 const fakeApp = (
