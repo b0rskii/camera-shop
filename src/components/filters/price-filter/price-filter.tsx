@@ -1,5 +1,4 @@
 import { useState, useEffect, KeyboardEvent } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import {
   getCatalogFilterMaxPrice,
@@ -10,11 +9,10 @@ import {
   getCatalogFilterNearestMinPrice
 } from '../../../store/catalog-filter-slice/selectors';
 import { catalogFilterMaxPriceUpdate, catalogFilterMinPriceUpdate } from '../../../store/catalog-filter-slice/catalog-filter-slice';
-import { AppQuery, InitialCatalogPriceLimit, KeyName } from '../../../const';
+import { InitialCatalogPriceLimit, KeyName } from '../../../const';
 
 function PriceFilter(): JSX.Element {
   const dispatch = useAppDispatch();
-  const [, setSearchParams] = useSearchParams();
 
   const minPrice = useAppSelector(getCatalogFilterMinPrice);
   const maxPrice = useAppSelector(getCatalogFilterMaxPrice);
@@ -27,25 +25,9 @@ function PriceFilter(): JSX.Element {
   const [maxPriceInputValue, setMaxPriceInputValue] = useState(maxPrice);
 
   useEffect(() => {
-    setSearchParams((params) => {
-      if (minPrice) {
-        params.set(AppQuery.CatalogMinPriceFilter, nearestMinPrice ? nearestMinPrice : minPrice);
-      } else {
-        params.delete(AppQuery.CatalogMinPriceFilter);
-      }
-
-      if (maxPrice) {
-        params.set(AppQuery.CatalogMaxPriceFilter, nearestMaxPrice ? nearestMaxPrice : maxPrice);
-      } else {
-        params.delete(AppQuery.CatalogMaxPriceFilter);
-      }
-
-      return params;
-    });
-
     setMinPriceInputValue(nearestMinPrice ? nearestMinPrice : minPrice);
     setMaxPriceInputValue(nearestMaxPrice ? nearestMaxPrice : maxPrice);
-  }, [setSearchParams, minPrice, maxPrice, nearestMinPrice, nearestMaxPrice]);
+  }, [minPrice, maxPrice, nearestMinPrice, nearestMaxPrice]);
 
   const handlePriceFilterEnterKeyDown = (evt: KeyboardEvent<HTMLInputElement>) => {
     if (evt.key === KeyName.Enter) {
