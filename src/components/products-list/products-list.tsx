@@ -8,7 +8,13 @@ import {
   getCatalogFilterMinPrice,
   getCatalogFilterType
 } from '../../store/catalog-filter-slice/selectors';
-import { fetchCamerasAction } from '../../store/api-actions';
+import {
+  fetchCamerasAction,
+  fetchMinPriceCameraAction,
+  fetchMaxPriceCameraAction,
+  fetchNearestMinPriceCameraAction,
+  fetchNearestMaxPriceCameraAction
+} from '../../store/api-actions';
 import { Camera } from '../../types/types';
 import ProductCard from '../product-card/product-card';
 import Loader from '../loader/loader';
@@ -34,6 +40,13 @@ function ProductsList(props: ProductsListProps): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchCamerasAction(startItemNumber));
+    dispatch(fetchMinPriceCameraAction());
+    dispatch(fetchMaxPriceCameraAction());
+
+    if (minPrice && maxPrice && minPrice !== maxPrice) {
+      dispatch(fetchNearestMinPriceCameraAction(minPrice));
+      dispatch(fetchNearestMaxPriceCameraAction(maxPrice));
+    }
   }, [dispatch, startItemNumber, sort, order, minPrice, maxPrice, category, type, level]);
 
   if (!isProductsLoaded) {

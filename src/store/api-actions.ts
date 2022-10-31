@@ -2,12 +2,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { Camera, Promo, Review, PostingReview } from '../types/types';
 import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT, NameSpace, AppQuery, SortOrder } from '../const';
-import { AppDispatch, State } from '../types/state';
+import { State } from '../types/state';
 
 const TOTAL_COUNT_HEADER = 'x-total-count';
 
 type ThunkAPI = {
-  dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 };
@@ -19,18 +18,10 @@ type FetchCamerasReturn = {
 
 export const fetchCamerasAction = createAsyncThunk<FetchCamerasReturn, number, ThunkAPI>(
   `${NameSpace.Cameras}/fetchCameras`,
-  async (startItem, {getState, dispatch, extra: api}) => {
-    dispatch(fetchMinPriceCameraAction());
-    dispatch(fetchMaxPriceCameraAction());
-
+  async (startItem, {getState, extra: api}) => {
     const state: State = getState();
     const {sort, order} = state.CatalogSort;
     const {minPrice, maxPrice, category, type, level} = state.CatalogFilter;
-
-    if (minPrice && maxPrice && minPrice !== maxPrice) {
-      dispatch(fetchNearestMinPriceCameraAction(minPrice));
-      dispatch(fetchNearestMaxPriceCameraAction(maxPrice));
-    }
 
     const {data, headers} = await api.get<Camera[]>(APIRoute.Cameras, {
       params: {
