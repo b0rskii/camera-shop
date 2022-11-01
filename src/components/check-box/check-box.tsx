@@ -17,6 +17,7 @@ function CheckBox({name, title, isChecked, isDisabled, onFilterChange }: CheckBo
           name={name}
           checked={isChecked}
           disabled={isDisabled}
+          data-testid={name}
         />
         <span className="custom-checkbox__icon"></span>
         <span className="custom-checkbox__label">{title}</span>

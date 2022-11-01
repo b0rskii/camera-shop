@@ -83,6 +83,7 @@ function CatalogSort(): JSX.Element {
                   id={sortType.Id}
                   name="sort"
                   checked={sort === sortType.Value}
+                  data-testid={sortType.Title}
                 />
                 <label htmlFor={sortType.Id}>{sortType.Title}</label>
               </div>
@@ -98,6 +99,7 @@ function CatalogSort(): JSX.Element {
                   name="sort-icon"
                   aria-label={sortOrder.Title}
                   checked={order === sortOrder.Value}
+                  data-testid={sortOrder.Title}
                 />
                 <label htmlFor={sortOrder.Id}>
                   <svg width="16" height="14" aria-hidden="true">

@@ -8,7 +8,10 @@ import {
   getCatalogFilterNearestMaxPrice,
   getCatalogFilterNearestMinPrice
 } from '../../../store/catalog-filter-slice/selectors';
-import { catalogFilterMaxPriceUpdate, catalogFilterMinPriceUpdate } from '../../../store/catalog-filter-slice/catalog-filter-slice';
+import {
+  catalogFilterMaxPriceUpdate,
+  catalogFilterMinPriceUpdate
+} from '../../../store/catalog-filter-slice/catalog-filter-slice';
 import { InitialCatalogPriceLimit, KeyName } from '../../../const';
 
 function PriceFilter(): JSX.Element {
@@ -49,6 +52,7 @@ function PriceFilter(): JSX.Element {
               name="price"
               placeholder={minPriceLimit === InitialCatalogPriceLimit.Min ? 'от' : minPriceLimit.toString()}
               value={minPriceInputValue ? minPriceInputValue : ''}
+              data-testid="min-price-input"
             />
           </label>
         </div>
@@ -61,6 +65,7 @@ function PriceFilter(): JSX.Element {
               name="priceUp"
               placeholder={maxPriceLimit === InitialCatalogPriceLimit.Max ? 'до' : maxPriceLimit.toString()}
               value={maxPriceInputValue ? maxPriceInputValue : ''}
+              data-testid="max-price-input"
             />
           </label>
         </div>
