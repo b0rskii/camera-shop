@@ -1,10 +1,13 @@
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getSearchingCameras } from '../../store/cameras-slice/selectors';
 import { fetchSearchingCamerasAction } from '../../store/api-actions';
 import { searchingCamerasReset } from '../../store/cameras-slice/cameras-slice';
-import { AppRoute } from '../../const';
+import { debounce } from '../../utils/utils';
+import { AppRoute, KeyName } from '../../const';
+
+const DEBOUNCE_DELAY = 300;
 
 function Search() {
   const dispatch = useAppDispatch();
@@ -12,11 +15,15 @@ function Search() {
   const [text, setText] = useState('');
   const searchingCameras = useAppSelector(getSearchingCameras);
 
+  const debouncedFetchSearchingCameras = useMemo(() => debounce((value: string) => {
+    dispatch(fetchSearchingCamerasAction(value));
+  }, DEBOUNCE_DELAY), [dispatch]);
+
   useEffect(() => {
     if (text.length) {
-      dispatch(fetchSearchingCamerasAction(text));
+      debouncedFetchSearchingCameras(text);
     }
-  }, [dispatch, text]);
+  }, [debouncedFetchSearchingCameras, text]);
 
   useEffect(() => {
     if (!text.length && searchingCameras.length) {
@@ -38,7 +45,7 @@ function Search() {
   };
 
   const handleSearchItemEnterKeyDown = (evt: KeyboardEvent<HTMLElement>, id: number) => {
-    if (evt.key === 'Enter') {
+    if (evt.key === KeyName.Enter) {
       navigate(`${AppRoute.Product}${id}`);
     }
   };
