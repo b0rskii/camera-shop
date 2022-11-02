@@ -181,6 +181,7 @@ function CatalogFilter(): JSX.Element {
           onClick={handleResetButtonClick}
           className="btn catalog-filter__reset-btn"
           type="button"
+          disabled={!minPrice && !maxPrice && !category.length && !type.length && !level.length}
         >
           Сбросить фильтры
         </button>

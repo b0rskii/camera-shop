@@ -22,11 +22,13 @@ const makeMockStore = configureMockStore<
 const history = createMemoryHistory();
 
 describe('Component: CatalogFilter', () => {
+  const FILTER = 'category';
+
   const store = makeMockStore({
     CatalogFilter: {
       minPrice: null,
       maxPrice: null,
-      category: [],
+      category: [FILTER],
       type: [],
       level: [],
       minPriceLimit: InitialCatalogPriceLimit.Min,
