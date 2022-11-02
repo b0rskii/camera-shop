@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import Search from '../search/search';
@@ -38,4 +39,4 @@ function Header(): JSX.Element {
   );
 }
 
-export default Header;
+export default memo(Header);
