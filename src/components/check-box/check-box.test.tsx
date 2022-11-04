@@ -14,7 +14,7 @@ describe('Component: CheckBox', () => {
         title={TITLE}
         isChecked={false}
         isDisabled={false}
-        onFilterChange={onFilterChange}
+        onCheckBoxChange={onFilterChange}
       />
     );
 
@@ -31,7 +31,7 @@ describe('Component: CheckBox', () => {
         title={TITLE}
         isChecked
         isDisabled={false}
-        onFilterChange={onFilterChange}
+        onCheckBoxChange={onFilterChange}
       />
     );
 
@@ -50,7 +50,7 @@ describe('Component: CheckBox', () => {
         title={TITLE}
         isChecked={false}
         isDisabled
-        onFilterChange={onFilterChange}
+        onCheckBoxChange={onFilterChange}
       />
     );
 
@@ -69,7 +69,7 @@ describe('Component: CheckBox', () => {
         title={TITLE}
         isChecked
         isDisabled
-        onFilterChange={onFilterChange}
+        onCheckBoxChange={onFilterChange}
       />
     );
 
@@ -87,7 +87,7 @@ describe('Component: CheckBox', () => {
         name={NAME}
         title={TITLE}
         isChecked={false}
-        onFilterChange={onFilterChange}
+        onCheckBoxChange={onFilterChange}
       />
     );
 

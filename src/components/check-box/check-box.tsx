@@ -3,16 +3,16 @@ type CheckBoxProps = {
   title: string;
   isChecked: boolean | undefined;
   isDisabled?: boolean;
-  onFilterChange: () => void;
+  onCheckBoxChange: () => void;
 };
 
-function CheckBox({name, title, isChecked, isDisabled, onFilterChange }: CheckBoxProps): JSX.Element {
+function CheckBox({name, title, isChecked, isDisabled, onCheckBoxChange }: CheckBoxProps): JSX.Element {
   return (
     <div className="custom-checkbox catalog-filter__item" key={name}>
       <label>
         <input
           id={name}
-          onChange={onFilterChange}
+          onChange={onCheckBoxChange}
           type="checkbox"
           name={name}
           checked={isChecked}

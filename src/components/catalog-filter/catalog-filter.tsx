@@ -23,7 +23,7 @@ import CheckBoxFilter from '../filters/check-box-filter/check-box-filter';
 const CategoryFilter = {
   Name: AppQuery.CatalogCategoryFilter,
   Title: 'Категория',
-  Filters: [
+  Values: [
     {
       Name: 'photocamera',
       Title: 'Фотоаппарат',
@@ -40,7 +40,7 @@ const CategoryFilter = {
 const TypeFilter = {
   Name: AppQuery.CatalogTypeFilter,
   Title: 'Тип камеры',
-  Filters: [
+  Values: [
     {
       Name: 'digital',
       Title: 'Цифровая',
@@ -67,7 +67,7 @@ const TypeFilter = {
 const LevelFilter = {
   Name: AppQuery.CatalogLevelFilter,
   Title: 'Уровень',
-  Filters: [
+  Values: [
     {
       Name: 'zero',
       Title: 'Нулевой',
@@ -160,20 +160,20 @@ function CatalogFilter(): JSX.Element {
         <PriceFilter />
         <CheckBoxFilter
           title={CategoryFilter.Title}
-          filters={CategoryFilter.Filters}
+          values={CategoryFilter.Values}
           filterData={category}
           onFilterChange={handleCategoryFilterChange}
         />
         <CheckBoxFilter
           title={TypeFilter.Title}
-          filters={TypeFilter.Filters}
+          values={TypeFilter.Values}
           filterData={type}
           onFilterChange={handleTypeFilterChange}
           extraData={category}
         />
         <CheckBoxFilter
           title={LevelFilter.Title}
-          filters={LevelFilter.Filters}
+          values={LevelFilter.Values}
           filterData={level}
           onFilterChange={handleLevelFilterChange}
         />

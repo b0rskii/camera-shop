@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { makeMockFilters } from '../../../utils/mocks';
+import { makeMockFilterValues } from '../../../utils/mocks';
 import CheckBoxFilter from './check-box-filter';
 
 const TITLE = 'title';
-const filters = makeMockFilters();
+const filterValues = makeMockFilterValues();
 const filterData: string[] = [];
 const onFilterChange = jest.fn();
 
@@ -12,13 +12,13 @@ describe('Component: CheckBoxFilter', () => {
     render(
       <CheckBoxFilter
         title={TITLE}
-        filters={filters}
+        values={filterValues}
         filterData={filterData}
         onFilterChange={onFilterChange}
       />
     );
 
     expect(screen.getByText(TITLE)).toBeInTheDocument();
-    expect(screen.getAllByRole('checkbox')).toHaveLength(filters.length);
+    expect(screen.getAllByRole('checkbox')).toHaveLength(filterValues.length);
   });
 });

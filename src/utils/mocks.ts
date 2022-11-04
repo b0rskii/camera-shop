@@ -1,4 +1,4 @@
-import { Camera, Promo, Review, PostingReview, Filter } from '../types/types';
+import { Camera, Promo, Review, PostingReview, FilterValue } from '../types/types';
 
 export const Mock = {
   CamerasTotalCount: '50',
@@ -94,16 +94,16 @@ export const makeMockPostingReview = (): PostingReview => ({
   rating: 4,
 });
 
-export const makeMockFilters = (): Filter[] => {
-  const filters: Filter[] = [];
+export const makeMockFilterValues = (): FilterValue[] => {
+  const filterValues: FilterValue[] = [];
 
   for (let i = 0; i < 3; i++) {
-    filters.push({
+    filterValues.push({
       Name: `filter ${i}`,
       Title: `title ${i}`,
       DisableFilter: `disable ${i}`,
     });
   }
 
-  return filters;
+  return filterValues;
 };

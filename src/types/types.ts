@@ -49,7 +49,7 @@ export type Review = {
   cameraId: number;
 };
 
-export type Filter = {
+export type FilterValue = {
   Name: string;
   Title: string;
   DisableFilter: string | null;
