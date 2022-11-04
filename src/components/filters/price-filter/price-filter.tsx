@@ -1,28 +1,20 @@
 import { useState, useEffect, KeyboardEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import {
-  getCatalogFilterMaxPrice,
-  getCatalogFilterMinPrice,
-  getCatalogFilterMinPriceLimit,
-  getCatalogFilterMaxPriceLimit,
-  getCatalogFilterNearestMaxPrice,
-  getCatalogFilterNearestMinPrice
-} from '../../../store/catalog-filter-slice/selectors';
-import {
-  catalogFilterMaxPriceUpdate,
-  catalogFilterMinPriceUpdate
-} from '../../../store/catalog-filter-slice/catalog-filter-slice';
-import { InitialCatalogPriceLimit, KeyName } from '../../../const';
+import { KeyName } from '../../../const';
 
-function PriceFilter(): JSX.Element {
-  const dispatch = useAppDispatch();
+type PriceFilterProps = {
+  minPrice: string | null;
+  maxPrice: string | null;
+  minPriceLimit: string | null;
+  maxPriceLimit: string | null;
+  nearestMinPrice: string | null;
+  nearestMaxPrice: string | null;
+  onMinPriceUpdate: (value: string | null) => void;
+  onMaxPriceUpdate: (value: string | null) => void;
+};
 
-  const minPrice = useAppSelector(getCatalogFilterMinPrice);
-  const maxPrice = useAppSelector(getCatalogFilterMaxPrice);
-  const minPriceLimit = useAppSelector(getCatalogFilterMinPriceLimit);
-  const maxPriceLimit = useAppSelector(getCatalogFilterMaxPriceLimit);
-  const nearestMinPrice = useAppSelector(getCatalogFilterNearestMinPrice);
-  const nearestMaxPrice = useAppSelector(getCatalogFilterNearestMaxPrice);
+function PriceFilter(props: PriceFilterProps): JSX.Element {
+  const {minPrice, maxPrice, minPriceLimit, maxPriceLimit, nearestMinPrice, nearestMaxPrice} = props;
+  const {onMinPriceUpdate, onMaxPriceUpdate} = props;
 
   const [minPriceInputValue, setMinPriceInputValue] = useState(minPrice);
   const [maxPriceInputValue, setMaxPriceInputValue] = useState(maxPrice);
@@ -34,8 +26,8 @@ function PriceFilter(): JSX.Element {
 
   const handlePriceFilterEnterKeyDown = (evt: KeyboardEvent<HTMLInputElement>) => {
     if (evt.key === KeyName.Enter) {
-      dispatch(catalogFilterMinPriceUpdate(minPriceInputValue));
-      dispatch(catalogFilterMaxPriceUpdate(maxPriceInputValue));
+      onMinPriceUpdate(minPriceInputValue);
+      onMaxPriceUpdate(maxPriceInputValue);
     }
   };
 
@@ -50,7 +42,7 @@ function PriceFilter(): JSX.Element {
               onKeyDown={(evt) => handlePriceFilterEnterKeyDown(evt)}
               type="number"
               name="price"
-              placeholder={minPriceLimit === InitialCatalogPriceLimit.Min ? 'от' : minPriceLimit.toString()}
+              placeholder={minPriceLimit ? minPriceLimit : 'от'}
               value={minPriceInputValue ? minPriceInputValue : ''}
               data-testid="min-price-input"
             />
@@ -63,7 +55,7 @@ function PriceFilter(): JSX.Element {
               onKeyDown={(evt) => handlePriceFilterEnterKeyDown(evt)}
               type="number"
               name="priceUp"
-              placeholder={maxPriceLimit === InitialCatalogPriceLimit.Max ? 'до' : maxPriceLimit.toString()}
+              placeholder={maxPriceLimit ? maxPriceLimit : 'до'}
               value={maxPriceInputValue ? maxPriceInputValue : ''}
               data-testid="max-price-input"
             />

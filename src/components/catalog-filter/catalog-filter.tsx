@@ -8,15 +8,19 @@ import {
   getCatalogFilterLevel,
   getCatalogFilterType,
   getCatalogFilterNearestMinPrice,
-  getCatalogFilterNearestMaxPrice
+  getCatalogFilterNearestMaxPrice,
+  getCatalogFilterMinPriceLimit,
+  getCatalogFilterMaxPriceLimit
 } from '../../store/catalog-filter-slice/selectors';
 import {
+  catalogFilterMinPriceUpdate,
+  catalogFilterMaxPriceUpdate,
   catalogFilterCategoryUpdate,
   catalogFilterLevelUpdate,
   catalogFilterReset,
   catalogFilterTypeUpdate,
 } from '../../store/catalog-filter-slice/catalog-filter-slice';
-import { AppQuery } from '../../const';
+import { AppQuery, InitialCatalogPriceLimit } from '../../const';
 import PriceFilter from '../filters/price-filter/price-filter';
 import CheckBoxFilter from '../filters/check-box-filter/check-box-filter';
 
@@ -92,6 +96,8 @@ function CatalogFilter(): JSX.Element {
 
   const minPrice = useAppSelector(getCatalogFilterMinPrice);
   const maxPrice = useAppSelector(getCatalogFilterMaxPrice);
+  const minPriceLimit = useAppSelector(getCatalogFilterMinPriceLimit);
+  const maxPriceLimit = useAppSelector(getCatalogFilterMaxPriceLimit);
   const category = useAppSelector(getCatalogFilterCategory);
   const type = useAppSelector(getCatalogFilterType);
   const level = useAppSelector(getCatalogFilterLevel);
@@ -157,7 +163,16 @@ function CatalogFilter(): JSX.Element {
     <div className="catalog-filter">
       <form action="#">
         <h2 className="visually-hidden">Фильтр</h2>
-        <PriceFilter />
+        <PriceFilter
+          minPrice={minPrice}
+          maxPrice={maxPrice}
+          minPriceLimit={minPriceLimit === InitialCatalogPriceLimit.Min ? null : minPriceLimit.toString()}
+          maxPriceLimit={maxPriceLimit === InitialCatalogPriceLimit.Max ? null : maxPriceLimit.toString()}
+          nearestMinPrice={nearestMinPrice}
+          nearestMaxPrice={nearestMaxPrice}
+          onMinPriceUpdate={(value) => dispatch(catalogFilterMinPriceUpdate(value))}
+          onMaxPriceUpdate={(value) => dispatch(catalogFilterMaxPriceUpdate(value))}
+        />
         <CheckBoxFilter
           title={CategoryFilter.Title}
           values={CategoryFilter.Values}
