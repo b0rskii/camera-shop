@@ -69,6 +69,9 @@ const store = makeMockStore({
     isPostReviewPopupOpened: false,
     isSuccessPopupOpened: false,
   },
+  CatalogPagination: {
+    currentPage: null,
+  },
   CatalogSort: {
     sort: null,
     order: null,

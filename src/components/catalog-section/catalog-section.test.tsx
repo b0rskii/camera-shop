@@ -28,6 +28,9 @@ describe('Component: CatalogSection', () => {
         isLoaded: false,
         searchingCameras: [],
       },
+      CatalogPagination: {
+        currentPage: null,
+      },
       CatalogSort: {
         sort: null,
         order: null,

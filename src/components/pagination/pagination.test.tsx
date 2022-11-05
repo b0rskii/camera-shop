@@ -11,8 +11,6 @@ const PRODUCTS_PER_PAGE_COUNT = 6;
 const pagesCount = Math.ceil(PRODUCTS_TOTAL_COUNT / PRODUCTS_PER_PAGE_COUNT);
 
 const setCurrentPage = jest.fn();
-const setStartItemNumber = jest.fn();
-const setSearchParams = jest.fn();
 
 const getFakePagination = (currentPage: number) => (
   <HistoryRouter history={history}>
@@ -21,8 +19,6 @@ const getFakePagination = (currentPage: number) => (
       productsPerPageCount={PRODUCTS_PER_PAGE_COUNT}
       currentPage={currentPage}
       onSetCurrentPage={setCurrentPage}
-      onSetStartItemNumber={setStartItemNumber}
-      onSetSearchParams={setSearchParams}
     />
   </HistoryRouter>
 );
@@ -63,7 +59,7 @@ describe('Component: Pagination', () => {
     expect(screen.getAllByTestId('pagination-item')).toHaveLength(pagesCount);
   });
 
-  it('should called callbacks when user clicked on prev button', async () => {
+  it('should called callback when user clicked on prev button', async () => {
     const CURRENT_PAGE = 3;
     const fakePagination = getFakePagination(CURRENT_PAGE);
 
@@ -71,11 +67,9 @@ describe('Component: Pagination', () => {
 
     await userEvent.click(screen.getByText('Назад'));
     expect(setCurrentPage).toBeCalled();
-    expect(setStartItemNumber).toBeCalled();
-    expect(setSearchParams).toBeCalled();
   });
 
-  it('should called callbacks when user clicked on next button', async () => {
+  it('should called callback when user clicked on next button', async () => {
     const CURRENT_PAGE = 3;
     const fakePagination = getFakePagination(CURRENT_PAGE);
 
@@ -83,11 +77,9 @@ describe('Component: Pagination', () => {
 
     await userEvent.click(screen.getByText('Далее'));
     expect(setCurrentPage).toBeCalled();
-    expect(setStartItemNumber).toBeCalled();
-    expect(setSearchParams).toBeCalled();
   });
 
-  it('should called callbacks when user clicked on page button', async () => {
+  it('should called callback when user clicked on page button', async () => {
     const CURRENT_PAGE = 3;
     const TARGET_PAGE = 5;
     const fakePagination = getFakePagination(CURRENT_PAGE);
@@ -96,7 +88,5 @@ describe('Component: Pagination', () => {
 
     await userEvent.click(screen.getByText(TARGET_PAGE));
     expect(setCurrentPage).toBeCalled();
-    expect(setStartItemNumber).toBeCalled();
-    expect(setSearchParams).toBeCalled();
   });
 });

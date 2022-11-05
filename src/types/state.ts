@@ -49,6 +49,10 @@ export type AppState = {
   isSuccessPopupOpened: boolean;
 };
 
+export type CatalogPaginationState = {
+  currentPage: string | null;
+};
+
 export type CatalogSortState = {
   sort: string | null;
   order: string | null;

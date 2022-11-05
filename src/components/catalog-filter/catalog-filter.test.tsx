@@ -25,6 +25,9 @@ describe('Component: CatalogFilter', () => {
   const FILTER = 'category';
 
   const store = makeMockStore({
+    CatalogPagination: {
+      currentPage: null,
+    },
     CatalogFilter: {
       minPrice: null,
       maxPrice: null,

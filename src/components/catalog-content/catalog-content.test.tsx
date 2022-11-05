@@ -31,6 +31,9 @@ describe('Component: CatalogContent', () => {
         isLoaded: true,
         searchingCameras: [],
       },
+      CatalogPagination: {
+        currentPage: null,
+      },
       CatalogSort: {
         sort: null,
         order: null,

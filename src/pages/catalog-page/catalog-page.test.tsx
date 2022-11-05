@@ -38,6 +38,9 @@ describe('Component: CatalogPage', () => {
         currentProduct: null,
         isAddToBasketPopupOpened: false,
       },
+      CatalogPagination: {
+        currentPage: null,
+      },
       CatalogSort: {
         sort: null,
         order: null,

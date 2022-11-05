@@ -63,6 +63,7 @@ export const NameSpace = {
   Reviews: 'Reviews',
   Error: 'Error',
   App: 'App',
+  CatalogPagination: 'CatalogPagination',
   CatalogSort: 'CatalogSort',
   CatalogFilter: 'CatalogFilter',
 } as const;

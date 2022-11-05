@@ -1,35 +1,18 @@
-import { URLSearchParamsInit, NavigateOptions } from 'react-router-dom';
 import { ReactNode, MouseEvent } from 'react';
-import { AppQuery } from '../../const';
 
 type PaginationProps = {
   productsTotalCount: number;
   productsPerPageCount: number;
   currentPage: number;
   onSetCurrentPage: (page: number) => void;
-  onSetStartItemNumber: (startItemNumber: number) => void;
-  onSetSearchParams: (nextInit?: URLSearchParamsInit
-    | ((prev: URLSearchParams) => URLSearchParamsInit)
-    | undefined, navigateOpts?: NavigateOptions
-    | undefined) => void;
 };
 
 function Pagination(props: PaginationProps): JSX.Element | null {
   const {productsTotalCount, productsPerPageCount, currentPage, onSetCurrentPage} = props;
-  const {onSetStartItemNumber, onSetSearchParams} = props;
   const paginationList: ReactNode[] = [];
 
   const updateCatalog = (newPage: number) => {
-    const startItemNumber = (newPage - 1) * productsPerPageCount;
-
-    onSetSearchParams((params) => {
-      params.set(AppQuery.CatalogPage, newPage.toString());
-      return params;
-    });
-
     onSetCurrentPage(newPage);
-    onSetStartItemNumber(startItemNumber);
-
     document.querySelector('.catalog')?.scrollIntoView();
   };
 
