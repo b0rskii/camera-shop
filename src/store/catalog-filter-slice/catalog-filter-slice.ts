@@ -126,16 +126,16 @@ const catalogFilterSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchMinPriceCameraAction.fulfilled, (state, action) => {
-        state.minPriceLimit = action.payload[0].price;
+        state.minPriceLimit = action.payload.price;
       })
       .addCase(fetchMaxPriceCameraAction.fulfilled, (state, action) => {
-        state.maxPriceLimit = action.payload[0].price;
+        state.maxPriceLimit = action.payload.price;
       })
       .addCase(fetchNearestMinPriceCameraAction.fulfilled, (state, action) => {
-        state.nearestMinPrice = action.payload[0].price.toString();
+        state.nearestMinPrice = action.payload.price.toString();
       })
       .addCase(fetchNearestMaxPriceCameraAction.fulfilled, (state, action) => {
-        state.nearestMaxPrice = action.payload[0].price.toString();
+        state.nearestMaxPrice = action.payload.price.toString();
       });
   },
 });

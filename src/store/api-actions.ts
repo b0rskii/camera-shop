@@ -44,7 +44,7 @@ export const fetchCamerasAction = createAsyncThunk<FetchCamerasReturn, number, T
   },
 );
 
-export const fetchMinPriceCameraAction = createAsyncThunk<Camera[], undefined, ThunkAPI>(
+export const fetchMinPriceCameraAction = createAsyncThunk<Camera, undefined, ThunkAPI>(
   `${NameSpace.Cameras}/fetchMinPriceCamera`,
   async (_arg, {extra: api}) => {
     const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
@@ -54,11 +54,11 @@ export const fetchMinPriceCameraAction = createAsyncThunk<Camera[], undefined, T
         [APIQuery.Limit]: 1,
       },
     });
-    return data;
+    return data[0];
   },
 );
 
-export const fetchMaxPriceCameraAction = createAsyncThunk<Camera[], undefined, ThunkAPI>(
+export const fetchMaxPriceCameraAction = createAsyncThunk<Camera, undefined, ThunkAPI>(
   `${NameSpace.Cameras}/fetchMaxPriceCamera`,
   async (_arg, {extra: api}) => {
     const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
@@ -69,11 +69,11 @@ export const fetchMaxPriceCameraAction = createAsyncThunk<Camera[], undefined, T
         [APIQuery.Limit]: 1,
       },
     });
-    return data;
+    return data[0];
   },
 );
 
-export const fetchNearestMinPriceCameraAction = createAsyncThunk<Camera[], string, ThunkAPI>(
+export const fetchNearestMinPriceCameraAction = createAsyncThunk<Camera, string, ThunkAPI>(
   `${NameSpace.Cameras}/fetchNearestMinPriceCamera`,
   async (minPrice, {extra: api}) => {
     const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
@@ -84,11 +84,11 @@ export const fetchNearestMinPriceCameraAction = createAsyncThunk<Camera[], strin
         [APIQuery.Limit]: 1,
       },
     });
-    return data;
+    return data[0];
   },
 );
 
-export const fetchNearestMaxPriceCameraAction = createAsyncThunk<Camera[], string, ThunkAPI>(
+export const fetchNearestMaxPriceCameraAction = createAsyncThunk<Camera, string, ThunkAPI>(
   `${NameSpace.Cameras}/fetchNearestMaxPriceCamera`,
   async (maxPrice, {extra: api}) => {
     const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
@@ -99,7 +99,7 @@ export const fetchNearestMaxPriceCameraAction = createAsyncThunk<Camera[], strin
         [APIQuery.Limit]: 1,
       },
     });
-    return data;
+    return data[0];
   },
 );
 

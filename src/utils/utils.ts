@@ -22,12 +22,12 @@ export const fixScrollbarClose = () => {
 };
 
 export const debounce = (callback: ReturnType<typeof Function>, delay: number) => {
-  let timout: NodeJS.Timeout;
+  let timeout: NodeJS.Timeout;
 
   return (...args: unknown[]) => {
-    clearTimeout(timout);
+    clearTimeout(timeout);
 
-    timout = setTimeout(() => {
+    timeout = setTimeout(() => {
       callback(args);
     }, delay);
   };
