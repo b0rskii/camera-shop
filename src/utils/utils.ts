@@ -20,3 +20,15 @@ export const fixScrollbarClose = () => {
     document.documentElement.style.paddingRight = '';
   }
 };
+
+export const debounce = (callback: ReturnType<typeof Function>, delay: number) => {
+  let timeout: NodeJS.Timeout;
+
+  return (...args: unknown[]) => {
+    clearTimeout(timeout);
+
+    timeout = setTimeout(() => {
+      callback(args);
+    }, delay);
+  };
+};

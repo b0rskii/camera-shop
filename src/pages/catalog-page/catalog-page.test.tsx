@@ -6,6 +6,7 @@ import { api } from '../../store/store';
 import { State } from '../../types/state';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Provider } from 'react-redux';
+import { InitialCatalogPriceLimit } from '../../const';
 import HistoryRouter from '../../components/history-router/history-router';
 import CatalogPage from './catalog-page';
 
@@ -26,6 +27,7 @@ describe('Component: CatalogPage', () => {
         totalCount: 0,
         isLoaded: false,
         loadingError: null,
+        searchingCameras: [],
       },
       Promo: {
         promo: null,
@@ -35,7 +37,25 @@ describe('Component: CatalogPage', () => {
       App: {
         currentProduct: null,
         isAddToBasketPopupOpened: false,
-      }
+      },
+      CatalogPagination: {
+        currentPage: null,
+      },
+      CatalogSort: {
+        sort: null,
+        order: null,
+      },
+      CatalogFilter: {
+        minPrice: null,
+        maxPrice: null,
+        category: [],
+        type: [],
+        level: [],
+        minPriceLimit: InitialCatalogPriceLimit.Min,
+        maxPriceLimit: InitialCatalogPriceLimit.Max,
+        nearestMinPrice: null,
+        nearestMaxPrice: null,
+      },
     });
 
     render(

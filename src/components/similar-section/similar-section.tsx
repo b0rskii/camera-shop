@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {
   getSimilarCameras,
@@ -60,4 +60,4 @@ function SimilarSection({id}: SimilarSectionProps): JSX.Element | null {
   );
 }
 
-export default SimilarSection;
+export default memo(SimilarSection);

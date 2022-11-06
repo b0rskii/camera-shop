@@ -1,8 +1,8 @@
 import React, { FormEvent, ReactNode, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { getCurrentCamera } from '../../store/current-camera-slice/selectors';
-import { postReviewAction } from '../../store/api-actions';
-import { RatingInput, COMMENT_MIN_LENGTH } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
+import { getCurrentCamera } from '../../../store/current-camera-slice/selectors';
+import { postReviewAction } from '../../../store/api-actions';
+import { RatingInput, COMMENT_MIN_LENGTH } from '../../../const';
 
 function PostReviewForm(): JSX.Element {
   const dispatch = useAppDispatch();

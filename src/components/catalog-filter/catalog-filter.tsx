@@ -1,78 +1,244 @@
-function CatalogFilter() {
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import {
+  getCatalogFilterMinPrice,
+  getCatalogFilterMaxPrice,
+  getCatalogFilterCategory,
+  getCatalogFilterLevel,
+  getCatalogFilterType,
+  getCatalogFilterNearestMinPrice,
+  getCatalogFilterNearestMaxPrice,
+  getCatalogFilterMinPriceLimit,
+  getCatalogFilterMaxPriceLimit
+} from '../../store/catalog-filter-slice/selectors';
+import {
+  catalogFilterMinPriceUpdate,
+  catalogFilterMaxPriceUpdate,
+  catalogFilterCategoryUpdate,
+  catalogFilterLevelUpdate,
+  catalogFilterReset,
+  catalogFilterTypeUpdate,
+} from '../../store/catalog-filter-slice/catalog-filter-slice';
+import { getCatalogPage } from '../../store/catalog-pagination-slice/selectors';
+import { AppQuery, InitialCatalogPriceLimit } from '../../const';
+import PriceFilter from '../filters/price-filter/price-filter';
+import CheckBoxFilter from '../filters/check-box-filter/check-box-filter';
+import { useCallback } from 'react';
+
+const CategoryFilter = {
+  Name: AppQuery.CatalogCategoryFilter,
+  Title: 'Категория',
+  Values: [
+    {
+      Name: 'photocamera',
+      Title: 'Фотоаппарат',
+      DisableFilter: null,
+    },
+    {
+      Name: 'videocamera',
+      Title: 'Видеокамера',
+      DisableFilter: null,
+    },
+  ],
+};
+
+const TypeFilter = {
+  Name: AppQuery.CatalogTypeFilter,
+  Title: 'Тип камеры',
+  Values: [
+    {
+      Name: 'digital',
+      Title: 'Цифровая',
+      DisableFilter: null,
+    },
+    {
+      Name: 'film',
+      Title: 'Плёночная',
+      DisableFilter: 'Видеокамера',
+    },
+    {
+      Name: 'snapshot',
+      Title: 'Моментальная',
+      DisableFilter: 'Видеокамера',
+    },
+    {
+      Name: 'collection',
+      Title: 'Коллекционная',
+      DisableFilter: null,
+    },
+  ],
+};
+
+const LevelFilter = {
+  Name: AppQuery.CatalogLevelFilter,
+  Title: 'Уровень',
+  Values: [
+    {
+      Name: 'zero',
+      Title: 'Нулевой',
+      DisableFilter: null,
+    },
+    {
+      Name: 'non-professional',
+      Title: 'Любительский',
+      DisableFilter: null,
+    },
+    {
+      Name: 'professional',
+      Title: 'Профессиональный',
+      DisableFilter: null,
+    },
+  ],
+};
+
+function CatalogFilter(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const [, setSearchParams] = useSearchParams();
+
+  const minPrice = useAppSelector(getCatalogFilterMinPrice);
+  const maxPrice = useAppSelector(getCatalogFilterMaxPrice);
+  const minPriceLimit = useAppSelector(getCatalogFilterMinPriceLimit);
+  const maxPriceLimit = useAppSelector(getCatalogFilterMaxPriceLimit);
+  const category = useAppSelector(getCatalogFilterCategory);
+  const type = useAppSelector(getCatalogFilterType);
+  const level = useAppSelector(getCatalogFilterLevel);
+  const nearestMinPrice = useAppSelector(getCatalogFilterNearestMinPrice);
+  const nearestMaxPrice = useAppSelector(getCatalogFilterNearestMaxPrice);
+  const currentPage = useAppSelector(getCatalogPage);
+
+  useEffect(() => {
+    setSearchParams((params) => {
+      if (minPrice) {
+        params.set(AppQuery.CatalogMinPriceFilter, nearestMinPrice ? nearestMinPrice : minPrice);
+      } else {
+        params.delete(AppQuery.CatalogMinPriceFilter);
+      }
+      return params;
+    });
+  }, [setSearchParams, minPrice, nearestMinPrice]);
+
+  useEffect(() => {
+    setSearchParams((params) => {
+      if (maxPrice) {
+        params.set(AppQuery.CatalogMaxPriceFilter, nearestMaxPrice ? nearestMaxPrice : maxPrice);
+      } else {
+        params.delete(AppQuery.CatalogMaxPriceFilter);
+      }
+      return params;
+    });
+  }, [setSearchParams, maxPrice, nearestMaxPrice]);
+
+  useEffect(() => {
+    setSearchParams((params) => {
+      params.delete(AppQuery.CatalogCategoryFilter);
+      category.forEach((item) => {
+        params.append(AppQuery.CatalogCategoryFilter, item);
+      });
+      return params;
+    });
+  }, [setSearchParams, category]);
+
+  useEffect(() => {
+    setSearchParams((params) => {
+      params.delete(AppQuery.CatalogTypeFilter);
+      type.forEach((item) => {
+        params.append(AppQuery.CatalogTypeFilter, item);
+      });
+      return params;
+    });
+  }, [setSearchParams, type]);
+
+  useEffect(() => {
+    setSearchParams((params) => {
+      params.delete(AppQuery.CatalogLevelFilter);
+      level.forEach((item) => {
+        params.append(AppQuery.CatalogLevelFilter, item);
+      });
+      return params;
+    });
+  }, [setSearchParams, level]);
+
+  useEffect(() => {
+    setSearchParams((params) => {
+      if (currentPage) {
+        params.set(AppQuery.CatalogPage, currentPage);
+      } else {
+        params.delete(AppQuery.CatalogPage);
+      }
+      return params;
+    });
+  }, [setSearchParams, currentPage]);
+
+  const setMinPrice = useCallback(
+    (value: string | null) => dispatch(catalogFilterMinPriceUpdate(value)),
+    [dispatch]
+  );
+
+  const setMaxPrice = useCallback(
+    (value: string | null) => dispatch(catalogFilterMaxPriceUpdate(value)),
+    [dispatch]
+  );
+
+  const setCategoryFilter = useCallback(
+    (filter: string) => dispatch(catalogFilterCategoryUpdate(filter)),
+    [dispatch]
+  );
+
+  const setTypeFilter = useCallback(
+    (filter: string) => dispatch(catalogFilterTypeUpdate(filter)),
+    [dispatch]
+  );
+
+  const setLevelFilter = useCallback(
+    (filter: string) => dispatch(catalogFilterLevelUpdate(filter)),
+    [dispatch]
+  );
+
+  const handleResetButtonClick = () => {
+    dispatch(catalogFilterReset());
+  };
+
   return (
     <div className="catalog-filter">
       <form action="#">
         <h2 className="visually-hidden">Фильтр</h2>
-        <fieldset className="catalog-filter__block">
-          <legend className="title title--h5">Цена, ₽</legend>
-          <div className="catalog-filter__price-range">
-            <div className="custom-input">
-              <label>
-                <input type="number" name="price" placeholder="от" />
-              </label>
-            </div>
-            <div className="custom-input">
-              <label>
-                <input type="number" name="priceUp" placeholder="до" />
-              </label>
-            </div>
-          </div>
-        </fieldset>
-        <fieldset className="catalog-filter__block">
-          <legend className="title title--h5">Категория</legend>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="photocamera" defaultChecked /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Фотокамера</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="videocamera" /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Видеокамера</span>
-            </label>
-          </div>
-        </fieldset>
-        <fieldset className="catalog-filter__block">
-          <legend className="title title--h5">Тип камеры</legend>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="digital" defaultChecked /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Цифровая</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="film" disabled /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Плёночная</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="snapshot" /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Моментальная</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="collection" defaultChecked disabled /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Коллекционная</span>
-            </label>
-          </div>
-        </fieldset>
-        <fieldset className="catalog-filter__block">
-          <legend className="title title--h5">Уровень</legend>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="zero" defaultChecked /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Нулевой</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="non-professional" /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Любительский</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="professional" /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Профессиональный</span>
-            </label>
-          </div>
-        </fieldset>
-        <button className="btn catalog-filter__reset-btn" type="reset">Сбросить фильтры
+        <PriceFilter
+          minPrice={minPrice}
+          maxPrice={maxPrice}
+          minPriceLimit={minPriceLimit === InitialCatalogPriceLimit.Min ? null : minPriceLimit.toString()}
+          maxPriceLimit={maxPriceLimit === InitialCatalogPriceLimit.Max ? null : maxPriceLimit.toString()}
+          nearestMinPrice={nearestMinPrice}
+          nearestMaxPrice={nearestMaxPrice}
+          onMinPriceUpdate={setMinPrice}
+          onMaxPriceUpdate={setMaxPrice}
+        />
+        <CheckBoxFilter
+          title={CategoryFilter.Title}
+          values={CategoryFilter.Values}
+          filterData={category}
+          onFilterChange={setCategoryFilter}
+        />
+        <CheckBoxFilter
+          title={TypeFilter.Title}
+          values={TypeFilter.Values}
+          filterData={type}
+          onFilterChange={setTypeFilter}
+          extraData={category}
+        />
+        <CheckBoxFilter
+          title={LevelFilter.Title}
+          values={LevelFilter.Values}
+          filterData={level}
+          onFilterChange={setLevelFilter}
+        />
+        <button
+          onClick={handleResetButtonClick}
+          className="btn catalog-filter__reset-btn"
+          type="button"
+          disabled={!minPrice && !maxPrice && !category.length && !type.length && !level.length}
+        >
+          Сбросить фильтры
         </button>
       </form>
     </div>

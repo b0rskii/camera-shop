@@ -3,6 +3,7 @@ import { currentProductUpdate, addToBasketPopupStatusUpdate } from '../../store/
 import { Camera } from '../../types/types';
 import Rating from '../../components/rating/rating';
 import ProductTabs from '../../components/product-tabs/product-tabs';
+import { memo } from 'react';
 
 type ProductSectionProps = {
   camera: Camera;
@@ -57,4 +58,4 @@ function ProductSection({camera}: ProductSectionProps): JSX.Element {
   );
 }
 
-export default ProductSection;
+export default memo(ProductSection);

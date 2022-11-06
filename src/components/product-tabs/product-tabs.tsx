@@ -17,6 +17,7 @@ function ProductTabs({product}: ProductTabsProps): JSX.Element {
             to={value.Path}
             className={({isActive}) => isActive ? 'tabs__control is-active' : 'tabs__control'}
             key={value.Name}
+            replace
           >
             {value.Name}
           </NavLink>

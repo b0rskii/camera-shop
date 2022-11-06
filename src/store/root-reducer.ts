@@ -7,6 +7,9 @@ import similarCamerasReducer from './similar-cameras-slice/similar-cameras-slice
 import reviewsReducer from './reviews-slice/reviews-slice';
 import errorReducer from './error-slice/error-slice';
 import appReducer from './app-slice/app-slice';
+import catalogPaginationReducer from './catalog-pagination-slice/catalog-pagination-slice';
+import catalogSortReducer from './catalog-sort-slice/catalog-sort-slice';
+import catalogFilterReducer from './catalog-filter-slice/catalog-filter-slice';
 
 export const rootReducer = combineReducers({
   [NameSpace.Cameras]: camerasReducer,
@@ -16,4 +19,7 @@ export const rootReducer = combineReducers({
   [NameSpace.Reviews]: reviewsReducer,
   [NameSpace.Error]: errorReducer,
   [NameSpace.App]: appReducer,
+  [NameSpace.CatalogPagination]: catalogPaginationReducer,
+  [NameSpace.CatalogSort]: catalogSortReducer,
+  [NameSpace.CatalogFilter]: catalogFilterReducer,
 });

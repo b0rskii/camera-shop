@@ -13,6 +13,7 @@ describe('Reducer: camerasReducer', () => {
       totalCount: 0,
       isLoaded: false,
       loadingError: null,
+      searchingCameras: [],
       defaultError: DEFAULT_ERROR_MESSAGE,
     };
   });

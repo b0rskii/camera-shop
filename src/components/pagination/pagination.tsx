@@ -1,27 +1,18 @@
-import { ReactNode, MouseEvent } from 'react';
-import { CATALOG_PAGE_QUERY } from '../../const';
+import { ReactNode, MouseEvent, memo } from 'react';
 
 type PaginationProps = {
   productsTotalCount: number;
   productsPerPageCount: number;
   currentPage: number;
   onSetCurrentPage: (page: number) => void;
-  onSetStartItemNumber: (startItemNumber: number) => void;
-  onSetSearchParams: (params: string) => void;
 };
 
-function Pagination(props: PaginationProps): JSX.Element {
+function Pagination(props: PaginationProps): JSX.Element | null {
   const {productsTotalCount, productsPerPageCount, currentPage, onSetCurrentPage} = props;
-  const {onSetStartItemNumber, onSetSearchParams} = props;
   const paginationList: ReactNode[] = [];
 
   const updateCatalog = (newPage: number) => {
-    const startItemNumber = (newPage - 1) * productsPerPageCount;
-
-    onSetSearchParams(`${CATALOG_PAGE_QUERY}=${newPage}`);
     onSetCurrentPage(newPage);
-    onSetStartItemNumber(startItemNumber);
-
     document.querySelector('.catalog')?.scrollIntoView();
   };
 
@@ -40,27 +31,27 @@ function Pagination(props: PaginationProps): JSX.Element {
     updateCatalog(Number(evt.currentTarget.textContent));
   };
 
-  const getPaginationList = () => {
-    const pagesCount = Math.ceil(productsTotalCount / productsPerPageCount);
+  const pagesCount = Math.ceil(productsTotalCount / productsPerPageCount);
 
-    for (let i = 0; i < pagesCount; i++) {
-      const pageNumber = String(i + 1);
+  if (pagesCount <= 1) {
+    return null;
+  }
 
-      paginationList.push(
-        <li className="pagination__item" key={pageNumber} data-testid="pagination-item">
-          <a
-            onClick={handlePageNumberButtonClick}
-            className={`pagination__link ${Number(pageNumber) === currentPage ? 'pagination__link--active' : ''}`}
-            href={pageNumber}
-          >
-            {pageNumber}
-          </a>
-        </li>
-      );
-    }
+  for (let i = 0; i < pagesCount; i++) {
+    const pageNumber = String(i + 1);
 
-    return paginationList;
-  };
+    paginationList.push(
+      <li className="pagination__item" key={pageNumber} data-testid="pagination-item">
+        <a
+          onClick={handlePageNumberButtonClick}
+          className={`pagination__link ${Number(pageNumber) === currentPage ? 'pagination__link--active' : ''}`}
+          href={pageNumber}
+        >
+          {pageNumber}
+        </a>
+      </li>
+    );
+  }
 
   return (
     <div className="pagination">
@@ -76,7 +67,7 @@ function Pagination(props: PaginationProps): JSX.Element {
           </a>
         </li>}
 
-        {getPaginationList()}
+        {paginationList}
 
         {currentPage < paginationList.length &&
         <li className="pagination__item">
@@ -93,4 +84,4 @@ function Pagination(props: PaginationProps): JSX.Element {
   );
 }
 
-export default Pagination;
+export default memo(Pagination);

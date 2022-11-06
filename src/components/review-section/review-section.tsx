@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
 import {
   getReviews,
@@ -66,4 +66,4 @@ function ReviewSection({id}: ReviewSectionProps): JSX.Element {
   );
 }
 
-export default ReviewSection;
+export default memo(ReviewSection);

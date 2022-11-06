@@ -8,6 +8,7 @@ import { State } from '../../types/state';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { createMemoryHistory } from 'history';
 import { makeMockCameras } from '../../utils/mocks';
+import { InitialCatalogPriceLimit } from '../../const';
 import HistoryRouter from '../history-router/history-router';
 import ProductsList from './products-list';
 
@@ -20,11 +21,28 @@ const makeMockStore = configureMockStore<
 
 const history = createMemoryHistory();
 
+const store = makeMockStore({
+  CatalogSort: {
+    sort: null,
+    order: null,
+  },
+  CatalogFilter: {
+    minPrice: null,
+    maxPrice: null,
+    category: [],
+    type: [],
+    level: [],
+    minPriceLimit: InitialCatalogPriceLimit.Min,
+    maxPriceLimit: InitialCatalogPriceLimit.Max,
+    nearestMinPrice: null,
+    nearestMaxPrice: null,
+  },
+});
+
 describe('Component: ProductsList', () => {
   it('should render component correctly if loaded without error', () => {
     const START_ITEM_NUMBER = 1;
     const cameras = makeMockCameras();
-    const store = makeMockStore();
 
     render(
       <Provider store={store}>
@@ -44,7 +62,6 @@ describe('Component: ProductsList', () => {
   it('should render loader component if data not loaded', () => {
     const START_ITEM_NUMBER = 1;
     const cameras: Camera[] = [];
-    const store = makeMockStore();
 
     render(
       <Provider store={store}>

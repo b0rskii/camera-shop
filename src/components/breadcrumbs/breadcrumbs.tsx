@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { TBreadCrumb } from '../../types/types';
 
@@ -30,4 +31,4 @@ function BreadCrumbs({previousBreadCrumbs, currentBreadCrumbName}: BreadCrumbsPr
   );
 }
 
-export default BreadCrumbs;
+export default memo(BreadCrumbs);

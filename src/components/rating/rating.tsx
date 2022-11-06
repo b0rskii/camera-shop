@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { MAX_PRODUCT_RATE } from '../../const';
 
 type RatingProps = {
@@ -33,4 +34,4 @@ function Rating({maxRating = MAX_PRODUCT_RATE, rating, reviewCount}: RatingProps
   );
 }
 
-export default Rating;
+export default memo(Rating);

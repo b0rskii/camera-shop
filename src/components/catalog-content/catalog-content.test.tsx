@@ -7,6 +7,7 @@ import { api } from '../../store/store';
 import { State } from '../../types/state';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { makeMockCameras } from '../../utils/mocks';
+import { InitialCatalogPriceLimit } from '../../const';
 import HistoryRouter from '../history-router/history-router';
 import CatalogContent from './catalog-content';
 
@@ -28,7 +29,26 @@ describe('Component: CatalogContent', () => {
         cameras: cameras,
         totalCount: CAMERAS_TOTAL_COUNT,
         isLoaded: true,
-      }
+        searchingCameras: [],
+      },
+      CatalogPagination: {
+        currentPage: null,
+      },
+      CatalogSort: {
+        sort: null,
+        order: null,
+      },
+      CatalogFilter: {
+        minPrice: null,
+        maxPrice: null,
+        category: [],
+        type: [],
+        level: [],
+        minPriceLimit: InitialCatalogPriceLimit.Min,
+        maxPriceLimit: InitialCatalogPriceLimit.Max,
+        nearestMinPrice: null,
+        nearestMaxPrice: null,
+      },
     });
 
     render(

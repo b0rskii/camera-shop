@@ -26,6 +26,9 @@ describe('Component: ProductPage', () => {
     const ID = 1;
     const camera = makeMockCamera();
     const store = makeMockStore({
+      Cameras: {
+        searchingCameras: [],
+      },
       CurrentCamera: {
         currentCamera: camera,
         isLoaded: true,
