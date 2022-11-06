@@ -327,42 +327,42 @@ describe('Reducer: catalogFilterReducer', () => {
 
   describe('async actions test', () => {
     it('if fetchMinPriceCameraAction fulfilled should set min price limit to price of loaded camera', () => {
-      const payload = [makeMockCamera()];
+      const payload = makeMockCamera();
 
       expect(catalogFilterReducer(initialState, {type: fetchMinPriceCameraAction.fulfilled.type, payload}))
         .toEqual({
           ...initialState,
-          minPriceLimit: payload[0].price,
+          minPriceLimit: payload.price,
         });
     });
 
     it('if fetchMaxPriceCameraAction fulfilled should set max price limit to price of loaded camera', () => {
-      const payload = [makeMockCamera()];
+      const payload = makeMockCamera();
 
       expect(catalogFilterReducer(initialState, {type: fetchMaxPriceCameraAction.fulfilled.type, payload}))
         .toEqual({
           ...initialState,
-          maxPriceLimit: payload[0].price,
+          maxPriceLimit: payload.price,
         });
     });
 
     it('if fetchNearestMinPriceCameraAction fulfilled should set nearest min price to price of loaded camera', () => {
-      const payload = [makeMockCamera()];
+      const payload = makeMockCamera();
 
       expect(catalogFilterReducer(initialState, {type: fetchNearestMinPriceCameraAction.fulfilled.type, payload}))
         .toEqual({
           ...initialState,
-          nearestMinPrice: payload[0].price.toString(),
+          nearestMinPrice: payload.price.toString(),
         });
     });
 
     it('if fetchNearestMaxPriceCameraAction fulfilled should set nearest max price to price of loaded camera', () => {
-      const payload = [makeMockCamera()];
+      const payload = makeMockCamera();
 
       expect(catalogFilterReducer(initialState, {type: fetchNearestMaxPriceCameraAction.fulfilled.type, payload}))
         .toEqual({
           ...initialState,
-          nearestMaxPrice: payload[0].price.toString(),
+          nearestMaxPrice: payload.price.toString(),
         });
     });
   });
