@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getCatalogPage } from '../../store/catalog-pagination-slice/selectors';
 import {
@@ -26,6 +27,11 @@ function CatalogContent(): JSX.Element {
     ? (Number(currentPage) - 1) * CARDS_PER_PAGE_COUNT
     : 0;
 
+  const setCurrentPage = useCallback(
+    (value: number) => dispatch(catalogPageUpdate(value.toString())),
+    [dispatch]
+  );
+
   return (
     <div className="catalog__content" data-testid="catalog-content">
       <CatalogSort />
@@ -38,7 +44,7 @@ function CatalogContent(): JSX.Element {
         productsTotalCount={camerasTotalCount}
         productsPerPageCount={CARDS_PER_PAGE_COUNT}
         currentPage={currentPage ? Number(currentPage) : INITIAL_CATALOG_PAGE_NUMBER}
-        onSetCurrentPage={(value) => dispatch(catalogPageUpdate(value.toString()))}
+        onSetCurrentPage={setCurrentPage}
       />
     </div>
   );

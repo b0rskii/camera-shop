@@ -1,3 +1,4 @@
+import { memo, useCallback } from 'react';
 import { FilterValue } from '../../../types/types';
 import CheckBox from '../../check-box/check-box';
 
@@ -11,6 +12,11 @@ type CheckBoxFilterProps = {
 
 function CheckBoxFilter(props: CheckBoxFilterProps): JSX.Element {
   const {title, values, filterData, onFilterChange, extraData} = props;
+
+  const changeCheckBoxValue = useCallback(
+    (value: string) => onFilterChange(value),
+    [onFilterChange]
+  );
 
   return (
     <fieldset className="catalog-filter__block">
@@ -27,7 +33,7 @@ function CheckBoxFilter(props: CheckBoxFilterProps): JSX.Element {
             title={filter.Title}
             isChecked={isChecked}
             isDisabled={isDisabled}
-            onCheckBoxChange={() => onFilterChange(filter.Title)}
+            onCheckBoxChange={changeCheckBoxValue}
             key={filter.Name}
           />
         );
@@ -36,4 +42,4 @@ function CheckBoxFilter(props: CheckBoxFilterProps): JSX.Element {
   );
 }
 
-export default CheckBoxFilter;
+export default memo(CheckBoxFilter);

@@ -1,9 +1,11 @@
+import { memo } from 'react';
+
 type CheckBoxProps = {
   name: string;
   title: string;
   isChecked: boolean | undefined;
   isDisabled?: boolean;
-  onCheckBoxChange: () => void;
+  onCheckBoxChange: (value: string) => void;
 };
 
 function CheckBox({name, title, isChecked, isDisabled, onCheckBoxChange }: CheckBoxProps): JSX.Element {
@@ -12,7 +14,7 @@ function CheckBox({name, title, isChecked, isDisabled, onCheckBoxChange }: Check
       <label>
         <input
           id={name}
-          onChange={onCheckBoxChange}
+          onChange={() => onCheckBoxChange(title)}
           type="checkbox"
           name={name}
           checked={isChecked}
@@ -26,4 +28,4 @@ function CheckBox({name, title, isChecked, isDisabled, onCheckBoxChange }: Check
   );
 }
 
-export default CheckBox;
+export default memo(CheckBox);

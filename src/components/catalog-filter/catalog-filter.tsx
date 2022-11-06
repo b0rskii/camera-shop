@@ -24,6 +24,7 @@ import { getCatalogPage } from '../../store/catalog-pagination-slice/selectors';
 import { AppQuery, InitialCatalogPriceLimit } from '../../const';
 import PriceFilter from '../filters/price-filter/price-filter';
 import CheckBoxFilter from '../filters/check-box-filter/check-box-filter';
+import { useCallback } from 'react';
 
 const CategoryFilter = {
   Name: AppQuery.CatalogCategoryFilter,
@@ -169,17 +170,30 @@ function CatalogFilter(): JSX.Element {
     });
   }, [setSearchParams, currentPage]);
 
-  const handleCategoryFilterChange = (filter: string) => {
-    dispatch(catalogFilterCategoryUpdate(filter));
-  };
+  const setMinPrice = useCallback(
+    (value: string | null) => dispatch(catalogFilterMinPriceUpdate(value)),
+    [dispatch]
+  );
 
-  const handleTypeFilterChange = (filter: string) => {
-    dispatch(catalogFilterTypeUpdate(filter));
-  };
+  const setMaxPrice = useCallback(
+    (value: string | null) => dispatch(catalogFilterMaxPriceUpdate(value)),
+    [dispatch]
+  );
 
-  const handleLevelFilterChange = (filter: string) => {
-    dispatch(catalogFilterLevelUpdate(filter));
-  };
+  const setCategoryFilter = useCallback(
+    (filter: string) => dispatch(catalogFilterCategoryUpdate(filter)),
+    [dispatch]
+  );
+
+  const setTypeFilter = useCallback(
+    (filter: string) => dispatch(catalogFilterTypeUpdate(filter)),
+    [dispatch]
+  );
+
+  const setLevelFilter = useCallback(
+    (filter: string) => dispatch(catalogFilterLevelUpdate(filter)),
+    [dispatch]
+  );
 
   const handleResetButtonClick = () => {
     dispatch(catalogFilterReset());
@@ -196,27 +210,27 @@ function CatalogFilter(): JSX.Element {
           maxPriceLimit={maxPriceLimit === InitialCatalogPriceLimit.Max ? null : maxPriceLimit.toString()}
           nearestMinPrice={nearestMinPrice}
           nearestMaxPrice={nearestMaxPrice}
-          onMinPriceUpdate={(value) => dispatch(catalogFilterMinPriceUpdate(value))}
-          onMaxPriceUpdate={(value) => dispatch(catalogFilterMaxPriceUpdate(value))}
+          onMinPriceUpdate={setMinPrice}
+          onMaxPriceUpdate={setMaxPrice}
         />
         <CheckBoxFilter
           title={CategoryFilter.Title}
           values={CategoryFilter.Values}
           filterData={category}
-          onFilterChange={handleCategoryFilterChange}
+          onFilterChange={setCategoryFilter}
         />
         <CheckBoxFilter
           title={TypeFilter.Title}
           values={TypeFilter.Values}
           filterData={type}
-          onFilterChange={handleTypeFilterChange}
+          onFilterChange={setTypeFilter}
           extraData={category}
         />
         <CheckBoxFilter
           title={LevelFilter.Title}
           values={LevelFilter.Values}
           filterData={level}
-          onFilterChange={handleLevelFilterChange}
+          onFilterChange={setLevelFilter}
         />
         <button
           onClick={handleResetButtonClick}

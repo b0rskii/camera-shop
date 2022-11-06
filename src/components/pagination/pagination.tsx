@@ -1,4 +1,4 @@
-import { ReactNode, MouseEvent } from 'react';
+import { ReactNode, MouseEvent, memo } from 'react';
 
 type PaginationProps = {
   productsTotalCount: number;
@@ -84,4 +84,4 @@ function Pagination(props: PaginationProps): JSX.Element | null {
   );
 }
 
-export default Pagination;
+export default memo(Pagination);

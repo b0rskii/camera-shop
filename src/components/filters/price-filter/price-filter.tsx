@@ -1,4 +1,4 @@
-import { useState, useEffect, KeyboardEvent } from 'react';
+import { useState, useEffect, KeyboardEvent, memo } from 'react';
 import { KeyName } from '../../../const';
 
 type PriceFilterProps = {
@@ -66,4 +66,4 @@ function PriceFilter(props: PriceFilterProps): JSX.Element {
   );
 }
 
-export default PriceFilter;
+export default memo(PriceFilter);

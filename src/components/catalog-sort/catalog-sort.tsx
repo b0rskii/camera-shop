@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getCatalogSort } from '../../store/catalog-sort-slice/selectors';
@@ -115,4 +115,4 @@ function CatalogSort(): JSX.Element {
   );
 }
 
-export default CatalogSort;
+export default memo(CatalogSort);
