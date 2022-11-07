@@ -59,6 +59,7 @@ function PriceFilter(props: PriceFilterProps): JSX.Element {
             <input
               onChange={(evt) => setMaxPriceInputValue(evt.target.value)}
               onKeyDown={(evt) => handlePriceFilterEnterKeyDown(evt)}
+              onBlur={handlePriceFilterBlur}
               type="number"
               name="priceUp"
               placeholder={maxPriceLimit ? maxPriceLimit : 'до'}
