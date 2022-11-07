@@ -52,7 +52,7 @@ function Search() {
 
   return (
     <div className={`form-search ${searchingCameras.length ? 'list-opened' : ''}`}>
-      <form>
+      <form onSubmit={(evt) => evt.preventDefault()}>
         <label>
           <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-lens"></use>
@@ -66,7 +66,7 @@ function Search() {
             value={text}
           />
         </label>
-        <ul className="form-search__select-list">
+        <ul className="form-search__select-list scroller">
           {searchingCameras.length &&
           searchingCameras.map((camera) => (
             <li
