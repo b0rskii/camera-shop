@@ -109,7 +109,7 @@ describe('Component: PriceFilter', () => {
     expect(screen.getByTestId('max-price-input')).toHaveValue(Number(NEAREST_MAX_PRICE));
   });
 
-  it('should dispatch called callbacks when user keydown enter', async () => {
+  it('should called callbacks when user keydown enter', async () => {
     const MIN_PRICE = null;
     const MAX_PRICE = null;
     const MIN_PRICE_LIMIT = null;

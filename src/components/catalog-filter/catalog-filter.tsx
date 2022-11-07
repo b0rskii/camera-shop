@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {
@@ -24,7 +24,6 @@ import { getCatalogPage } from '../../store/catalog-pagination-slice/selectors';
 import { AppQuery, InitialCatalogPriceLimit } from '../../const';
 import PriceFilter from '../filters/price-filter/price-filter';
 import CheckBoxFilter from '../filters/check-box-filter/check-box-filter';
-import { useCallback } from 'react';
 
 const CategoryFilter = {
   Name: AppQuery.CatalogCategoryFilter,

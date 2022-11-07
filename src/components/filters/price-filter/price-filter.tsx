@@ -31,6 +31,11 @@ function PriceFilter(props: PriceFilterProps): JSX.Element {
     }
   };
 
+  const handlePriceFilterBlur = () => {
+    onMinPriceUpdate(minPriceInputValue);
+    onMaxPriceUpdate(maxPriceInputValue);
+  };
+
   return (
     <fieldset className="catalog-filter__block">
       <legend className="title title--h5">Цена, ₽</legend>
@@ -40,6 +45,7 @@ function PriceFilter(props: PriceFilterProps): JSX.Element {
             <input
               onChange={(evt) => setMinPriceInputValue(evt.target.value)}
               onKeyDown={(evt) => handlePriceFilterEnterKeyDown(evt)}
+              onBlur={handlePriceFilterBlur}
               type="number"
               name="price"
               placeholder={minPriceLimit ? minPriceLimit : 'от'}
