@@ -46,10 +46,18 @@ export const fetchCamerasAction = createAsyncThunk<FetchCamerasReturn, number, T
 
 export const fetchMinPriceCameraAction = createAsyncThunk<Camera, undefined, ThunkAPI>(
   `${NameSpace.Cameras}/fetchMinPriceCamera`,
-  async (_arg, {extra: api}) => {
+  async (_arg, {getState, extra: api}) => {
+    const state: State = getState();
+    const {minPrice, maxPrice, category, type, level} = state.CatalogFilter;
+
     const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
       params: {
         [APIQuery.Sort]: AppQuery.CatalogPriceFilter,
+        [`${AppQuery.CatalogPriceFilter}${APIQuery.Min}`]: minPrice,
+        [`${AppQuery.CatalogPriceFilter}${APIQuery.Max}`]: maxPrice,
+        [AppQuery.CatalogCategoryFilter]: category,
+        [AppQuery.CatalogTypeFilter]: type,
+        [AppQuery.CatalogLevelFilter]: level,
         [APIQuery.Start]: 0,
         [APIQuery.Limit]: 1,
       },
@@ -60,11 +68,19 @@ export const fetchMinPriceCameraAction = createAsyncThunk<Camera, undefined, Thu
 
 export const fetchMaxPriceCameraAction = createAsyncThunk<Camera, undefined, ThunkAPI>(
   `${NameSpace.Cameras}/fetchMaxPriceCamera`,
-  async (_arg, {extra: api}) => {
+  async (_arg, {getState, extra: api}) => {
+    const state: State = getState();
+    const {minPrice, maxPrice, category, type, level} = state.CatalogFilter;
+
     const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
       params: {
         [APIQuery.Sort]: AppQuery.CatalogPriceFilter,
         [APIQuery.Order]: SortOrder.Desc,
+        [`${AppQuery.CatalogPriceFilter}${APIQuery.Min}`]: minPrice,
+        [`${AppQuery.CatalogPriceFilter}${APIQuery.Max}`]: maxPrice,
+        [AppQuery.CatalogCategoryFilter]: category,
+        [AppQuery.CatalogTypeFilter]: type,
+        [AppQuery.CatalogLevelFilter]: level,
         [APIQuery.Start]: 0,
         [APIQuery.Limit]: 1,
       },
