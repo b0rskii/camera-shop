@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import { getCurrentProduct, getAddToBasketPopupStatus } from '../../../store/app-slice/selectors';
 import { addToBasketPopupStatusUpdate } from '../../../store/app-slice/app-slice';
+import { basketItemAdding } from '../../../store/basket-slice/basket-slice';
 import PopupLayout from '../popup-layout/popup-layout';
 
 function AddToBasketPopup(): JSX.Element | null {
@@ -14,6 +15,11 @@ function AddToBasketPopup(): JSX.Element | null {
 
   const setIsPopupOpened = (status: boolean) => {
     dispatch(addToBasketPopupStatusUpdate(status));
+  };
+
+  const handleButtonClick = () => {
+    dispatch(basketItemAdding(product));
+    setIsPopupOpened(false);
   };
 
   const {previewImgWebp, previewImgWebp2x, previewImg, previewImg2x} = product;
@@ -48,7 +54,11 @@ function AddToBasketPopup(): JSX.Element | null {
         </div>
       </div>
       <div className="modal__buttons">
-        <button className="btn btn--purple modal__btn modal__btn--fit-width" type="button">
+        <button
+          onClick={handleButtonClick}
+          className="btn btn--purple modal__btn modal__btn--fit-width"
+          type="button"
+        >
           <svg width="24" height="16" aria-hidden="true">
             <use xlinkHref="#icon-add-basket"></use>
           </svg>

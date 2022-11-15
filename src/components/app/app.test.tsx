@@ -68,6 +68,7 @@ const store = makeMockStore({
     isAddToBasketPopupOpened: false,
     isPostReviewPopupOpened: false,
     isSuccessPopupOpened: false,
+    isSuccessAddToBasketPopupOpened: false,
   },
   CatalogPagination: {
     currentPage: null,
@@ -86,6 +87,9 @@ const store = makeMockStore({
     maxPriceLimit: InitialCatalogPriceLimit.Max,
     nearestMinPrice: null,
     nearestMaxPrice: null,
+  },
+  Basket: {
+    basketItems: [],
   },
 });
 

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getCatalogSort } from '../../store/catalog-sort-slice/selectors';
+import { getBasketItems } from '../../store/basket-slice/selectors';
 import {
   getCatalogFilterCategory,
   getCatalogFilterLevel,
@@ -38,6 +39,8 @@ function ProductsList(props: ProductsListProps): JSX.Element {
   const type = useAppSelector(getCatalogFilterType);
   const level = useAppSelector(getCatalogFilterLevel);
 
+  const basketItems = useAppSelector(getBasketItems);
+
   useEffect(() => {
     dispatch(fetchCamerasAction(startItemNumber));
     dispatch(fetchMinPriceCameraAction());
@@ -64,6 +67,7 @@ function ProductsList(props: ProductsListProps): JSX.Element {
           products.map((product) => (
             <ProductCard
               product={product}
+              isInBasket={basketItems.some((item) => item.id === product.id)}
               key={product.id}
             />
           ))

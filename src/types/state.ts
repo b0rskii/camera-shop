@@ -47,6 +47,7 @@ export type AppState = {
   isAddToBasketPopupOpened: boolean;
   isPostReviewPopupOpened: boolean;
   isSuccessPopupOpened: boolean;
+  isSuccessAddToBasketPopupOpened: boolean;
 };
 
 export type CatalogPaginationState = {
@@ -68,6 +69,10 @@ export type CatalogFilterState = {
   maxPriceLimit: number;
   nearestMinPrice: string | null;
   nearestMaxPrice: string | null;
+};
+
+export type BasketState = {
+  basketItems: Camera[];
 };
 
 export type State = ReturnType<typeof store.getState>;

@@ -8,9 +8,10 @@ import Rating from '../rating/rating';
 type ProductCardProps = {
   product: Camera;
   isActive?: boolean;
+  isInBasket?: boolean;
 };
 
-function ProductCard({product, isActive}: ProductCardProps): JSX.Element {
+function ProductCard({product, isInBasket, isActive}: ProductCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const {previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, price} = product;
   const {id, rating, reviewCount} = product;
@@ -41,13 +42,24 @@ function ProductCard({product, isActive}: ProductCardProps): JSX.Element {
         </p>
       </div>
       <div className="product-card__buttons">
-        <button
-          onClick={handleBuyButtonClick}
-          className="btn btn--purple product-card__btn"
-          type="button"
-        >
-          Купить
-        </button>
+        {isInBasket ? (
+          <button
+            className="btn btn--purple-border product-card__btn product-card__btn--in-cart"
+            type="button"
+          >
+            <svg width="16" height="16" aria-hidden="true">
+              <use xlinkHref="#icon-basket"></use>
+            </svg>В корзине
+          </button>
+        ) : (
+          <button
+            onClick={handleBuyButtonClick}
+            className="btn btn--purple product-card__btn"
+            type="button"
+          >
+            Купить
+          </button>
+        )}
         <Link className="btn btn--transparent" to={`${AppRoute.Product}${id}`}>Подробнее</Link>
       </div>
     </div>

@@ -5,3 +5,4 @@ export const getCurrentProduct = (state: State): Camera | null => state.App.curr
 export const getAddToBasketPopupStatus = (state: State): boolean => state.App.isAddToBasketPopupOpened;
 export const getPostReviewPopupStatus = (state: State): boolean => state.App.isPostReviewPopupOpened;
 export const getSuccessPopupStatus = (state: State): boolean => state.App.isSuccessPopupOpened;
+export const getSuccessAddToBasketPopupStatus = (state: State): boolean => state.App.isSuccessAddToBasketPopupOpened;

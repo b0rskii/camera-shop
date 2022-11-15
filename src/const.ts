@@ -66,6 +66,7 @@ export const NameSpace = {
   CatalogPagination: 'CatalogPagination',
   CatalogSort: 'CatalogSort',
   CatalogFilter: 'CatalogFilter',
+  Basket: 'Basket',
 } as const;
 
 export const BreadCrumb = {

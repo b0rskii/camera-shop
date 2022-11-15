@@ -46,6 +46,9 @@ describe('Component: CatalogSection', () => {
         nearestMinPrice: null,
         nearestMaxPrice: null,
       },
+      Basket: {
+        basketItems: [],
+      },
     });
 
     render(

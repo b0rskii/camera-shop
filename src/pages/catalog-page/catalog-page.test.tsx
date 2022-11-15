@@ -37,6 +37,7 @@ describe('Component: CatalogPage', () => {
       App: {
         currentProduct: null,
         isAddToBasketPopupOpened: false,
+        isSuccessAddToBasketPopupOpened: false,
       },
       CatalogPagination: {
         currentPage: null,
@@ -55,6 +56,9 @@ describe('Component: CatalogPage', () => {
         maxPriceLimit: InitialCatalogPriceLimit.Max,
         nearestMinPrice: null,
         nearestMaxPrice: null,
+      },
+      Basket: {
+        basketItems: [],
       },
     });
 

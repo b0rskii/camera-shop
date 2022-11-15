@@ -23,6 +23,9 @@ describe('Component: BasketPage', () => {
     Cameras: {
       searchingCameras: [],
     },
+    Basket: {
+      basketItems: [],
+    },
   });
 
   it('should render correctly', () => {

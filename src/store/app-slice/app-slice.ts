@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { postReviewAction } from '../api-actions';
+import { basketItemAdding } from '../basket-slice/basket-slice';
 import { AppState } from '../../types/state';
 import { Camera } from '../../types/types';
 import { NameSpace } from '../../const';
@@ -9,6 +10,7 @@ const initialState: AppState = {
   isAddToBasketPopupOpened: false,
   isPostReviewPopupOpened: false,
   isSuccessPopupOpened: false,
+  isSuccessAddToBasketPopupOpened: false,
 };
 
 const appSlice = createSlice({
@@ -27,12 +29,18 @@ const appSlice = createSlice({
     successPopupStatusUpdate: (state, action: PayloadAction<boolean>) => {
       state.isSuccessPopupOpened = action.payload;
     },
+    successAddToBasketPopupStatusUpdate: (state, action: PayloadAction<boolean>) => {
+      state.isSuccessAddToBasketPopupOpened = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
       .addCase(postReviewAction.fulfilled, (state) => {
         state.isPostReviewPopupOpened = false;
         state.isSuccessPopupOpened = true;
+      })
+      .addCase(basketItemAdding.type, (state) => {
+        state.isSuccessAddToBasketPopupOpened = true;
       });
   },
 });
@@ -41,7 +49,8 @@ export const {
   currentProductUpdate,
   addToBasketPopupStatusUpdate,
   postReviewPopupStatusUpdate,
-  successPopupStatusUpdate
+  successPopupStatusUpdate,
+  successAddToBasketPopupStatusUpdate
 } = appSlice.actions;
 
 export default appSlice.reducer;

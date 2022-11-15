@@ -49,6 +49,7 @@ describe('Component: ProductPage', () => {
         isAddToBasketPopupOpened: false,
         isPostReviewPopupOpened: false,
         isSuccessPopupOpened: false,
+        isSuccessAddToBasketPopupOpened: false,
       }
     });
 
