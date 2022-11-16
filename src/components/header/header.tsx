@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import Search from '../search/search';
+import BasketIcon from '../basket-icon/basket-icon';
 
 function Header(): JSX.Element {
   return (
@@ -29,11 +30,7 @@ function Header(): JSX.Element {
           </ul>
         </nav>
         <Search />
-        <Link className="header__basket-link" to={AppRoute.Basket}>
-          <svg width="16" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-basket"></use>
-          </svg>
-        </Link>
+        <BasketIcon />
       </div>
     </header>
   );

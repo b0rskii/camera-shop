@@ -50,7 +50,10 @@ describe('Component: ProductPage', () => {
         isPostReviewPopupOpened: false,
         isSuccessPopupOpened: false,
         isSuccessAddToBasketPopupOpened: false,
-      }
+      },
+      Basket: {
+        basketItems: [],
+      },
     });
 
     history.push(`${AppRoute.Product}${ID}`);
