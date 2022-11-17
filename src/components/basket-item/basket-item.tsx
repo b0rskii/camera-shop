@@ -1,12 +1,50 @@
+import { memo, ChangeEvent } from 'react';
 import { Camera } from '../../types/types';
 
 type BasketItemProps = {
   item: Camera;
+  itemsCount: number;
+  minItemsCount: number;
+  maxItemsCount: number;
+  onRemoveButtonClick: (product: Camera) => void;
+  onCounterChange: (id: number, value: number) => void;
 };
 
-function BasketItem({item}: BasketItemProps): JSX.Element {
+function BasketItem(props: BasketItemProps): JSX.Element {
+  const {item, itemsCount, minItemsCount, maxItemsCount, onRemoveButtonClick, onCounterChange} = props;
+
   const {previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, vendorCode} = item;
-  const {category, type, level, price} = item;
+  const {category, type, level, price, id} = item;
+
+  const handleCounterChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const newValue = Number(evt.currentTarget.value);
+
+    if (newValue < minItemsCount) {
+      onCounterChange(id, minItemsCount);
+      return;
+    }
+
+    if (newValue > maxItemsCount) {
+      onCounterChange(id, maxItemsCount);
+      return;
+    }
+
+    onCounterChange(id, newValue);
+  };
+
+  const handleDecrementButtonClick = () => {
+    if (itemsCount === minItemsCount) {
+      return;
+    }
+    onCounterChange(id, itemsCount - 1);
+  };
+
+  const handleIncrementButtonClick = () => {
+    if (itemsCount === maxItemsCount) {
+      return;
+    }
+    onCounterChange(id, itemsCount + 1);
+  };
 
   return (
     <li className="basket-item">
@@ -28,26 +66,45 @@ function BasketItem({item}: BasketItemProps): JSX.Element {
         </ul>
       </div>
       <p className="basket-item__price">
-        <span className="visually-hidden">Цена:</span>{price} ₽
+        <span className="visually-hidden">Цена:</span>{price.toLocaleString()} ₽
       </p>
       <div className="quantity">
-        <button className="btn-icon btn-icon--prev" aria-label="уменьшить количество товара">
+        <button
+          onClick={handleDecrementButtonClick}
+          className="btn-icon btn-icon--prev"
+          aria-label="уменьшить количество товара"
+        >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
           </svg>
         </button>
         <label className="visually-hidden" htmlFor="counter1"></label>
-        <input type="number" id="counter1" defaultValue="2" min="1" max="99" aria-label="количество товара" />
-        <button className="btn-icon btn-icon--next" aria-label="увеличить количество товара">
+        <input
+          onChange={handleCounterChange}
+          type="number"
+          id="counter1"
+          value={itemsCount}
+          aria-label="количество товара"
+        />
+        <button
+          onClick={handleIncrementButtonClick}
+          className="btn-icon btn-icon--next"
+          aria-label="увеличить количество товара"
+        >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
           </svg>
         </button>
       </div>
       <div className="basket-item__total-price">
-        <span className="visually-hidden">Общая цена:</span>37 940 ₽
+        <span className="visually-hidden">Общая цена:</span>{(price * itemsCount).toLocaleString()} ₽
       </div>
-      <button className="cross-btn" type="button" aria-label="Удалить товар">
+      <button
+        onClick={() => onRemoveButtonClick(item)}
+        className="cross-btn"
+        type="button"
+        aria-label="Удалить товар"
+      >
         <svg width="10" height="10" aria-hidden="true">
           <use xlinkHref="#icon-close"></use>
         </svg>
@@ -56,4 +113,4 @@ function BasketItem({item}: BasketItemProps): JSX.Element {
   );
 }
 
-export default BasketItem;
+export default memo(BasketItem);

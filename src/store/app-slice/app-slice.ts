@@ -11,6 +11,7 @@ const initialState: AppState = {
   isPostReviewPopupOpened: false,
   isSuccessPopupOpened: false,
   isSuccessAddToBasketPopupOpened: false,
+  isBasketItemDeletingPopupOpened: false,
 };
 
 const appSlice = createSlice({
@@ -32,6 +33,9 @@ const appSlice = createSlice({
     successAddToBasketPopupStatusUpdate: (state, action: PayloadAction<boolean>) => {
       state.isSuccessAddToBasketPopupOpened = action.payload;
     },
+    basketItemDeletingPopupStatusUpdate: (state, action: PayloadAction<boolean>) => {
+      state.isBasketItemDeletingPopupOpened = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -50,7 +54,8 @@ export const {
   addToBasketPopupStatusUpdate,
   postReviewPopupStatusUpdate,
   successPopupStatusUpdate,
-  successAddToBasketPopupStatusUpdate
+  successAddToBasketPopupStatusUpdate,
+  basketItemDeletingPopupStatusUpdate
 } = appSlice.actions;
 
 export default appSlice.reducer;

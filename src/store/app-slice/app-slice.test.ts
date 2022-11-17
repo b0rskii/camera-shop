@@ -21,6 +21,7 @@ describe('Reducer: appReducer', () => {
       isPostReviewPopupOpened: false,
       isSuccessPopupOpened: false,
       isSuccessAddToBasketPopupOpened: false,
+      isBasketItemDeletingPopupOpened: false,
     };
   });
 

@@ -69,6 +69,7 @@ const store = makeMockStore({
     isPostReviewPopupOpened: false,
     isSuccessPopupOpened: false,
     isSuccessAddToBasketPopupOpened: false,
+    isBasketItemDeletingPopupOpened: false,
   },
   CatalogPagination: {
     currentPage: null,

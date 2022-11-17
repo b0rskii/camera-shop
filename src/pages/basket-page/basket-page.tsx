@@ -2,6 +2,7 @@ import { BreadCrumb, PreviousBreadCrumbs } from '../../const';
 import MainLayout from '../../components/main-layout/main-layout';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import BasketSection from '../../components/basket-section/basket-section';
+import BasketItemDeletingPopup from '../../components/popups/basket-item-deleting-popup/basket-item-deleting-popup';
 
 function BasketPage(): JSX.Element {
   return (
@@ -14,6 +15,7 @@ function BasketPage(): JSX.Element {
           />
           <BasketSection />
         </div>
+        <BasketItemDeletingPopup />
       </main>
     </MainLayout>
   );

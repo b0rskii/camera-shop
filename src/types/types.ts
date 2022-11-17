@@ -54,3 +54,8 @@ export type FilterValue = {
   Title: string;
   DisableFilter: string | null;
 };
+
+export type BasketItem = {
+  value: Camera;
+  count: number;
+};

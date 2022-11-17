@@ -27,7 +27,10 @@ describe('Component: SimilarSection', () => {
         similarCameras: cameras,
         isLoaded: true,
         loadingError: null,
-      }
+      },
+      Basket: {
+        basketItems: [],
+      },
     });
 
     render(
@@ -49,7 +52,10 @@ describe('Component: SimilarSection', () => {
         similarCameras: [],
         isLoaded: true,
         loadingError: null,
-      }
+      },
+      Basket: {
+        basketItems: [],
+      },
     });
 
     render(
@@ -70,7 +76,10 @@ describe('Component: SimilarSection', () => {
         similarCameras: [],
         isLoaded: false,
         loadingError: null,
-      }
+      },
+      Basket: {
+        basketItems: [],
+      },
     });
 
     render(
@@ -94,7 +103,10 @@ describe('Component: SimilarSection', () => {
         similarCameras: [],
         isLoaded: true,
         loadingError: ERROR,
-      }
+      },
+      Basket: {
+        basketItems: [],
+      },
     });
 
     render(

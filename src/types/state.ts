@@ -1,5 +1,5 @@
 import { store } from '../store/store';
-import { Camera, Promo, Review } from './types';
+import { Camera, Promo, Review, BasketItem } from './types';
 
 export type CamerasState = {
   cameras: Camera[];
@@ -48,6 +48,7 @@ export type AppState = {
   isPostReviewPopupOpened: boolean;
   isSuccessPopupOpened: boolean;
   isSuccessAddToBasketPopupOpened: boolean;
+  isBasketItemDeletingPopupOpened: boolean;
 };
 
 export type CatalogPaginationState = {
@@ -72,7 +73,7 @@ export type CatalogFilterState = {
 };
 
 export type BasketState = {
-  basketItems: Camera[];
+  basketItems: BasketItem[];
 };
 
 export type State = ReturnType<typeof store.getState>;

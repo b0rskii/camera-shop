@@ -23,6 +23,10 @@ describe('Component: BasketPage', () => {
     Cameras: {
       searchingCameras: [],
     },
+    App: {
+      currentProduct: null,
+      isBasketItemDeletingPopupOpened: false,
+    },
     Basket: {
       basketItems: [],
     },
