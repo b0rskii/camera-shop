@@ -74,6 +74,11 @@ export type CatalogFilterState = {
 
 export type BasketState = {
   basketItems: BasketItem[];
+  discount: number;
+  promoCode: string;
+  isOrderPosting: boolean;
+  postingError: string | null;
+  defaultError: string;
 };
 
 export type State = ReturnType<typeof store.getState>;

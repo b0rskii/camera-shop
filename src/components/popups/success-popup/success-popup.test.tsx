@@ -1,12 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { successPopupStatusUpdate } from '../../../store/app-slice/app-slice';
 import { Action } from 'redux';
+import HistoryRouter from '../../../components/history-router/history-router';
 import SuccessPopup from './success-popup';
 
 const makeMockStore = configureMockStore();
+const history = createMemoryHistory();
 
 describe('Component: SuccessPopup', () => {
   it('should render correctly if popup opened status is true', () => {
@@ -19,7 +22,9 @@ describe('Component: SuccessPopup', () => {
 
     render(
       <Provider store={store}>
-        <SuccessPopup title={SUCCESS_TITLE} />
+        <HistoryRouter history={history}>
+          <SuccessPopup title={SUCCESS_TITLE} />
+        </HistoryRouter>
       </Provider>
     );
 
@@ -37,7 +42,9 @@ describe('Component: SuccessPopup', () => {
 
     render(
       <Provider store={store}>
-        <SuccessPopup title={SUCCESS_TITLE} />
+        <HistoryRouter history={history}>
+          <SuccessPopup title={SUCCESS_TITLE} />
+        </HistoryRouter>
       </Provider>
     );
 
@@ -55,7 +62,9 @@ describe('Component: SuccessPopup', () => {
 
     render(
       <Provider store={store}>
-        <SuccessPopup title={SUCCESS_TITLE} />
+        <HistoryRouter history={history}>
+          <SuccessPopup title={SUCCESS_TITLE} />
+        </HistoryRouter>
       </Provider>
     );
 

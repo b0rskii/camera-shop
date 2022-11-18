@@ -12,6 +12,7 @@ import HistoryRouter from '../../components/history-router/history-router';
 import App from './app';
 
 const DEFAULT_ERROR = 'error';
+const DEFAULT_DISCOUNT = 0;
 const CAMERAS_TOTAL_COUNT = 50;
 const ID = 1;
 
@@ -91,6 +92,11 @@ const store = makeMockStore({
   },
   Basket: {
     basketItems: [],
+    discount: DEFAULT_DISCOUNT,
+    promoCode: '',
+    isOrderPosting: false,
+    postingError: null,
+    defaultError: DEFAULT_ERROR,
   },
 });
 

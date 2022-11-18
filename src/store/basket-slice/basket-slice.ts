@@ -1,10 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { BasketState } from '../../types/state';
+import { postPromoCodeAction, postOrderAction } from '../api-actions';
 import { Camera } from '../../types/types';
-import { NameSpace } from '../../const';
+import { NameSpace, DEFAULT_DISCOUNT, DEFAULT_ERROR_MESSAGE } from '../../const';
 
 const initialState: BasketState = {
   basketItems: [],
+  discount: DEFAULT_DISCOUNT,
+  promoCode: '',
+  isOrderPosting: false,
+  postingError: null,
+  defaultError: DEFAULT_ERROR_MESSAGE,
 };
 
 const basketSlice = createSlice({
@@ -38,8 +44,39 @@ const basketSlice = createSlice({
 
       state.basketItems[itemIndex].count = newValue;
     },
+    promoCodeUpdate: (state, action: PayloadAction<string>) => {
+      state.promoCode = action.payload;
+    },
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(postPromoCodeAction.fulfilled, (state, action) => {
+        state.discount = action.payload;
+      })
+      .addCase(postPromoCodeAction.rejected, (state) => {
+        state.discount = 0;
+      })
+      .addCase(postOrderAction.pending, (state) => {
+        state.isOrderPosting = true;
+        state.postingError = null;
+      })
+      .addCase(postOrderAction.fulfilled, (state) => {
+        state.isOrderPosting = false;
+        state.basketItems = [];
+        state.discount = 0;
+        state.promoCode = '';
+      })
+      .addCase(postOrderAction.rejected, (state) => {
+        state.isOrderPosting = false;
+        state.postingError = state.defaultError;
+      });
   },
 });
 
-export const { basketItemAdding, basketItemRemoving, basketItemsCountUpdate } = basketSlice.actions;
+export const {
+  basketItemAdding,
+  basketItemRemoving,
+  basketItemsCountUpdate,
+  promoCodeUpdate
+} = basketSlice.actions;
 export default basketSlice.reducer;

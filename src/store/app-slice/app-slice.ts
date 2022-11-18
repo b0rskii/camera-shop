@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { postReviewAction } from '../api-actions';
+import { postReviewAction, postOrderAction } from '../api-actions';
 import { basketItemAdding } from '../basket-slice/basket-slice';
 import { AppState } from '../../types/state';
 import { Camera } from '../../types/types';
@@ -45,6 +45,9 @@ const appSlice = createSlice({
       })
       .addCase(basketItemAdding.type, (state) => {
         state.isSuccessAddToBasketPopupOpened = true;
+      })
+      .addCase(postOrderAction.fulfilled, (state) => {
+        state.isSuccessPopupOpened = true;
       });
   },
 });

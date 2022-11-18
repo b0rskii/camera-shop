@@ -9,6 +9,9 @@ import { Provider } from 'react-redux';
 import HistoryRouter from '../../components/history-router/history-router';
 import BasketPage from './basket-page';
 
+const DEFAULT_DISCOUNT = 0;
+const DEFAULT_ERROR = 'error';
+
 const middlewares = [thunk.withExtraArgument(api)];
 const makeMockStore = configureMockStore<
   State,
@@ -29,6 +32,11 @@ describe('Component: BasketPage', () => {
     },
     Basket: {
       basketItems: [],
+      discount: DEFAULT_DISCOUNT,
+      promoCode: '',
+      isOrderPosting: false,
+      postingError: null,
+      defaultError: DEFAULT_ERROR,
     },
   });
 

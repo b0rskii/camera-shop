@@ -32,3 +32,5 @@ export const debounce = (callback: ReturnType<typeof Function>, delay: number) =
     }, delay);
   };
 };
+
+export const removeSpaces = (string: string) => string.replace(/\s+/g, '');

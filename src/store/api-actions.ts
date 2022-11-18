@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { Camera, Promo, Review, PostingReview } from '../types/types';
+import { Camera, Promo, Review, PostingReview, Order } from '../types/types';
 import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT, NameSpace, AppQuery, SortOrder } from '../const';
 import { State } from '../types/state';
 
@@ -183,5 +183,37 @@ export const postReviewAction = createAsyncThunk<Review, PostingReview, ThunkAPI
   async (review, {extra: api}) => {
     const {data} = await api.post<Review>(APIRoute.Reviews, review);
     return data;
+  },
+);
+
+export const postPromoCodeAction = createAsyncThunk<number, {coupon: string}, ThunkAPI>(
+  `${NameSpace.Basket}/postPromoCode`,
+  async (promoCode, {extra: api}) => {
+    const {data} = await api.post<number>(APIRoute.Coupons, promoCode);
+    return data;
+  },
+);
+
+export const postOrderAction = createAsyncThunk<void, undefined, ThunkAPI>(
+  `${NameSpace.Basket}/postOrder`,
+  async (_arg, {getState, extra: api}) => {
+    const state: State = getState();
+    const basketItems = state.Basket.basketItems;
+    const promoCode = state.Basket.promoCode;
+    const coupon = promoCode.length ? promoCode : null;
+    const camerasIds: number[] = [];
+
+    basketItems.forEach((item) => {
+      for (let i = 0; i < item.count; i++) {
+        camerasIds.push(item.value.id);
+      }
+    });
+
+    const order: Order = {
+      camerasIds,
+      coupon,
+    };
+
+    await api.post(APIRoute.Orders, order);
   },
 );

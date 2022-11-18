@@ -1,29 +1,57 @@
+import { useCallback } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import {
+  getBasketItemsTotalPrice,
+  getDiscount,
+  getOrderPostingStatus,
+  getPromoCode
+} from '../../store/basket-slice/selectors';
+import { promoCodeUpdate } from '../../store/basket-slice/basket-slice';
+import { postPromoCodeAction, postOrderAction } from '../../store/api-actions';
+import { DEFAULT_DISCOUNT } from '../../const';
+import BasketPromoCode from '../basket-promo-code/basket-promo-code';
+import BasketSummaryOrder from '../basket-summary-order/basket-summary-order';
+
 function BasketSummary(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const totalPrice = useAppSelector(getBasketItemsTotalPrice);
+  const discount = useAppSelector(getDiscount);
+  const appliedPromoCode = useAppSelector(getPromoCode);
+  const isOrderPosting = useAppSelector(getOrderPostingStatus);
+
+  const applyPromoCode = useCallback(
+    (coupon: string) => {
+      dispatch(postPromoCodeAction({coupon}))
+        .finally(() => dispatch(promoCodeUpdate(coupon)));
+    },
+    [dispatch]
+  );
+
+  const postOrder = useCallback(
+    () => {
+      dispatch(postOrderAction());
+    },
+    [dispatch]
+  );
+
+  if (totalPrice === 0) {
+    return <h3>Здесь пока ничего нет</h3>;
+  }
+
   return (
     <div className="basket__summary">
-      <div className="basket__promo">
-        <p className="title title--h4">Если у вас есть промокод на скидку, примените его в этом поле</p>
-        <div className="basket-form">
-          <form action="#">
-            <div className="custom-input">
-              <label><span className="custom-input__label">Промокод</span>
-                <input type="text" name="promo" placeholder="Введите промокод" />
-              </label>
-              <p className="custom-input__error">Промокод неверный</p>
-              <p className="custom-input__success">Промокод принят!</p>
-            </div>
-            <button className="btn" type="submit">Применить
-            </button>
-          </form>
-        </div>
-      </div>
-      <div className="basket__summary-order">
-        <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">111 390 ₽</span></p>
-        <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className="basket__summary-value basket__summary-value--bonus">0 ₽</span></p>
-        <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">111 390 ₽</span></p>
-        <button className="btn btn--purple" type="submit">Оформить заказ
-        </button>
-      </div>
+      <BasketPromoCode
+        appliedPromoCode={appliedPromoCode}
+        isPromoCodeValid={discount > 0}
+        onApplyPromoCode={applyPromoCode}
+      />
+      <BasketSummaryOrder
+        totalPrice={totalPrice}
+        discount={discount}
+        defaultDiscount={DEFAULT_DISCOUNT}
+        isOrderPosting={isOrderPosting}
+        onPostOrder={postOrder}
+      />
     </div>
   );
 }
