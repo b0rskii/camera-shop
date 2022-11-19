@@ -1,22 +1,22 @@
-.not-found-page {
+.error-page {
   display: flex;
   flex-direction: column;
   padding-top: 300px;
   align-items: center;
 }
 
-.not-found-page__title {
+.error-page__title {
   font-size: 54px;
   color: #7575e2;
 }
 
-.not-found-page__link {
+.error-page__link {
   font-size: 32px;
   font-weight: 700;
   color: #b4b4d7;
 }
 
-.not-found-page__link:focus,
-.not-found-page__link:hover {
+.error-page__link:focus,
+.error-page__link:hover {
   color: rgb(233, 210, 182);
 }

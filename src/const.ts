@@ -19,6 +19,7 @@ export const AppRoute = {
   Product: '/product/',
   ProductId: '/product/:id/*',
   Basket: '/basket',
+  Error: '/error',
 } as const;
 
 export const AppQuery = {

@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
+import { redirectToRoute } from './actions';
 import { Camera, Promo, Review, PostingReview, Order } from '../types/types';
-import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT, NameSpace, AppQuery, SortOrder } from '../const';
+import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT, NameSpace, AppQuery, SortOrder, AppRoute } from '../const';
 import { State } from '../types/state';
 
 const TOTAL_COUNT_HEADER = 'x-total-count';
@@ -196,7 +197,7 @@ export const postPromoCodeAction = createAsyncThunk<number, {coupon: string}, Th
 
 export const postOrderAction = createAsyncThunk<void, undefined, ThunkAPI>(
   `${NameSpace.Basket}/postOrder`,
-  async (_arg, {getState, extra: api}) => {
+  async (_arg, {dispatch, getState, extra: api}) => {
     const state: State = getState();
     const basketItems = state.Basket.basketItems;
     const promoCode = state.Basket.promoCode;
@@ -214,6 +215,11 @@ export const postOrderAction = createAsyncThunk<void, undefined, ThunkAPI>(
       coupon,
     };
 
-    await api.post(APIRoute.Orders, order);
+    try {
+      await api.post(APIRoute.Orders, order);
+    } catch(error) {
+      dispatch(redirectToRoute(AppRoute.Error));
+      throw error;
+    }
   },
 );
