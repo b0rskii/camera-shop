@@ -1,7 +1,8 @@
 import { State } from '../../types/state';
 import { Camera } from '../../types/types';
+import { adaptCamerasToClient } from '../../utils/utils';
 
-export const getCameras = (state: State): Camera[] => state.Cameras.cameras;
+export const getCameras = (state: State): Camera[] => adaptCamerasToClient(state.Cameras.cameras);
 export const getCamerasTotalCount = (state: State): number => state.Cameras.totalCount;
 export const getCamerasLoadingStatus = (state: State): boolean => state.Cameras.isLoaded;
 export const getCamerasLoadingError = (state: State): string | null => state.Cameras.loadingError;

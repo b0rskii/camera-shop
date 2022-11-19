@@ -1,5 +1,6 @@
 import { memo, ChangeEvent } from 'react';
 import { Camera } from '../../types/types';
+import BasketItemShort from '../basket-item-short/basket-item-short';
 
 type BasketItemProps = {
   item: Camera;
@@ -12,9 +13,7 @@ type BasketItemProps = {
 
 function BasketItem(props: BasketItemProps): JSX.Element {
   const {item, itemsCount, minItemsCount, maxItemsCount, onRemoveButtonClick, onCounterChange} = props;
-
-  const {previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, vendorCode} = item;
-  const {category, type, level, price, id} = item;
+  const {price, id} = item;
 
   const handleCounterChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(evt.currentTarget.value);
@@ -48,23 +47,7 @@ function BasketItem(props: BasketItemProps): JSX.Element {
 
   return (
     <li className="basket-item">
-      <div className="basket-item__img">
-        <picture>
-          <source type="image/webp" srcSet={`/${previewImgWebp}, /${previewImgWebp2x} 2x`} />
-          <img src={`/${previewImg}`} srcSet={`/${previewImg2x} 2x`} width="140" height="120" alt={name} />
-        </picture>
-      </div>
-      <div className="basket-item__description">
-        <p className="basket-item__title">{name}</p>
-        <ul className="basket-item__list">
-          <li className="basket-item__list-item">
-            <span className="basket-item__article">Артикул: </span>
-            <span className="basket-item__number">{vendorCode}</span>
-          </li>
-          <li className="basket-item__list-item">{`${type} ${category.toLowerCase()}`}</li>
-          <li className="basket-item__list-item">{level} уровень</li>
-        </ul>
-      </div>
+      <BasketItemShort item={item} />
       <p className="basket-item__price">
         <span className="visually-hidden">Цена:</span>{price.toLocaleString()} ₽
       </p>

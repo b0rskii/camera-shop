@@ -25,8 +25,8 @@ function ProductSection({camera}: ProductSectionProps): JSX.Element {
         <div className="container">
           <div className="product__img">
             <picture>
-              <source type="image/webp" srcSet={`/${previewImgWebp}, /${previewImgWebp2x} 2x`} />
-              <img src={`/${previewImg}`} srcSet={`/${previewImg2x} 2x`} width="560" height="480" alt={name} />
+              <source type="image/webp" srcSet={`${previewImgWebp}, ${previewImgWebp2x} 2x`} />
+              <img src={`${previewImg}`} srcSet={`${previewImg2x} 2x`} width="560" height="480" alt={name} />
             </picture>
           </div>
           <div className="product__content">
