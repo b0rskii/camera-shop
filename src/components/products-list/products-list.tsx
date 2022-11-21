@@ -46,8 +46,10 @@ function ProductsList(props: ProductsListProps): JSX.Element {
     dispatch(fetchMinPriceCameraAction());
     dispatch(fetchMaxPriceCameraAction());
 
-    if (minPrice && maxPrice && minPrice !== maxPrice) {
+    if (minPrice) {
       dispatch(fetchNearestMinPriceCameraAction());
+    }
+    if (maxPrice) {
       dispatch(fetchNearestMaxPriceCameraAction());
     }
   }, [dispatch, startItemNumber, sort, order, minPrice, maxPrice, category, type, level]);
