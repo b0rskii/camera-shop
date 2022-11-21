@@ -7,6 +7,7 @@ import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import CatalogSection from '../../components/catalog-section/catalog-section';
 import AddToBasketPopup from '../../components/popups/add-to-basket-popup/add-to-basket-popup';
 import SuccessAddToBasketPopup from '../../components/popups/success-add-to-basket-popup/success-add-to-basket-popup';
+import CatalogSearchParams from '../../components/catalog-search-params/catalog-search-params';
 import Error from '../../components/error/error';
 
 function CatalogPage(): JSX.Element {
@@ -20,6 +21,7 @@ function CatalogPage(): JSX.Element {
 
   return (
     <MainLayout>
+      <CatalogSearchParams />
       <main data-testid="catalog-page">
         <Banner />
         <div className="page-content">

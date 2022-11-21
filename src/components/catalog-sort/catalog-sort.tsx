@@ -1,9 +1,7 @@
-import { useEffect, memo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { memo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getCatalogSort } from '../../store/catalog-sort-slice/selectors';
 import { catalogSortUpdate } from '../../store/catalog-sort-slice/catalog-sort-slice';
-import { AppQuery } from '../../const';
 
 const SortType = {
   Price: {
@@ -33,21 +31,7 @@ const SortOrder = {
 
 function CatalogSort(): JSX.Element {
   const dispatch = useAppDispatch();
-  const [, setSearchParams] = useSearchParams();
-
   const {sort, order} = useAppSelector(getCatalogSort);
-
-  useEffect(() => {
-    setSearchParams((params) => {
-      if (sort) {
-        params.set(AppQuery.CatalogSort, sort);
-      }
-      if (order) {
-        params.set(AppQuery.CatalogSortOrder, order);
-      }
-      return params;
-    });
-  }, [setSearchParams, sort, order]);
 
   const updateSort = (sortBy: string, sortOrder: string) => {
     dispatch(catalogSortUpdate({

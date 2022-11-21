@@ -1,5 +1,4 @@
-import { useEffect, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {
   getCatalogFilterMinPrice,
@@ -20,7 +19,6 @@ import {
   catalogFilterReset,
   catalogFilterTypeUpdate,
 } from '../../store/catalog-filter-slice/catalog-filter-slice';
-import { getCatalogPage } from '../../store/catalog-pagination-slice/selectors';
 import { AppQuery, InitialCatalogPriceLimit } from '../../const';
 import PriceFilter from '../filters/price-filter/price-filter';
 import CheckBoxFilter from '../filters/check-box-filter/check-box-filter';
@@ -93,7 +91,6 @@ const LevelFilter = {
 
 function CatalogFilter(): JSX.Element {
   const dispatch = useAppDispatch();
-  const [, setSearchParams] = useSearchParams();
 
   const minPrice = useAppSelector(getCatalogFilterMinPrice);
   const maxPrice = useAppSelector(getCatalogFilterMaxPrice);
@@ -104,70 +101,6 @@ function CatalogFilter(): JSX.Element {
   const level = useAppSelector(getCatalogFilterLevel);
   const nearestMinPrice = useAppSelector(getCatalogFilterNearestMinPrice);
   const nearestMaxPrice = useAppSelector(getCatalogFilterNearestMaxPrice);
-  const currentPage = useAppSelector(getCatalogPage);
-
-  useEffect(() => {
-    setSearchParams((params) => {
-      if (minPrice) {
-        params.set(AppQuery.CatalogMinPriceFilter, nearestMinPrice ? nearestMinPrice : minPrice);
-      } else {
-        params.delete(AppQuery.CatalogMinPriceFilter);
-      }
-      return params;
-    });
-  }, [setSearchParams, minPrice, nearestMinPrice]);
-
-  useEffect(() => {
-    setSearchParams((params) => {
-      if (maxPrice) {
-        params.set(AppQuery.CatalogMaxPriceFilter, nearestMaxPrice ? nearestMaxPrice : maxPrice);
-      } else {
-        params.delete(AppQuery.CatalogMaxPriceFilter);
-      }
-      return params;
-    });
-  }, [setSearchParams, maxPrice, nearestMaxPrice]);
-
-  useEffect(() => {
-    setSearchParams((params) => {
-      params.delete(AppQuery.CatalogCategoryFilter);
-      category.forEach((item) => {
-        params.append(AppQuery.CatalogCategoryFilter, item);
-      });
-      return params;
-    });
-  }, [setSearchParams, category]);
-
-  useEffect(() => {
-    setSearchParams((params) => {
-      params.delete(AppQuery.CatalogTypeFilter);
-      type.forEach((item) => {
-        params.append(AppQuery.CatalogTypeFilter, item);
-      });
-      return params;
-    });
-  }, [setSearchParams, type]);
-
-  useEffect(() => {
-    setSearchParams((params) => {
-      params.delete(AppQuery.CatalogLevelFilter);
-      level.forEach((item) => {
-        params.append(AppQuery.CatalogLevelFilter, item);
-      });
-      return params;
-    });
-  }, [setSearchParams, level]);
-
-  useEffect(() => {
-    setSearchParams((params) => {
-      if (currentPage) {
-        params.set(AppQuery.CatalogPage, currentPage);
-      } else {
-        params.delete(AppQuery.CatalogPage);
-      }
-      return params;
-    });
-  }, [setSearchParams, currentPage]);
 
   const setMinPrice = useCallback(
     (value: string | null) => dispatch(catalogFilterMinPriceUpdate(value)),
