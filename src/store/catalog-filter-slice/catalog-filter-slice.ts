@@ -48,6 +48,11 @@ const catalogFilterSlice = createSlice({
         return;
       }
 
+      if (state.maxPrice && newValue && Number(newValue) > Number(state.nearestMaxPrice)) {
+        state.nearestMaxPrice = null;
+        state.maxPrice = newValue;
+      }
+
       state.minPrice = newValue;
     },
     catalogFilterMaxPriceUpdate: (state, action: PayloadAction<string | null>) => {
