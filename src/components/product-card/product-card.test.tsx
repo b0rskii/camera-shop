@@ -20,7 +20,10 @@ describe('Component: ProductCard', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <ProductCard product={camera}/>
+          <ProductCard
+            product={camera}
+            isInBasket={false}
+          />
         </HistoryRouter>
       </Provider>
     );
@@ -31,6 +34,27 @@ describe('Component: ProductCard', () => {
     expect(screen.getByText(/Подробнее/i)).toBeInTheDocument();
   });
 
+  it('should render correctly if product added to basket', () => {
+    const camera = makeMockCamera();
+    const store = makeMockStore();
+
+    render(
+      <Provider store={store}>
+        <HistoryRouter history={history}>
+          <ProductCard
+            product={camera}
+            isInBasket
+          />
+        </HistoryRouter>
+      </Provider>
+    );
+
+    expect(screen.getByAltText(camera.name)).toBeInTheDocument();
+    expect(screen.getByText(camera.name)).toBeInTheDocument();
+    expect(screen.getByText(/В корзине/i)).toBeInTheDocument();
+    expect(screen.getByText(/Подробнее/i)).toBeInTheDocument();
+  });
+
   it('should dispatch "setCurrentProduct" and "setIsAddToBasketPopupOpened" when user clicked on buy button', async () => {
     const camera = makeMockCamera();
     const store = makeMockStore();
@@ -38,7 +62,10 @@ describe('Component: ProductCard', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <ProductCard product={camera}/>
+          <ProductCard
+            product={camera}
+            isInBasket={false}
+          />
         </HistoryRouter>
       </Provider>
     );
@@ -62,7 +89,10 @@ describe('Component: ProductCard', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <ProductCard product={camera} />
+          <ProductCard
+            product={camera}
+            isInBasket={false}
+          />
         </HistoryRouter>
       </Provider>
     );

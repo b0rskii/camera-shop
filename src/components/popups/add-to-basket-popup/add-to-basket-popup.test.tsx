@@ -1,8 +1,12 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { createMemoryHistory } from 'history';
 import { makeMockCamera } from '../../../utils/mocks';
+import { Action } from '@reduxjs/toolkit';
+import { basketItemAdding } from '../../../store/basket-slice/basket-slice';
+import { addToBasketPopupStatusUpdate } from '../../../store/app-slice/app-slice';
 import HistoryRouter from '../../history-router/history-router';
 import AddToBasketPopup from './add-to-basket-popup';
 
@@ -54,5 +58,31 @@ describe('Component: AddToBasketPopup', () => {
     expect(screen.queryByAltText(camera.name)).not.toBeInTheDocument();
     expect(screen.queryByText(camera.name)).not.toBeInTheDocument();
     expect(screen.queryByText(/Добавить в корзину/i)).not.toBeInTheDocument();
+  });
+
+  it('should dispatch "basketItemAdding" and "addToBasketPopupStatusUpdate" actions when user click to "add to basket" button', async () => {
+    const camera = makeMockCamera();
+    const store = makeMockStore({
+      App: {
+        currentProduct: camera,
+        isAddToBasketPopupOpened: true,
+      }
+    });
+
+    render(
+      <Provider store={store}>
+        <HistoryRouter history={history}>
+          <AddToBasketPopup />
+        </HistoryRouter>
+      </Provider>
+    );
+
+    await userEvent.click(screen.getByText(/Добавить в корзину/i));
+
+    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+    expect(actionsTypes).toEqual([
+      basketItemAdding.type,
+      addToBasketPopupStatusUpdate.type
+    ]);
   });
 });

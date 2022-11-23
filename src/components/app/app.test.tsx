@@ -133,6 +133,15 @@ describe('Component: App', () => {
     expect(screen.getByTestId('basket-page')).toBeInTheDocument();
   });
 
+  it('should render error page when user navigate to "/error"', () => {
+    history.push(AppRoute.Error);
+
+    render(fakeApp);
+
+    expect(screen.getByText(/Произошла ошибка/i)).toBeInTheDocument();
+    expect(screen.getByText(/Вернуться назад/i)).toBeInTheDocument();
+  });
+
   it('should render not found page when user navigate to non-existent route', () => {
     history.push('/non-existent-route');
 

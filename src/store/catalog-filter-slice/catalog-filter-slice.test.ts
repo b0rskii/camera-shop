@@ -134,6 +134,43 @@ describe('Reducer: catalogFilterReducer', () => {
           nearestMinPrice: null,
         });
     });
+
+    it('if new value is empty string should set new value to "null"', () => {
+      const VALUE = '';
+      const MIN_PRICE = '1000';
+
+      const state = {
+        ...initialState,
+        minPrice: MIN_PRICE,
+        nearestMinPrice: MIN_PRICE,
+      };
+
+      expect(catalogFilterReducer(state, catalogFilterMinPriceUpdate(VALUE)))
+        .toEqual({
+          ...state,
+          minPrice: null,
+          nearestMinPrice: null,
+        });
+    });
+
+    it('if value is greater than the set maximum price', () => {
+      const VALUE = '6000';
+      const MAX_PRICE = '5000';
+
+      const state = {
+        ...initialState,
+        maxPrice: MAX_PRICE,
+        nearestMaxPrice: MAX_PRICE,
+      };
+
+      expect(catalogFilterReducer(state, catalogFilterMinPriceUpdate(VALUE)))
+        .toEqual({
+          ...state,
+          minPrice: VALUE,
+          maxPrice: VALUE,
+          nearestMaxPrice: null,
+        });
+    });
   });
 
   describe('catalogFilterMaxPriceUpdate action', () => {
@@ -198,6 +235,41 @@ describe('Reducer: catalogFilterReducer', () => {
           ...state,
           maxPrice: VALUE,
           nearestMaxPrice: null,
+        });
+    });
+
+    it('if new value is empty string should set new value to "null"', () => {
+      const VALUE = '';
+      const MAX_PRICE = '1000';
+
+      const state = {
+        ...initialState,
+        maxPrice: MAX_PRICE,
+        nearestMaxPrice: MAX_PRICE,
+      };
+
+      expect(catalogFilterReducer(state, catalogFilterMaxPriceUpdate(VALUE)))
+        .toEqual({
+          ...state,
+          maxPrice: null,
+          nearestMaxPrice: null,
+        });
+    });
+
+    it('if value less than set min price should set max price to nearest min price value', () => {
+      const VALUE = '500';
+      const MIN_PRICE = '1000';
+
+      const state = {
+        ...initialState,
+        minPrice: MIN_PRICE,
+        nearestMinPrice: MIN_PRICE,
+      };
+
+      expect(catalogFilterReducer(state, catalogFilterMaxPriceUpdate(VALUE)))
+        .toEqual({
+          ...state,
+          maxPrice: MIN_PRICE,
         });
     });
   });

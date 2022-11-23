@@ -7,8 +7,8 @@ import Rating from '../rating/rating';
 
 type ProductCardProps = {
   product: Camera;
+  isInBasket: boolean;
   isActive?: boolean;
-  isInBasket?: boolean;
 };
 
 function ProductCard({product, isInBasket, isActive}: ProductCardProps): JSX.Element {

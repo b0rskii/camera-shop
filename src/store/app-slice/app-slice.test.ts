@@ -7,7 +7,8 @@ import {
   addToBasketPopupStatusUpdate,
   postReviewPopupStatusUpdate,
   successPopupStatusUpdate,
-  successAddToBasketPopupStatusUpdate
+  successAddToBasketPopupStatusUpdate,
+  basketItemDeletingPopupStatusUpdate
 } from './app-slice';
 import { basketItemAdding } from '../basket-slice/basket-slice';
 
@@ -72,6 +73,14 @@ describe('Reducer: appReducer', () => {
       });
   });
 
+  it('should change basket item deleting popup status to given value', () => {
+    expect(appReducer(initialState, basketItemDeletingPopupStatusUpdate(true)))
+      .toEqual({
+        ...initialState,
+        isBasketItemDeletingPopupOpened: true
+      });
+  });
+
   it('when dispatch "basketItemAdding" action should change success add to basket popup status to true', () => {
     expect(appReducer(initialState, {type: basketItemAdding.type}))
       .toEqual({
@@ -91,6 +100,21 @@ describe('Reducer: appReducer', () => {
         .toEqual({
           ...state,
           isPostReviewPopupOpened: false,
+          isSuccessPopupOpened: true
+        });
+    });
+  });
+
+  describe('postOrderAction test', () => {
+    it('if fulfilled should set success popup status to "true"', () => {
+      const state = {
+        ...initialState,
+        isSuccessPopupOpened: false
+      };
+
+      expect(appReducer(initialState, postReviewAction.fulfilled))
+        .toEqual({
+          ...state,
           isSuccessPopupOpened: true
         });
     });
