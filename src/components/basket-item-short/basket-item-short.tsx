@@ -29,7 +29,7 @@ function BasketItemShort({item, isWithPrice}: BasketItemShortProps): JSX.Element
           <li className="basket-item__list-item">{level} уровень</li>
         </ul>
         {isWithPrice &&
-        <p className="basket-item__price">
+        <p className="basket-item__price" data-testid="basket-item-price">
           <span className="visually-hidden">Цена:</span>{price.toLocaleString()} ₽
         </p>}
       </div>

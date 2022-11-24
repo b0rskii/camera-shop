@@ -20,6 +20,7 @@ function BasketSummaryOrder(props: BasketSummaryOrderProps): JSX.Element {
         <span className="basket__summary-text">Скидка:</span>
         <span
           className={`basket__summary-value ${discount === defaultDiscount ? '' : 'basket__summary-value--bonus'}`}
+          data-testid="basket-summary-value"
         >
           {discountPrice.toLocaleString()} ₽
         </span>

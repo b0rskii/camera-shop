@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/hooks';
-import { getBasketItemsTotalCount } from '../../store/basket-slice/selectors';
 import { AppRoute } from '../../const';
 
-function BasketIcon() {
-  const basketItemsCount = useAppSelector(getBasketItemsTotalCount);
+type BasketIconProps = {
+  basketItemsCount: number;
+};
 
+function BasketIcon({basketItemsCount}: BasketIconProps): JSX.Element {
   return (
     <Link className="header__basket-link" to={AppRoute.Basket}>
       <svg width="16" height="16" aria-hidden="true">

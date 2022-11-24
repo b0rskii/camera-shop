@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import Search from '../search/search';
-import BasketIcon from '../basket-icon/basket-icon';
+import BasketIconContainer from '../basket-icon/basket-icon-container';
 
 function Header(): JSX.Element {
   return (
@@ -30,7 +30,7 @@ function Header(): JSX.Element {
           </ul>
         </nav>
         <Search />
-        <BasketIcon />
+        <BasketIconContainer />
       </div>
     </header>
   );

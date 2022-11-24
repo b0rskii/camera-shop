@@ -39,7 +39,7 @@ function BasketSummary(): JSX.Element {
   }
 
   return (
-    <div className="basket__summary">
+    <div className="basket__summary" data-testid="basket-summary">
       <BasketPromoCode
         appliedPromoCode={appliedPromoCode}
         isPromoCodeValid={discount > 0}

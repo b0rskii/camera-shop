@@ -1,7 +1,7 @@
 import { MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function ErrorPage() {
+function ErrorPage(): JSX.Element {
   const navigate = useNavigate();
 
   const handleLinkClick = (evt: MouseEvent) => {

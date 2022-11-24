@@ -24,12 +24,14 @@ function BasketPromoCode(props: BasketPromoCodeProps): JSX.Element {
     <div className="basket__promo">
       <p className="title title--h4">Если у вас есть промокод на скидку, примените его в этом поле</p>
       <div className="basket-form">
-        <form action="#" onSubmit={handleFormSubmit}>
-          <div className={`
+        <form action="#" onSubmit={handleFormSubmit} data-testid="basket-promo-form">
+          <div
+            className={`
               custom-input
               ${appliedPromoCode.length && isPromoCodeValid ? 'is-valid' : ''}
               ${appliedPromoCode.length && !isPromoCodeValid ? 'is-invalid' : ''}
             `}
+            data-testid="promo-code-status"
           >
             <label>
               <span className="custom-input__label">Промокод</span>

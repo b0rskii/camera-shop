@@ -1,6 +1,7 @@
 import { memo, ChangeEvent } from 'react';
 import { Camera } from '../../types/types';
 import BasketItemShort from '../basket-item-short/basket-item-short';
+import Counter from '../counter/counter';
 
 type BasketItemProps = {
   item: Camera;
@@ -46,39 +47,17 @@ function BasketItem(props: BasketItemProps): JSX.Element {
   };
 
   return (
-    <li className="basket-item">
+    <li className="basket-item" data-testid="basket-item">
       <BasketItemShort item={item} />
       <p className="basket-item__price">
         <span className="visually-hidden">Цена:</span>{price.toLocaleString()} ₽
       </p>
-      <div className="quantity">
-        <button
-          onClick={handleDecrementButtonClick}
-          className="btn-icon btn-icon--prev"
-          aria-label="уменьшить количество товара"
-        >
-          <svg width="7" height="12" aria-hidden="true">
-            <use xlinkHref="#icon-arrow"></use>
-          </svg>
-        </button>
-        <label className="visually-hidden" htmlFor="counter1"></label>
-        <input
-          onChange={handleCounterChange}
-          type="number"
-          id="counter1"
-          value={itemsCount}
-          aria-label="количество товара"
-        />
-        <button
-          onClick={handleIncrementButtonClick}
-          className="btn-icon btn-icon--next"
-          aria-label="увеличить количество товара"
-        >
-          <svg width="7" height="12" aria-hidden="true">
-            <use xlinkHref="#icon-arrow"></use>
-          </svg>
-        </button>
-      </div>
+      <Counter
+        value={itemsCount}
+        onDecrement={handleDecrementButtonClick}
+        onIncrement={handleIncrementButtonClick}
+        onChange={handleCounterChange}
+      />
       <div className="basket-item__total-price">
         <span className="visually-hidden">Общая цена:</span>{(price * itemsCount).toLocaleString()} ₽
       </div>
@@ -87,6 +66,7 @@ function BasketItem(props: BasketItemProps): JSX.Element {
         className="cross-btn"
         type="button"
         aria-label="Удалить товар"
+        data-testid="delete-basket-item-button"
       >
         <svg width="10" height="10" aria-hidden="true">
           <use xlinkHref="#icon-close"></use>
