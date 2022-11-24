@@ -1,11 +1,11 @@
-import { Camera, Promo, Review, PostingReview, FilterValue } from '../types/types';
+import { Camera, Promo, Review, PostingReview, FilterValue, BasketItem } from '../types/types';
 
 export const Mock = {
   CamerasTotalCount: '50',
 } as const;
 
-export const makeMockCamera = (): Camera => ({
-  id: 1,
+export const makeMockCamera = (id = 1): Camera => ({
+  id,
   name: 'Ретрокамера Dus Auge lV',
   vendorCode: 'DA4IU67AD5',
   type: 'Коллекционная',
@@ -106,4 +106,17 @@ export const makeMockFilterValues = (): FilterValue[] => {
   }
 
   return filterValues;
+};
+
+export const makeMockBasketItems = (): BasketItem[] => {
+  const basketItems: BasketItem[] = [];
+
+  for (let i = 0; i < 3; i++) {
+    basketItems.push({
+      value: makeMockCamera(i + 1),
+      count: 1,
+    });
+  }
+
+  return basketItems;
 };

@@ -11,7 +11,8 @@ import {
   makeMockCamera,
   makeMockReviews,
   makeMockPostingReview,
-  makeMockReview
+  makeMockReview,
+  makeMockBasketItems
 } from '../utils/mocks';
 import {
   fetchCamerasAction,
@@ -24,7 +25,10 @@ import {
   fetchSimilarCamerasAction,
   fetchReviewsAction,
   postReviewAction,
+  postPromoCodeAction,
+  postOrderAction
 } from './api-actions';
+import { redirectToRoute } from './actions';
 
 describe('Async actions', () => {
   const mockAPI = new MockAdapter(api);
@@ -36,501 +40,625 @@ describe('Async actions', () => {
     ThunkDispatch<State, typeof api, Action>
   >(middlewares);
 
-  it('when GET /cameras and server response "ok" should set actions types to pending and fulfilled', async () => {
-    const START_ITEM_NUMBER = 0;
-    const cameras = makeMockCameras();
+  describe('fetchCamerasAction test', () => {
+    it('when GET /cameras and server response "ok" should set actions types to pending and fulfilled', async () => {
+      const START_ITEM_NUMBER = 0;
+      const cameras = makeMockCameras();
 
-    const store = mockStore({
-      CatalogSort: {
-        sort: null,
-        order: null,
-      },
-      CatalogFilter: {
-        minPrice: null,
-        maxPrice: null,
-        category: [],
-        type: [],
-        level: [],
-      }
+      const store = mockStore({
+        CatalogSort: {
+          sort: null,
+          order: null,
+        },
+        CatalogFilter: {
+          minPrice: null,
+          maxPrice: null,
+          category: [],
+          type: [],
+          level: [],
+        }
+      });
+
+      mockAPI
+        .onGet(APIRoute.Cameras)
+        .reply(200, cameras, Headers);
+
+      await store.dispatch(fetchCamerasAction(START_ITEM_NUMBER));
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchCamerasAction.pending.type,
+        fetchCamerasAction.fulfilled.type
+      ]);
     });
 
-    mockAPI
-      .onGet(APIRoute.Cameras)
-      .reply(200, cameras, Headers);
+    it('when GET /cameras and server response not "ok" should set actions types to pending and rejected', async () => {
+      const START_ITEM_NUMBER = 0;
+      const cameras = makeMockCameras();
 
-    await store.dispatch(fetchCamerasAction(START_ITEM_NUMBER));
+      const store = mockStore();
 
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+      mockAPI
+        .onGet(APIRoute.Cameras)
+        .reply(400, cameras, Headers);
 
-    expect(actionsTypes).toEqual([
-      fetchCamerasAction.pending.type,
-      fetchCamerasAction.fulfilled.type
-    ]);
+      await store.dispatch(fetchCamerasAction(START_ITEM_NUMBER));
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchCamerasAction.pending.type,
+        fetchCamerasAction.rejected.type
+      ]);
+    });
   });
 
-  it('when GET /cameras and server response not "ok" should set actions types to pending and rejected', async () => {
-    const START_ITEM_NUMBER = 0;
-    const cameras = makeMockCameras();
+  describe('fetchMinPriceCameraAction test', () => {
+    it('when fetchMinPriceCameraAction and server response "ok" should set actions types to pending and fulfilled', async () => {
+      const camera = [makeMockCamera()];
 
-    const store = mockStore();
+      const store = mockStore({
+        CatalogSort: {
+          sort: null,
+          order: null,
+        },
+        CatalogFilter: {
+          minPrice: null,
+          maxPrice: null,
+          category: [],
+          type: [],
+          level: [],
+        }
+      });
 
-    mockAPI
-      .onGet(APIRoute.Cameras)
-      .reply(400, cameras, Headers);
+      mockAPI
+        .onGet(APIRoute.Cameras)
+        .reply(200, camera);
 
-    await store.dispatch(fetchCamerasAction(START_ITEM_NUMBER));
+      await store.dispatch(fetchMinPriceCameraAction());
 
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
 
-    expect(actionsTypes).toEqual([
-      fetchCamerasAction.pending.type,
-      fetchCamerasAction.rejected.type
-    ]);
-  });
-
-  it('when fetchMinPriceCameraAction and server response "ok" should set actions types to pending and fulfilled', async () => {
-    const camera = [makeMockCamera()];
-
-    const store = mockStore({
-      CatalogSort: {
-        sort: null,
-        order: null,
-      },
-      CatalogFilter: {
-        minPrice: null,
-        maxPrice: null,
-        category: [],
-        type: [],
-        level: [],
-      }
+      expect(actionsTypes).toEqual([
+        fetchMinPriceCameraAction.pending.type,
+        fetchMinPriceCameraAction.fulfilled.type
+      ]);
     });
 
-    mockAPI
-      .onGet(APIRoute.Cameras)
-      .reply(200, camera);
+    it('when fetchMinPriceCameraAction and server response not "ok" should set actions types to pending and rejected', async () => {
+      const camera = [makeMockCamera()];
 
-    await store.dispatch(fetchMinPriceCameraAction());
+      const store = mockStore({
+        CatalogSort: {
+          sort: null,
+          order: null,
+        },
+        CatalogFilter: {
+          minPrice: null,
+          maxPrice: null,
+          category: [],
+          type: [],
+          level: [],
+        }
+      });
 
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+      mockAPI
+        .onGet(APIRoute.Cameras)
+        .reply(400, camera);
 
-    expect(actionsTypes).toEqual([
-      fetchMinPriceCameraAction.pending.type,
-      fetchMinPriceCameraAction.fulfilled.type
-    ]);
+      await store.dispatch(fetchMinPriceCameraAction());
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchMinPriceCameraAction.pending.type,
+        fetchMinPriceCameraAction.rejected.type
+      ]);
+    });
   });
 
-  it('when fetchMinPriceCameraAction and server response not "ok" should set actions types to pending and rejected', async () => {
-    const camera = [makeMockCamera()];
+  describe('fetchMaxPriceCameraAction test', () => {
+    it('when fetchMaxPriceCameraAction and server response "ok" should set actions types to pending and fulfilled', async () => {
+      const camera = [makeMockCamera()];
 
-    const store = mockStore({
-      CatalogSort: {
-        sort: null,
-        order: null,
-      },
-      CatalogFilter: {
-        minPrice: null,
-        maxPrice: null,
-        category: [],
-        type: [],
-        level: [],
-      }
+      const store = mockStore({
+        CatalogSort: {
+          sort: null,
+          order: null,
+        },
+        CatalogFilter: {
+          minPrice: null,
+          maxPrice: null,
+          category: [],
+          type: [],
+          level: [],
+        }
+      });
+
+      mockAPI
+        .onGet(APIRoute.Cameras)
+        .reply(200, camera);
+
+      await store.dispatch(fetchMaxPriceCameraAction());
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchMaxPriceCameraAction.pending.type,
+        fetchMaxPriceCameraAction.fulfilled.type
+      ]);
     });
 
-    mockAPI
-      .onGet(APIRoute.Cameras)
-      .reply(400, camera);
+    it('when fetchMaxPriceCameraAction and server response not "ok" should set actions types to pending and rejected', async () => {
+      const camera = [makeMockCamera()];
 
-    await store.dispatch(fetchMinPriceCameraAction());
+      const store = mockStore({
+        CatalogSort: {
+          sort: null,
+          order: null,
+        },
+        CatalogFilter: {
+          minPrice: null,
+          maxPrice: null,
+          category: [],
+          type: [],
+          level: [],
+        }
+      });
 
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+      mockAPI
+        .onGet(APIRoute.Cameras)
+        .reply(400, camera);
 
-    expect(actionsTypes).toEqual([
-      fetchMinPriceCameraAction.pending.type,
-      fetchMinPriceCameraAction.rejected.type
-    ]);
+      await store.dispatch(fetchMaxPriceCameraAction());
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchMaxPriceCameraAction.pending.type,
+        fetchMaxPriceCameraAction.rejected.type
+      ]);
+    });
   });
 
-  it('when fetchMaxPriceCameraAction and server response "ok" should set actions types to pending and fulfilled', async () => {
-    const camera = [makeMockCamera()];
+  describe('fetchNearestMinPriceCameraAction test', () => {
+    it('when fetchNearestMinPriceCameraAction and server response "ok" should set actions types to pending and fulfilled', async () => {
+      const camera = [makeMockCamera()];
 
-    const store = mockStore({
-      CatalogSort: {
-        sort: null,
-        order: null,
-      },
-      CatalogFilter: {
-        minPrice: null,
-        maxPrice: null,
-        category: [],
-        type: [],
-        level: [],
-      }
+      const store = mockStore({
+        CatalogSort: {
+          sort: null,
+          order: null,
+        },
+        CatalogFilter: {
+          minPrice: null,
+          maxPrice: null,
+          category: [],
+          type: [],
+          level: [],
+        }
+      });
+
+      mockAPI
+        .onGet(APIRoute.Cameras)
+        .reply(200, camera);
+
+      await store.dispatch(fetchNearestMinPriceCameraAction());
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchNearestMinPriceCameraAction.pending.type,
+        fetchNearestMinPriceCameraAction.fulfilled.type
+      ]);
     });
 
-    mockAPI
-      .onGet(APIRoute.Cameras)
-      .reply(200, camera);
+    it('when fetchNearestMinPriceCameraAction and server response not "ok" should set actions types to pending and rejected', async () => {
+      const camera = [makeMockCamera()];
 
-    await store.dispatch(fetchMaxPriceCameraAction());
+      const store = mockStore({
+        CatalogSort: {
+          sort: null,
+          order: null,
+        },
+        CatalogFilter: {
+          minPrice: null,
+          maxPrice: null,
+          category: [],
+          type: [],
+          level: [],
+        }
+      });
 
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+      mockAPI
+        .onGet(APIRoute.Cameras)
+        .reply(400, camera);
 
-    expect(actionsTypes).toEqual([
-      fetchMaxPriceCameraAction.pending.type,
-      fetchMaxPriceCameraAction.fulfilled.type
-    ]);
+      await store.dispatch(fetchNearestMinPriceCameraAction());
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchNearestMinPriceCameraAction.pending.type,
+        fetchNearestMinPriceCameraAction.rejected.type
+      ]);
+    });
   });
 
-  it('when fetchMaxPriceCameraAction and server response not "ok" should set actions types to pending and rejected', async () => {
-    const camera = [makeMockCamera()];
+  describe('fetchNearestMaxPriceCameraAction test', () => {
+    it('when fetchNearestMaxPriceCameraAction and server response "ok" should set actions types to pending and fulfilled', async () => {
+      const camera = [makeMockCamera()];
 
-    const store = mockStore({
-      CatalogSort: {
-        sort: null,
-        order: null,
-      },
-      CatalogFilter: {
-        minPrice: null,
-        maxPrice: null,
-        category: [],
-        type: [],
-        level: [],
-      }
+      const store = mockStore({
+        CatalogSort: {
+          sort: null,
+          order: null,
+        },
+        CatalogFilter: {
+          minPrice: null,
+          maxPrice: null,
+          category: [],
+          type: [],
+          level: [],
+        }
+      });
+
+      mockAPI
+        .onGet(APIRoute.Cameras)
+        .reply(200, camera);
+
+      await store.dispatch(fetchNearestMaxPriceCameraAction());
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchNearestMaxPriceCameraAction.pending.type,
+        fetchNearestMaxPriceCameraAction.fulfilled.type
+      ]);
     });
 
-    mockAPI
-      .onGet(APIRoute.Cameras)
-      .reply(400, camera);
+    it('when fetchNearestMaxPriceCameraAction and server response not "ok" should set actions types to pending and rejected', async () => {
+      const camera = [makeMockCamera()];
 
-    await store.dispatch(fetchMaxPriceCameraAction());
+      const store = mockStore({
+        CatalogSort: {
+          sort: null,
+          order: null,
+        },
+        CatalogFilter: {
+          minPrice: null,
+          maxPrice: null,
+          category: [],
+          type: [],
+          level: [],
+        }
+      });
 
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+      mockAPI
+        .onGet(APIRoute.Cameras)
+        .reply(400, camera);
 
-    expect(actionsTypes).toEqual([
-      fetchMaxPriceCameraAction.pending.type,
-      fetchMaxPriceCameraAction.rejected.type
-    ]);
+      await store.dispatch(fetchNearestMaxPriceCameraAction());
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchNearestMaxPriceCameraAction.pending.type,
+        fetchNearestMaxPriceCameraAction.rejected.type
+      ]);
+    });
   });
 
-  it('when fetchNearestMinPriceCameraAction and server response "ok" should set actions types to pending and fulfilled', async () => {
-    const camera = [makeMockCamera()];
+  describe('fetchPromoAction test', () => {
+    it('when GET /promo and server response "ok" should set actions types to pending and fulfilled', async () => {
+      const promo = makeMockPromo();
 
-    const store = mockStore({
-      CatalogSort: {
-        sort: null,
-        order: null,
-      },
-      CatalogFilter: {
-        minPrice: null,
-        maxPrice: null,
-        category: [],
-        type: [],
-        level: [],
-      }
+      const store = mockStore();
+
+      mockAPI
+        .onGet(APIRoute.Promo)
+        .reply(200, promo);
+
+      await store.dispatch(fetchPromoAction());
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchPromoAction.pending.type,
+        fetchPromoAction.fulfilled.type
+      ]);
     });
 
-    mockAPI
-      .onGet(APIRoute.Cameras)
-      .reply(200, camera);
+    it('when GET /promo and server response not "ok" should set actions types to pending and rejected', async () => {
+      const promo = makeMockPromo();
 
-    await store.dispatch(fetchNearestMinPriceCameraAction());
+      const store = mockStore();
 
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+      mockAPI
+        .onGet(APIRoute.Promo)
+        .reply(400, promo);
 
-    expect(actionsTypes).toEqual([
-      fetchNearestMinPriceCameraAction.pending.type,
-      fetchNearestMinPriceCameraAction.fulfilled.type
-    ]);
+      await store.dispatch(fetchPromoAction());
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchPromoAction.pending.type,
+        fetchPromoAction.rejected.type
+      ]);
+    });
   });
 
-  it('when fetchNearestMinPriceCameraAction and server response not "ok" should set actions types to pending and rejected', async () => {
-    const camera = [makeMockCamera()];
+  describe('fetchCurrentCameraAction test', () => {
+    it('when GET /cameras/{id} and server response "ok" should set actions types to pending and fulfilled', async () => {
+      const ID = '1';
+      const camera = makeMockCamera();
 
-    const store = mockStore({
-      CatalogSort: {
-        sort: null,
-        order: null,
-      },
-      CatalogFilter: {
-        minPrice: null,
-        maxPrice: null,
-        category: [],
-        type: [],
-        level: [],
-      }
+      const store = mockStore();
+
+      mockAPI
+        .onGet(`${APIRoute.Cameras}/${ID}`)
+        .reply(200, camera);
+
+      await store.dispatch(fetchCurrentCameraAction(ID));
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchCurrentCameraAction.pending.type,
+        fetchCurrentCameraAction.fulfilled.type
+      ]);
     });
 
-    mockAPI
-      .onGet(APIRoute.Cameras)
-      .reply(400, camera);
+    it('when GET /cameras/{id} and server response not "ok" should set actions types to pending and rejected', async () => {
+      const ID = '1';
+      const camera = makeMockCamera();
 
-    await store.dispatch(fetchNearestMinPriceCameraAction());
+      const store = mockStore();
 
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+      mockAPI
+        .onGet(`${APIRoute.Cameras}/${ID}`)
+        .reply(400, camera);
 
-    expect(actionsTypes).toEqual([
-      fetchNearestMinPriceCameraAction.pending.type,
-      fetchNearestMinPriceCameraAction.rejected.type
-    ]);
+      await store.dispatch(fetchCurrentCameraAction(ID));
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchCurrentCameraAction.pending.type,
+        fetchCurrentCameraAction.rejected.type
+      ]);
+    });
   });
 
-  it('when fetchNearestMaxPriceCameraAction and server response "ok" should set actions types to pending and fulfilled', async () => {
-    const camera = [makeMockCamera()];
+  describe('fetchSimilarCamerasAction test', () => {
+    it('when GET /cameras/{id}/similar and server response "ok" should set actions types to pending and fulfilled', async () => {
+      const ID = '1';
+      const cameras = makeMockCameras();
 
-    const store = mockStore({
-      CatalogSort: {
-        sort: null,
-        order: null,
-      },
-      CatalogFilter: {
-        minPrice: null,
-        maxPrice: null,
-        category: [],
-        type: [],
-        level: [],
-      }
+      const store = mockStore();
+
+      mockAPI
+        .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Similar}`)
+        .reply(200, cameras);
+
+      await store.dispatch(fetchSimilarCamerasAction(ID));
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchSimilarCamerasAction.pending.type,
+        fetchSimilarCamerasAction.fulfilled.type
+      ]);
     });
 
-    mockAPI
-      .onGet(APIRoute.Cameras)
-      .reply(200, camera);
+    it('when GET /cameras/{id}/similar and server response not "ok" should set actions types to pending and rejected', async () => {
+      const ID = '1';
+      const cameras = makeMockCameras();
 
-    await store.dispatch(fetchNearestMaxPriceCameraAction());
+      const store = mockStore();
 
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+      mockAPI
+        .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Similar}`)
+        .reply(400, cameras);
 
-    expect(actionsTypes).toEqual([
-      fetchNearestMaxPriceCameraAction.pending.type,
-      fetchNearestMaxPriceCameraAction.fulfilled.type
-    ]);
+      await store.dispatch(fetchSimilarCamerasAction(ID));
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchSimilarCamerasAction.pending.type,
+        fetchSimilarCamerasAction.rejected.type
+      ]);
+    });
   });
 
-  it('when fetchNearestMaxPriceCameraAction and server response not "ok" should set actions types to pending and rejected', async () => {
-    const camera = [makeMockCamera()];
+  describe('fetchReviewsAction test', () => {
+    it('when GET /cameras/{id}/reviews and server response "ok" should set actions types to pending and fulfilled', async () => {
+      const ID = '1';
+      const reviews = makeMockReviews();
 
-    const store = mockStore({
-      CatalogSort: {
-        sort: null,
-        order: null,
-      },
-      CatalogFilter: {
-        minPrice: null,
-        maxPrice: null,
-        category: [],
-        type: [],
-        level: [],
-      }
+      const store = mockStore();
+
+      mockAPI
+        .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Reviews}`)
+        .reply(200, reviews);
+
+      await store.dispatch(fetchReviewsAction(ID));
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchReviewsAction.pending.type,
+        fetchReviewsAction.fulfilled.type
+      ]);
     });
 
-    mockAPI
-      .onGet(APIRoute.Cameras)
-      .reply(400, camera);
+    it('when GET /cameras/{id}/reviews and server response not "ok" should set actions types to pending and rejected', async () => {
+      const ID = '1';
+      const reviews = makeMockReviews();
 
-    await store.dispatch(fetchNearestMaxPriceCameraAction());
+      const store = mockStore();
 
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+      mockAPI
+        .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Reviews}`)
+        .reply(400, reviews);
 
-    expect(actionsTypes).toEqual([
-      fetchNearestMaxPriceCameraAction.pending.type,
-      fetchNearestMaxPriceCameraAction.rejected.type
-    ]);
+      await store.dispatch(fetchReviewsAction(ID));
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchReviewsAction.pending.type,
+        fetchReviewsAction.rejected.type
+      ]);
+    });
   });
 
-  it('when GET /promo and server response "ok" should set actions types to pending and fulfilled', async () => {
-    const promo = makeMockPromo();
+  describe('postReviewAction test', () => {
+    it('when POST /reviews and server response "ok" should set actions types to pending and fulfilled', async () => {
+      const postingReview = makeMockPostingReview();
+      const newReview = makeMockReview();
 
-    const store = mockStore();
+      const store = mockStore();
 
-    mockAPI
-      .onGet(APIRoute.Promo)
-      .reply(200, promo);
+      mockAPI
+        .onPost(APIRoute.Reviews, postingReview)
+        .reply(200, newReview);
 
-    await store.dispatch(fetchPromoAction());
+      await store.dispatch(postReviewAction(postingReview));
 
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
 
-    expect(actionsTypes).toEqual([
-      fetchPromoAction.pending.type,
-      fetchPromoAction.fulfilled.type
-    ]);
+      expect(actionsTypes).toEqual([
+        postReviewAction.pending.type,
+        postReviewAction.fulfilled.type
+      ]);
+    });
+
+    it('when POST /reviews and server response not "ok" should set actions types to pending and rejected', async () => {
+      const postingReview = makeMockPostingReview();
+      const newReview = makeMockReview();
+
+      const store = mockStore();
+
+      mockAPI
+        .onPost(APIRoute.Reviews, postingReview)
+        .reply(400, newReview);
+
+      await store.dispatch(postReviewAction(postingReview));
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        postReviewAction.pending.type,
+        postReviewAction.rejected.type
+      ]);
+    });
   });
 
-  it('when GET /promo and server response not "ok" should set actions types to pending and rejected', async () => {
-    const promo = makeMockPromo();
+  describe('postPromoCodeAction test', () => {
+    it('when POST /coupons and server response "ok" should set actions types to pending and fulfilled', async () => {
+      const DISCOUNT = 15;
+      const postingPromoCode = {coupon: 'promo-code'};
 
-    const store = mockStore();
+      const store = mockStore();
 
-    mockAPI
-      .onGet(APIRoute.Promo)
-      .reply(400, promo);
+      mockAPI
+        .onPost(APIRoute.Coupons, postingPromoCode)
+        .reply(200, DISCOUNT);
 
-    await store.dispatch(fetchPromoAction());
+      await store.dispatch(postPromoCodeAction(postingPromoCode));
 
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
 
-    expect(actionsTypes).toEqual([
-      fetchPromoAction.pending.type,
-      fetchPromoAction.rejected.type
-    ]);
+      expect(actionsTypes).toEqual([
+        postPromoCodeAction.pending.type,
+        postPromoCodeAction.fulfilled.type
+      ]);
+    });
+
+    it('when POST /coupons and server response not "ok" should set actions types to pending and rejected', async () => {
+      const postingPromoCode = {coupon: 'promo-code'};
+
+      const store = mockStore();
+
+      mockAPI
+        .onPost(APIRoute.Coupons, postingPromoCode)
+        .reply(400, undefined);
+
+      await store.dispatch(postPromoCodeAction(postingPromoCode));
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        postPromoCodeAction.pending.type,
+        postPromoCodeAction.rejected.type
+      ]);
+    });
   });
 
-  it('when GET /cameras/{id} and server response "ok" should set actions types to pending and fulfilled', async () => {
-    const ID = '1';
-    const camera = makeMockCamera();
+  describe('postOrderAction test', () => {
+    it('when POST /orders and server response "ok" should set actions types to pending and fulfilled', async () => {
+      const COUPON = 'camera-333';
+      const basketItems = makeMockBasketItems();
+      const camerasIds = basketItems.map((item) => item.value.id);
+      const postingOrder = {
+        camerasIds,
+        coupon: COUPON,
+      };
 
-    const store = mockStore();
+      const store = mockStore({
+        Basket: {
+          basketItems,
+          promoCode: COUPON,
+        }
+      });
 
-    mockAPI
-      .onGet(`${APIRoute.Cameras}/${ID}`)
-      .reply(200, camera);
+      mockAPI
+        .onPost(APIRoute.Orders, postingOrder)
+        .reply(200);
 
-    await store.dispatch(fetchCurrentCameraAction(ID));
+      await store.dispatch(postOrderAction());
 
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
 
-    expect(actionsTypes).toEqual([
-      fetchCurrentCameraAction.pending.type,
-      fetchCurrentCameraAction.fulfilled.type
-    ]);
-  });
+      expect(actionsTypes).toEqual([
+        postOrderAction.pending.type,
+        postOrderAction.fulfilled.type
+      ]);
+    });
 
-  it('when GET /cameras/{id} and server response not "ok" should set actions types to pending and rejected', async () => {
-    const ID = '1';
-    const camera = makeMockCamera();
+    it('when POST /orders and server response not "ok" should set actions types to pending, rejected and redirect', async () => {
+      const COUPON = 'camera-333';
+      const basketItems = makeMockBasketItems();
+      const camerasIds = basketItems.map((item) => item.value.id);
+      const postingOrder = {
+        camerasIds,
+        coupon: COUPON,
+      };
 
-    const store = mockStore();
+      const store = mockStore({
+        Basket: {
+          basketItems,
+          promoCode: COUPON,
+        }
+      });
 
-    mockAPI
-      .onGet(`${APIRoute.Cameras}/${ID}`)
-      .reply(400, camera);
+      mockAPI
+        .onPost(APIRoute.Orders, postingOrder)
+        .reply(400);
 
-    await store.dispatch(fetchCurrentCameraAction(ID));
+      await store.dispatch(postOrderAction());
 
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
 
-    expect(actionsTypes).toEqual([
-      fetchCurrentCameraAction.pending.type,
-      fetchCurrentCameraAction.rejected.type
-    ]);
-  });
-
-  it('when GET /cameras/{id}/similar and server response "ok" should set actions types to pending and fulfilled', async () => {
-    const ID = '1';
-    const cameras = makeMockCameras();
-
-    const store = mockStore();
-
-    mockAPI
-      .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Similar}`)
-      .reply(200, cameras);
-
-    await store.dispatch(fetchSimilarCamerasAction(ID));
-
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
-
-    expect(actionsTypes).toEqual([
-      fetchSimilarCamerasAction.pending.type,
-      fetchSimilarCamerasAction.fulfilled.type
-    ]);
-  });
-
-  it('when GET /cameras/{id}/similar and server response not "ok" should set actions types to pending and rejected', async () => {
-    const ID = '1';
-    const cameras = makeMockCameras();
-
-    const store = mockStore();
-
-    mockAPI
-      .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Similar}`)
-      .reply(400, cameras);
-
-    await store.dispatch(fetchSimilarCamerasAction(ID));
-
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
-
-    expect(actionsTypes).toEqual([
-      fetchSimilarCamerasAction.pending.type,
-      fetchSimilarCamerasAction.rejected.type
-    ]);
-  });
-
-  it('when GET /cameras/{id}/reviews and server response "ok" should set actions types to pending and fulfilled', async () => {
-    const ID = '1';
-    const reviews = makeMockReviews();
-
-    const store = mockStore();
-
-    mockAPI
-      .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Reviews}`)
-      .reply(200, reviews);
-
-    await store.dispatch(fetchReviewsAction(ID));
-
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
-
-    expect(actionsTypes).toEqual([
-      fetchReviewsAction.pending.type,
-      fetchReviewsAction.fulfilled.type
-    ]);
-  });
-
-  it('when GET /cameras/{id}/reviews and server response not "ok" should set actions types to pending and rejected', async () => {
-    const ID = '1';
-    const reviews = makeMockReviews();
-
-    const store = mockStore();
-
-    mockAPI
-      .onGet(`${APIRoute.Cameras}/${ID}${APIRoute.Reviews}`)
-      .reply(400, reviews);
-
-    await store.dispatch(fetchReviewsAction(ID));
-
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
-
-    expect(actionsTypes).toEqual([
-      fetchReviewsAction.pending.type,
-      fetchReviewsAction.rejected.type
-    ]);
-  });
-
-  it('when POST /reviews and server response "ok" should set actions types to pending and fulfilled', async () => {
-    const postingReview = makeMockPostingReview();
-    const newReview = makeMockReview();
-
-    const store = mockStore();
-
-    mockAPI
-      .onPost(APIRoute.Reviews, postingReview)
-      .reply(200, newReview);
-
-    await store.dispatch(postReviewAction(postingReview));
-
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
-
-    expect(actionsTypes).toEqual([
-      postReviewAction.pending.type,
-      postReviewAction.fulfilled.type
-    ]);
-  });
-
-  it('when POST /reviews and server response not "ok" should set actions types to pending and rejected', async () => {
-    const postingReview = makeMockPostingReview();
-    const newReview = makeMockReview();
-
-    const store = mockStore();
-
-    mockAPI
-      .onPost(APIRoute.Reviews, postingReview)
-      .reply(400, newReview);
-
-    await store.dispatch(postReviewAction(postingReview));
-
-    const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
-
-    expect(actionsTypes).toEqual([
-      postReviewAction.pending.type,
-      postReviewAction.rejected.type
-    ]);
+      expect(actionsTypes).toEqual([
+        postOrderAction.pending.type,
+        redirectToRoute.type,
+        postOrderAction.rejected.type
+      ]);
+    });
   });
 });
