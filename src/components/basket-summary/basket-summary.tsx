@@ -6,7 +6,6 @@ import {
   getOrderPostingStatus,
   getPromoCode
 } from '../../store/basket-slice/selectors';
-import { promoCodeUpdate } from '../../store/basket-slice/basket-slice';
 import { postPromoCodeAction, postOrderAction } from '../../store/api-actions';
 import { DEFAULT_DISCOUNT } from '../../const';
 import BasketPromoCode from '../basket-promo-code/basket-promo-code';
@@ -22,7 +21,6 @@ function BasketSummary(): JSX.Element {
   const applyPromoCode = useCallback(
     (coupon: string) => {
       dispatch(postPromoCodeAction({coupon}));
-      dispatch(promoCodeUpdate(coupon));
     },
     [dispatch]
   );

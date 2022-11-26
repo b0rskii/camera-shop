@@ -29,6 +29,7 @@ import {
   postPromoCodeAction,
   postOrderAction
 } from './api-actions';
+import { promoCodeUpdate } from './basket-slice/basket-slice';
 import { redirectToRoute } from './actions';
 
 describe('Async actions', () => {
@@ -626,6 +627,7 @@ describe('Async actions', () => {
 
       expect(actionsTypes).toEqual([
         postPromoCodeAction.pending.type,
+        promoCodeUpdate.type,
         postPromoCodeAction.fulfilled.type
       ]);
     });
@@ -645,6 +647,7 @@ describe('Async actions', () => {
 
       expect(actionsTypes).toEqual([
         postPromoCodeAction.pending.type,
+        promoCodeUpdate.type,
         postPromoCodeAction.rejected.type
       ]);
     });

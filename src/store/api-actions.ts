@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
+import { promoCodeUpdate } from './basket-slice/basket-slice';
 import { redirectToRoute } from './actions';
 import { Camera, Promo, Review, PostingReview, Order } from '../types/types';
 import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT, NameSpace, AppQuery, SortOrder, AppRoute } from '../const';
@@ -202,8 +203,10 @@ export const postReviewAction = createAsyncThunk<Review, PostingReview, ThunkAPI
 
 export const postPromoCodeAction = createAsyncThunk<number, {coupon: string}, ThunkAPI>(
   `${NameSpace.Basket}/postPromoCode`,
-  async (promoCode, {extra: api}) => {
-    const {data} = await api.post<number>(APIRoute.Coupons, promoCode);
+  async (promoCode, {dispatch, extra: api}) => {
+    const {data} = await api.post<number>(APIRoute.Coupons, promoCode)
+      .finally(() => dispatch(promoCodeUpdate(promoCode.coupon)));
+
     return data;
   },
 );
