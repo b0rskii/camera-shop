@@ -1,6 +1,5 @@
 import similarCamerasReducer from './similar-cameras-slice';
 import { SimilarCamerasState } from '../../types/state';
-import { DEFAULT_ERROR_MESSAGE } from '../../const';
 import { makeMockCameras } from '../../utils/mocks';
 import { fetchSimilarCamerasAction } from '../api-actions';
 
@@ -12,7 +11,6 @@ describe('Reducer: similarCamerasReducer', () => {
       similarCameras: [],
       isLoaded: false,
       loadingError: null,
-      defaultError: DEFAULT_ERROR_MESSAGE,
     };
   });
 
@@ -54,11 +52,13 @@ describe('Reducer: similarCamerasReducer', () => {
     });
 
     it('if rejected should set similar cameras loaded status to "true", similar cameras loading error to default error', () => {
-      expect(similarCamerasReducer(initialState, fetchSimilarCamerasAction.rejected))
+      const ERROR = '400';
+
+      expect(similarCamerasReducer(initialState, {type: fetchSimilarCamerasAction.rejected, error: {code: ERROR}}))
         .toEqual({
           ...initialState,
           isLoaded: true,
-          loadingError: initialState.defaultError,
+          loadingError: ERROR,
         });
     });
   });

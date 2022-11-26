@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { BasketState } from '../../types/state';
 import { postPromoCodeAction, postOrderAction } from '../api-actions';
 import { Camera } from '../../types/types';
-import { NameSpace, DEFAULT_DISCOUNT, DEFAULT_ERROR_MESSAGE } from '../../const';
+import { NameSpace, DEFAULT_DISCOUNT } from '../../const';
 
 const initialState: BasketState = {
   basketItems: [],
@@ -10,7 +10,6 @@ const initialState: BasketState = {
   promoCode: '',
   isOrderPosting: false,
   postingError: null,
-  defaultError: DEFAULT_ERROR_MESSAGE,
 };
 
 const basketSlice = createSlice({
@@ -66,9 +65,10 @@ const basketSlice = createSlice({
         state.discount = 0;
         state.promoCode = '';
       })
-      .addCase(postOrderAction.rejected, (state) => {
+      .addCase(postOrderAction.rejected, (state, action) => {
+        const error = action.error.code || null;
         state.isOrderPosting = false;
-        state.postingError = state.defaultError;
+        state.postingError = error;
       });
   },
 });

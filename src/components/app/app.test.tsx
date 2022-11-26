@@ -11,7 +11,6 @@ import { AppRoute, InitialCatalogPriceLimit } from '../../const';
 import HistoryRouter from '../../components/history-router/history-router';
 import App from './app';
 
-const DEFAULT_ERROR = 'error';
 const DEFAULT_DISCOUNT = 0;
 const CAMERAS_TOTAL_COUNT = 50;
 const ID = 1;
@@ -35,31 +34,26 @@ const store = makeMockStore({
     isLoaded: true,
     loadingError: null,
     searchingCameras: [],
-    defaultError: DEFAULT_ERROR,
   },
   Promo: {
     promo: null,
     isLoaded: false,
     loadingError: null,
-    defaultError: DEFAULT_ERROR,
   },
   CurrentCamera: {
     currentCamera: camera,
     isLoaded: true,
     loadingError: null,
-    defaultError: DEFAULT_ERROR,
   },
   SimilarCameras: {
     similarCameras: [],
     isLoaded: false,
     loadingError: null,
-    defaultError: DEFAULT_ERROR,
   },
   Reviews: {
     reviews: [],
     isLoaded: false,
     loadingError: null,
-    defaultError: DEFAULT_ERROR,
   },
   Error: {
     error: null,
@@ -96,7 +90,6 @@ const store = makeMockStore({
     promoCode: '',
     isOrderPosting: false,
     postingError: null,
-    defaultError: DEFAULT_ERROR,
   },
 });
 

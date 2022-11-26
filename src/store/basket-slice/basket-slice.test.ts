@@ -11,7 +11,7 @@ import {
   postOrderAction
 } from '../api-actions';
 import { makeMockCamera } from '../../utils/mocks';
-import { DEFAULT_DISCOUNT, DEFAULT_ERROR_MESSAGE } from '../../const';
+import { DEFAULT_DISCOUNT } from '../../const';
 
 describe('Reducer: basketReducer', () => {
   let initialState: BasketState;
@@ -23,7 +23,6 @@ describe('Reducer: basketReducer', () => {
       promoCode: '',
       isOrderPosting: false,
       postingError: null,
-      defaultError: DEFAULT_ERROR_MESSAGE,
     };
   });
 
@@ -153,9 +152,10 @@ describe('Reducer: basketReducer', () => {
 
   describe('postOrderAction test', () => {
     it('if pending should set "isOrderPosting" to "true" and "postingError" to "null"', () => {
+      const ERROR = '400';
       const state = {
         ...initialState,
-        postingError: DEFAULT_ERROR_MESSAGE,
+        postingError: ERROR,
       };
 
       expect(basketReducer(state, postOrderAction.pending))
@@ -194,16 +194,17 @@ describe('Reducer: basketReducer', () => {
     });
 
     it('if rejected should set "isOrderPosting" to "false" and "postingError" to default error value', () => {
+      const ERROR = '400';
       const state = {
         ...initialState,
         isOrderPosting: true,
       };
 
-      expect(basketReducer(state, postOrderAction.rejected))
+      expect(basketReducer(state, {type: postOrderAction.rejected.type, error: {code: ERROR}}))
         .toEqual({
           ...state,
           isOrderPosting: false,
-          postingError: DEFAULT_ERROR_MESSAGE,
+          postingError: ERROR,
         });
     });
   });

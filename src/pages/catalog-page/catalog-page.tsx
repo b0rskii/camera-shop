@@ -15,7 +15,7 @@ function CatalogPage(): JSX.Element {
 
   if (camerasLoadingError) {
     return (
-      <Error message={camerasLoadingError} />
+      <Error />
     );
   }
 

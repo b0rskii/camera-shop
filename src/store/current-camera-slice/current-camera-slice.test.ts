@@ -1,6 +1,5 @@
 import currentCameraReducer from './current-camera-slice';
 import { CurrentCameraState } from '../../types/state';
-import { DEFAULT_ERROR_MESSAGE } from '../../const';
 import { makeMockCamera } from '../../utils/mocks';
 import { fetchCurrentCameraAction } from '../api-actions';
 
@@ -12,7 +11,6 @@ describe('Reducer: currentCameraReducer', () => {
       currentCamera: null,
       isLoaded: false,
       loadingError: null,
-      defaultError: DEFAULT_ERROR_MESSAGE,
     };
   });
 
@@ -54,11 +52,13 @@ describe('Reducer: currentCameraReducer', () => {
     });
 
     it('if rejected should set current camera loaded status to "true", current camera loading error to default error', () => {
-      expect(currentCameraReducer(initialState, fetchCurrentCameraAction.rejected))
+      const ERROR = '400';
+
+      expect(currentCameraReducer(initialState, {type: fetchCurrentCameraAction.rejected, error: {code: ERROR}}))
         .toEqual({
           ...initialState,
           isLoaded: true,
-          loadingError: initialState.defaultError,
+          loadingError: ERROR,
         });
     });
   });

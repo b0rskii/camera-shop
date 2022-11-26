@@ -7,35 +7,30 @@ export type CamerasState = {
   isLoaded: boolean;
   loadingError: string | null;
   searchingCameras: Camera[];
-  defaultError: string;
 };
 
 export type PromoState = {
   promo: Promo | null;
   isLoaded: boolean;
   loadingError: string | null;
-  defaultError: string;
 };
 
 export type CurrentCameraState = {
   currentCamera: Camera | null;
   isLoaded: boolean;
   loadingError: string | null;
-  defaultError: string;
 };
 
 export type SimilarCamerasState = {
   similarCameras: Camera[];
   isLoaded: boolean;
   loadingError: string | null;
-  defaultError: string;
 };
 
 export type ReviewsState = {
   reviews: Review[];
   isLoaded: boolean;
   loadingError: string | null;
-  defaultError: string;
 };
 
 export type ErrorState = {
@@ -78,7 +73,6 @@ export type BasketState = {
   promoCode: string;
   isOrderPosting: boolean;
   postingError: string | null;
-  defaultError: string;
 };
 
 export type State = ReturnType<typeof store.getState>;

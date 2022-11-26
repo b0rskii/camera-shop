@@ -1,13 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { SimilarCamerasState } from '../../types/state';
-import { NameSpace, DEFAULT_ERROR_MESSAGE } from '../../const';
+import { NameSpace } from '../../const';
 import { fetchSimilarCamerasAction } from '../api-actions';
 
 const initialState: SimilarCamerasState = {
   similarCameras: [],
   isLoaded: false,
   loadingError: null,
-  defaultError: DEFAULT_ERROR_MESSAGE,
 };
 
 export const similarCamerasSlice = createSlice({
@@ -25,9 +24,10 @@ export const similarCamerasSlice = createSlice({
         state.isLoaded = true;
         state.loadingError = null;
       })
-      .addCase(fetchSimilarCamerasAction.rejected, (state) => {
+      .addCase(fetchSimilarCamerasAction.rejected, (state, action) => {
+        const error = action.error.code || null;
         state.isLoaded = true;
-        state.loadingError = state.defaultError;
+        state.loadingError = error;
       });
   },
 });

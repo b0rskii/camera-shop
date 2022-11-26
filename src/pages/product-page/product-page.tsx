@@ -41,7 +41,7 @@ function ProductPage(): JSX.Element {
   }, [dispatch, id]);
 
   if (cameraLoadingError) {
-    return <Error message={cameraLoadingError} />;
+    return <Error />;
   }
 
   if (!isCameraLoaded || camera === null || !id) {

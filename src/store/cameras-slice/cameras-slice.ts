@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { CamerasState } from '../../types/state';
-import { NameSpace, DEFAULT_ERROR_MESSAGE } from '../../const';
+import { NameSpace } from '../../const';
 import { fetchCamerasAction, fetchSearchingCamerasAction } from '../api-actions';
 
 const initialState: CamerasState = {
@@ -9,7 +9,6 @@ const initialState: CamerasState = {
   isLoaded: false,
   loadingError: null,
   searchingCameras: [],
-  defaultError: DEFAULT_ERROR_MESSAGE
 };
 
 const camerasSlice = createSlice({
@@ -37,9 +36,10 @@ const camerasSlice = createSlice({
         state.isLoaded = true;
         state.loadingError = null;
       })
-      .addCase(fetchCamerasAction.rejected, (state) => {
+      .addCase(fetchCamerasAction.rejected, (state, action) => {
+        const error = action.error.code || null;
         state.isLoaded = true;
-        state.loadingError = state.defaultError;
+        state.loadingError = error;
       })
       .addCase(fetchSearchingCamerasAction.fulfilled, (state, action) => {
         state.searchingCameras = action.payload;

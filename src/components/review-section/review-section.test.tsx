@@ -9,10 +9,9 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { createMemoryHistory } from 'history';
 import { makeMockReviews } from '../../utils/mocks';
+import { DEFAULT_ERROR_MESSAGE } from '../../const';
 import HistoryRouter from '../history-router/history-router';
 import ReviewSection from './review-section';
-
-const DEFAULT_ERROR = 'error';
 
 const middlewares = [thunk.withExtraArgument(api)];
 const makeMockStore = configureMockStore<
@@ -31,7 +30,6 @@ describe('Component: ReviewSection', () => {
         reviews: reviews,
         isLoaded: true,
         loadingError: null,
-        defaultError: DEFAULT_ERROR,
       }
     });
 
@@ -56,7 +54,6 @@ describe('Component: ReviewSection', () => {
         reviews: [],
         isLoaded: true,
         loadingError: null,
-        defaultError: DEFAULT_ERROR,
       }
     });
 
@@ -81,7 +78,6 @@ describe('Component: ReviewSection', () => {
         reviews: [],
         isLoaded: false,
         loadingError: null,
-        defaultError: DEFAULT_ERROR,
       }
     });
 
@@ -100,13 +96,13 @@ describe('Component: ReviewSection', () => {
   });
 
   it('should render component correctly if loaded with error', () => {
+    const ERROR = '400';
     const ID = '1';
     const store = makeMockStore({
       Reviews: {
         reviews: [],
         isLoaded: true,
-        loadingError: DEFAULT_ERROR,
-        defaultError: DEFAULT_ERROR,
+        loadingError: ERROR,
       }
     });
 
@@ -120,7 +116,7 @@ describe('Component: ReviewSection', () => {
 
     expect(screen.getByText(/Отзывы/i)).toBeInTheDocument();
     expect(screen.getByText(/Оставить свой отзыв/i)).toBeInTheDocument();
-    expect(screen.getByText(DEFAULT_ERROR)).toBeInTheDocument();
+    expect(screen.getByText(DEFAULT_ERROR_MESSAGE)).toBeInTheDocument();
     expect(screen.queryByTestId('reviews-list')).not.toBeInTheDocument();
   });
 
@@ -132,7 +128,6 @@ describe('Component: ReviewSection', () => {
         reviews: reviews,
         isLoaded: true,
         loadingError: null,
-        defaultError: DEFAULT_ERROR,
       }
     });
 

@@ -1,6 +1,5 @@
 import camerasReducer from './cameras-slice';
 import { CamerasState } from '../../types/state';
-import { DEFAULT_ERROR_MESSAGE } from '../../const';
 import { makeMockCameras, Mock } from '../../utils/mocks';
 import { fetchCamerasAction } from '../api-actions';
 
@@ -14,7 +13,6 @@ describe('Reducer: camerasReducer', () => {
       isLoaded: false,
       loadingError: null,
       searchingCameras: [],
-      defaultError: DEFAULT_ERROR_MESSAGE,
     };
   });
 
@@ -61,11 +59,13 @@ describe('Reducer: camerasReducer', () => {
     });
 
     it('if rejected should set cameras loaded status to "true", cameras loading error to default error', () => {
-      expect(camerasReducer(initialState, fetchCamerasAction.rejected))
+      const ERROR = '400';
+
+      expect(camerasReducer(initialState, {type: fetchCamerasAction.rejected.type, error: {code: ERROR}}))
         .toEqual({
           ...initialState,
           isLoaded: true,
-          loadingError: initialState.defaultError,
+          loadingError: ERROR,
         });
     });
   });

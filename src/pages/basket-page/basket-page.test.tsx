@@ -10,7 +10,6 @@ import HistoryRouter from '../../components/history-router/history-router';
 import BasketPage from './basket-page';
 
 const DEFAULT_DISCOUNT = 0;
-const DEFAULT_ERROR = 'error';
 
 const middlewares = [thunk.withExtraArgument(api)];
 const makeMockStore = configureMockStore<
@@ -36,7 +35,6 @@ describe('Component: BasketPage', () => {
       promoCode: '',
       isOrderPosting: false,
       postingError: null,
-      defaultError: DEFAULT_ERROR,
     },
   });
 

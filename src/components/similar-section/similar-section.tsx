@@ -44,7 +44,7 @@ function SimilarSection({id}: SimilarSectionProps): JSX.Element | null {
           <h2 className="title title--h3">Похожие товары</h2>
 
           {similarCamerasLoadingError &&
-          <Error message={similarCamerasLoadingError} />}
+          <Error />}
 
           {!isSimilarCamerasLoaded &&
           <Loader wrapper />}

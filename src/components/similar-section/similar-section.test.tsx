@@ -7,6 +7,7 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { createMemoryHistory } from 'history';
 import { makeMockCameras } from '../../utils/mocks';
+import { DEFAULT_ERROR_MESSAGE } from '../../const';
 import HistoryRouter from '../history-router/history-router';
 import SimilarSection from './similar-section';
 
@@ -97,7 +98,7 @@ describe('Component: SimilarSection', () => {
 
   it('should render component correctly if loaded with error', () => {
     const ID = '1';
-    const ERROR = 'error';
+    const ERROR = '400';
     const store = makeMockStore({
       SimilarCameras: {
         similarCameras: [],
@@ -118,7 +119,7 @@ describe('Component: SimilarSection', () => {
     );
 
     expect(screen.getByText(/Похожие товары/i)).toBeInTheDocument();
-    expect(screen.getByText(ERROR)).toBeInTheDocument();
+    expect(screen.getByText(DEFAULT_ERROR_MESSAGE)).toBeInTheDocument();
     expect(screen.queryByTestId('slider')).not.toBeInTheDocument();
   });
 });
