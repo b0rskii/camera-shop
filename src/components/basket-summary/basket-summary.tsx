@@ -21,8 +21,8 @@ function BasketSummary(): JSX.Element {
 
   const applyPromoCode = useCallback(
     (coupon: string) => {
-      dispatch(postPromoCodeAction({coupon}))
-        .finally(() => dispatch(promoCodeUpdate(coupon)));
+      dispatch(postPromoCodeAction({coupon}));
+      dispatch(promoCodeUpdate(coupon));
     },
     [dispatch]
   );
