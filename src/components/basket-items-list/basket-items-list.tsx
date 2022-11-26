@@ -1,6 +1,9 @@
 import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { getBasketItems } from '../../store/basket-slice/selectors';
+import {
+  getBasketCameras,
+  getBasketItems
+} from '../../store/basket-slice/selectors';
 import { basketItemsCountUpdate } from '../../store/basket-slice/basket-slice';
 import { currentProductUpdate, basketItemDeletingPopupStatusUpdate } from '../../store/app-slice/app-slice';
 import { Camera } from '../../types/types';
@@ -13,7 +16,8 @@ const BasketItemsCount = {
 
 function BasketItemsList(): JSX.Element {
   const dispatch = useAppDispatch();
-  const items = useAppSelector(getBasketItems);
+  const cameras = useAppSelector(getBasketCameras);
+  const basketItems = useAppSelector(getBasketItems);
 
   const removeBasketItem = useCallback(
     (product: Camera) => {
@@ -29,16 +33,16 @@ function BasketItemsList(): JSX.Element {
   );
 
   return (
-    <ul className="basket__list">
-      {items.map((item) => (
+    <ul className="basket__list" data-testid="basket-list">
+      {cameras.map((item, i) => (
         <BasketItem
-          item={item.value}
-          itemsCount={item.count}
+          item={item}
+          itemsCount={basketItems[i].count}
           minItemsCount={BasketItemsCount.Min}
           maxItemsCount={BasketItemsCount.Max}
           onRemoveButtonClick={removeBasketItem}
           onCounterChange={updateItemsCount}
-          key={item.value.id}
+          key={item.id}
         />
       ))}
     </ul>

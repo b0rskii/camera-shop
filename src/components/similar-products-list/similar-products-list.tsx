@@ -18,7 +18,7 @@ function SimilarProductsList(props: SimilarProductsListProps): JSX.Element {
       {products.map((camera, i) => (
         <ProductCard
           product={camera}
-          isInBasket={basketItems.some((item) => item.value.id === camera.id)}
+          isInBasket={basketItems.some((item) => item.id === camera.id)}
           key={camera.id}
           isActive={i >= startDisplayedIndex && i < displayedItemsCount + startDisplayedIndex}
         />

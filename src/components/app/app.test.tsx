@@ -86,6 +86,9 @@ const store = makeMockStore({
   },
   Basket: {
     basketItems: [],
+    cameras: [],
+    isCamerasLoading: false,
+    camerasLoadingError: null,
     discount: DEFAULT_DISCOUNT,
     promoCode: '',
     isOrderPosting: false,

@@ -34,10 +34,6 @@ function BasketSummary(): JSX.Element {
     [dispatch]
   );
 
-  if (totalPrice === 0) {
-    return <h3>Здесь пока ничего нет</h3>;
-  }
-
   return (
     <div className="basket__summary" data-testid="basket-summary">
       <BasketPromoCode

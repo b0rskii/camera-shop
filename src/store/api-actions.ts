@@ -177,6 +177,21 @@ export const fetchReviewsAction = createAsyncThunk<Review[], string, ThunkAPI>(
   }
 );
 
+export const fetchBasketCamerasAction = createAsyncThunk<Camera[], undefined, ThunkAPI>(
+  `${NameSpace.Basket}/fetchBasketCameras`,
+  async (_arg, {getState, extra: api}) => {
+    const state: State = getState();
+    const itemsIds = state.Basket.basketItems.map((item) => item.id.toString());
+
+    const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
+      params: {
+        [AppQuery.CameraId]: itemsIds,
+      },
+    });
+    return data;
+  }
+);
+
 export const postReviewAction = createAsyncThunk<Review, PostingReview, ThunkAPI>(
   `${NameSpace.Reviews}/postReview`,
   async (review, {extra: api}) => {
@@ -204,7 +219,7 @@ export const postOrderAction = createAsyncThunk<void, undefined, ThunkAPI>(
 
     basketItems.forEach((item) => {
       for (let i = 0; i < item.count; i++) {
-        camerasIds.push(item.value.id);
+        camerasIds.push(item.id);
       }
     });
 

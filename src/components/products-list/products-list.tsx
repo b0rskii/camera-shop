@@ -69,7 +69,7 @@ function ProductsList(props: ProductsListProps): JSX.Element {
           products.map((product) => (
             <ProductCard
               product={product}
-              isInBasket={basketItems.some((item) => item.value.id === product.id)}
+              isInBasket={basketItems.some((item) => item.id === product.id)}
               key={product.id}
             />
           ))

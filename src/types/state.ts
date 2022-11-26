@@ -69,6 +69,9 @@ export type CatalogFilterState = {
 
 export type BasketState = {
   basketItems: BasketItem[];
+  cameras: Camera[];
+  isCamerasLoading: boolean;
+  camerasLoadingError: string | null;
   discount: number;
   promoCode: string;
   isOrderPosting: boolean;

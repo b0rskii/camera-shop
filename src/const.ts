@@ -33,6 +33,7 @@ export const AppQuery = {
   CatalogCategoryFilter: 'category',
   CatalogTypeFilter: 'type',
   CatalogLevelFilter: 'level',
+  CameraId: 'id',
 } as const;
 
 export const APIRoute = {

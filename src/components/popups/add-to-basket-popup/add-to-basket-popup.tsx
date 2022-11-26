@@ -19,7 +19,7 @@ function AddToBasketPopup(): JSX.Element | null {
   };
 
   const handleButtonClick = () => {
-    dispatch(basketItemAdding(product));
+    dispatch(basketItemAdding(product.id));
     setIsPopupOpened(false);
   };
 

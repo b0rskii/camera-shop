@@ -56,7 +56,7 @@ export type FilterValue = {
 };
 
 export type BasketItem = {
-  value: Camera;
+  id: number;
   count: number;
 };
 

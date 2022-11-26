@@ -24,6 +24,7 @@ import {
   fetchCurrentCameraAction,
   fetchSimilarCamerasAction,
   fetchReviewsAction,
+  fetchBasketCamerasAction,
   postReviewAction,
   postPromoCodeAction,
   postOrderAction
@@ -516,6 +517,56 @@ describe('Async actions', () => {
     });
   });
 
+  describe('fetchBasketCamerasAction test', () => {
+    it('when fetchBasketCamerasAction and server response "ok" should set actions types to pending and fulfilled', async () => {
+      const cameras = makeMockCameras(2);
+      const basketItems = makeMockBasketItems(2);
+
+      const store = mockStore({
+        Basket: {
+          basketItems,
+        },
+      });
+
+      mockAPI
+        .onGet(APIRoute.Cameras)
+        .reply(200, cameras);
+
+      await store.dispatch(fetchBasketCamerasAction());
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchBasketCamerasAction.pending.type,
+        fetchBasketCamerasAction.fulfilled.type
+      ]);
+    });
+
+    it('when fetchBasketCamerasAction and server response not "ok" should set actions types to pending and rejected', async () => {
+      const cameras = makeMockCameras(2);
+      const basketItems = makeMockBasketItems(2);
+
+      const store = mockStore({
+        Basket: {
+          basketItems,
+        },
+      });
+
+      mockAPI
+        .onGet(APIRoute.Cameras)
+        .reply(400, cameras);
+
+      await store.dispatch(fetchBasketCamerasAction());
+
+      const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
+
+      expect(actionsTypes).toEqual([
+        fetchBasketCamerasAction.pending.type,
+        fetchBasketCamerasAction.rejected.type
+      ]);
+    });
+  });
+
   describe('postReviewAction test', () => {
     it('when POST /reviews and server response "ok" should set actions types to pending and fulfilled', async () => {
       const postingReview = makeMockPostingReview();
@@ -603,7 +654,7 @@ describe('Async actions', () => {
     it('when POST /orders and server response "ok" should set actions types to pending and fulfilled', async () => {
       const COUPON = 'camera-333';
       const basketItems = makeMockBasketItems();
-      const camerasIds = basketItems.map((item) => item.value.id);
+      const camerasIds = basketItems.map((item) => item.id);
       const postingOrder = {
         camerasIds,
         coupon: COUPON,
@@ -633,7 +684,7 @@ describe('Async actions', () => {
     it('when POST /orders and server response not "ok" should set actions types to pending, rejected and redirect', async () => {
       const COUPON = 'camera-333';
       const basketItems = makeMockBasketItems();
-      const camerasIds = basketItems.map((item) => item.value.id);
+      const camerasIds = basketItems.map((item) => item.id);
       const postingOrder = {
         camerasIds,
         coupon: COUPON,

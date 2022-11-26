@@ -7,6 +7,7 @@ import {
   promoCodeUpdate
 } from '../basket-slice/basket-slice';
 import {
+  fetchBasketCamerasAction,
   postPromoCodeAction,
   postOrderAction
 } from '../api-actions';
@@ -19,6 +20,9 @@ describe('Reducer: basketReducer', () => {
   beforeEach(() => {
     initialState = {
       basketItems: [],
+      cameras: [],
+      isCamerasLoading: false,
+      camerasLoadingError: null,
       discount: DEFAULT_DISCOUNT,
       promoCode: '',
       isOrderPosting: false,
@@ -32,14 +36,14 @@ describe('Reducer: basketReducer', () => {
   });
 
   it('if there is no such item should add it', () => {
-    const camera = makeMockCamera();
+    const {id} = makeMockCamera();
 
-    expect(basketReducer(initialState, basketItemAdding(camera)))
+    expect(basketReducer(initialState, basketItemAdding(id)))
       .toEqual({
         ...initialState,
         basketItems: [
           {
-            value: camera,
+            id,
             count: 1,
           }
         ],
@@ -47,9 +51,9 @@ describe('Reducer: basketReducer', () => {
   });
 
   it('if the item already exists should increase the count', () => {
-    const camera = makeMockCamera();
+    const {id} = makeMockCamera();
     const basketItem = {
-      value: camera,
+      id,
       count: 1,
     };
 
@@ -58,42 +62,45 @@ describe('Reducer: basketReducer', () => {
       basketItems: [basketItem],
     };
 
-    expect(basketReducer(state, basketItemAdding(camera)))
+    expect(basketReducer(state, basketItemAdding(id)))
       .toEqual({
         ...state,
         basketItems: [
           {
-            value: camera,
+            id,
             count: 2,
           }
         ],
       });
   });
 
-  it('should remove basket item by id', () => {
+  it('should remove basket item and camera by id', () => {
     const camera = makeMockCamera();
+    const cameras = [camera];
     const basketItem = {
-      value: camera,
+      id: camera.id,
       count: 1,
     };
 
     const state = {
       ...initialState,
       basketItems: [basketItem],
+      cameras: cameras,
     };
 
     expect(basketReducer(state, basketItemRemoving(camera.id)))
       .toEqual({
         ...initialState,
         basketItems: [],
+        cameras: [],
       });
   });
 
   it('should update basket item count to given value', () => {
     const NEW_COUNT_VALUE = 5;
-    const camera = makeMockCamera();
+    const {id} = makeMockCamera();
     const basketItem = {
-      value: camera,
+      id,
       count: 1,
     };
 
@@ -102,12 +109,12 @@ describe('Reducer: basketReducer', () => {
       basketItems: [basketItem],
     };
 
-    expect(basketReducer(state, basketItemsCountUpdate({id: camera.id, value: NEW_COUNT_VALUE})))
+    expect(basketReducer(state, basketItemsCountUpdate({id, value: NEW_COUNT_VALUE})))
       .toEqual({
         ...initialState,
         basketItems: [
           {
-            value: camera,
+            id,
             count: NEW_COUNT_VALUE,
           }
         ],
@@ -170,14 +177,16 @@ describe('Reducer: basketReducer', () => {
       const DISCOUNT = 15;
       const PROMO_CODE = 'promo-code';
       const camera = makeMockCamera();
+      const cameras = [camera];
       const basketItem = {
-        value: camera,
+        id: camera.id,
         count: 1,
       };
 
       const state = {
         ...initialState,
         basketItems: [basketItem],
+        cameras: cameras,
         discount: DISCOUNT,
         promoCode: PROMO_CODE,
         isOrderPosting: true,
@@ -186,7 +195,8 @@ describe('Reducer: basketReducer', () => {
       expect(basketReducer(state, postOrderAction.fulfilled))
         .toEqual({
           ...state,
-          basketItems:  [],
+          basketItems: [],
+          cameras: [],
           discount: 0,
           promoCode: '',
           isOrderPosting: false,
@@ -205,6 +215,55 @@ describe('Reducer: basketReducer', () => {
           ...state,
           isOrderPosting: false,
           postingError: ERROR,
+        });
+    });
+  });
+
+  describe('fetchBasketCamerasAction test', () => {
+    it('if pending should set "isCamerasLoading" to "true" and "camerasLoadingError" to "null"', () => {
+      const ERROR = '400';
+      const state = {
+        ...initialState,
+        camerasLoadingError: ERROR,
+      };
+
+      expect(basketReducer(state, fetchBasketCamerasAction.pending))
+        .toEqual({
+          ...initialState,
+          isCamerasLoading: true,
+          camerasLoadingError: null,
+        });
+    });
+
+    it('if fulfilled should set "isCamerasLoading" to "false" and set cameras to given value', () => {
+      const cameras = [makeMockCamera()];
+
+      const state = {
+        ...initialState,
+        cameras: [],
+        isCamerasLoading: true,
+      };
+
+      expect(basketReducer(state, {type: fetchBasketCamerasAction.fulfilled.type, payload: cameras}))
+        .toEqual({
+          ...state,
+          cameras,
+          isCamerasLoading: false,
+        });
+    });
+
+    it('if rejected should set "isCamerasLoading" to "false" and "camerasLoadingError" to error value', () => {
+      const ERROR = '400';
+      const state = {
+        ...initialState,
+        isCamerasLoading: true,
+      };
+
+      expect(basketReducer(state, {type: fetchBasketCamerasAction.rejected.type, error: {code: ERROR}}))
+        .toEqual({
+          ...state,
+          isCamerasLoading: false,
+          camerasLoadingError: ERROR,
         });
     });
   });

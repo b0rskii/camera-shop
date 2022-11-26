@@ -21,10 +21,10 @@ export const makeMockCamera = (id = 1): Camera => ({
   reviewCount: 16
 });
 
-export const makeMockCameras = (): Camera[] => {
+export const makeMockCameras = (count = 9): Camera[] => {
   const cameras: Camera[] = [];
 
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < count; i++) {
     cameras.push({
       id: i + 1,
       name: 'Ретрокамера Dus Auge lV',
@@ -108,12 +108,12 @@ export const makeMockFilterValues = (): FilterValue[] => {
   return filterValues;
 };
 
-export const makeMockBasketItems = (): BasketItem[] => {
+export const makeMockBasketItems = (count = 3): BasketItem[] => {
   const basketItems: BasketItem[] = [];
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < count; i++) {
     basketItems.push({
-      value: makeMockCamera(i + 1),
+      id: i + 1,
       count: 1,
     });
   }

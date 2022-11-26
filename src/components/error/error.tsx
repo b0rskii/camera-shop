@@ -7,7 +7,7 @@ function Error(): JSX.Element {
 
   return (
     <div className="error-wrapper">
-      <div className="error">
+      <div className="error" data-testid="error">
         <p>{DEFAULT_ERROR_MESSAGE}</p>
         <button
           onClick={() => navigate(0)}

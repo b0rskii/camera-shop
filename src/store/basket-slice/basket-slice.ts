@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { BasketState } from '../../types/state';
-import { postPromoCodeAction, postOrderAction } from '../api-actions';
-import { Camera } from '../../types/types';
+import { postPromoCodeAction, postOrderAction, fetchBasketCamerasAction } from '../api-actions';
 import { NameSpace, DEFAULT_DISCOUNT } from '../../const';
 
 const initialState: BasketState = {
   basketItems: [],
+  cameras: [],
+  isCamerasLoading: false,
+  camerasLoadingError: null,
   discount: DEFAULT_DISCOUNT,
   promoCode: '',
   isOrderPosting: false,
@@ -16,10 +18,10 @@ const basketSlice = createSlice({
   name: NameSpace.Basket,
   initialState,
   reducers: {
-    basketItemAdding: (state, action: PayloadAction<Camera>) => {
-      const newBasketItem = action.payload;
+    basketItemAdding: (state, action: PayloadAction<number>) => {
+      const newBasketItemId = action.payload;
       const sameItemIndex = state.basketItems
-        .findIndex((item) => item.value.id === newBasketItem.id);
+        .findIndex((item) => item.id === newBasketItemId);
 
       if (sameItemIndex >= 0) {
         state.basketItems[sameItemIndex].count++;
@@ -27,19 +29,20 @@ const basketSlice = createSlice({
       }
 
       state.basketItems.push({
-        value: newBasketItem,
+        id: newBasketItemId,
         count: 1,
       });
     },
     basketItemRemoving: (state, action: PayloadAction<number>) => {
       const removedItemId = action.payload;
-      state.basketItems = state.basketItems.filter((item) => item.value.id !== removedItemId);
+      state.basketItems = state.basketItems.filter((item) => item.id !== removedItemId);
+      state.cameras = state.cameras.filter((item) => item.id !== removedItemId);
     },
     basketItemsCountUpdate: (state, action: PayloadAction<{id: number; value: number}>) => {
-      const itemId = action.payload.id;
+      const newItemId = action.payload.id;
       const newValue = action.payload.value;
       const itemIndex = state.basketItems
-        .findIndex((item) => item.value.id === itemId);
+        .findIndex((item) => item.id === newItemId);
 
       state.basketItems[itemIndex].count = newValue;
     },
@@ -49,6 +52,19 @@ const basketSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(fetchBasketCamerasAction.pending, (state) => {
+        state.isCamerasLoading = true;
+        state.camerasLoadingError = null;
+      })
+      .addCase(fetchBasketCamerasAction.fulfilled, (state, action) => {
+        state.isCamerasLoading = false;
+        state.cameras = action.payload;
+      })
+      .addCase(fetchBasketCamerasAction.rejected, (state, action) => {
+        const error = action.error.code || null;
+        state.isCamerasLoading = false;
+        state.camerasLoadingError = error;
+      })
       .addCase(postPromoCodeAction.fulfilled, (state, action) => {
         state.discount = action.payload;
       })
@@ -62,6 +78,7 @@ const basketSlice = createSlice({
       .addCase(postOrderAction.fulfilled, (state) => {
         state.isOrderPosting = false;
         state.basketItems = [];
+        state.cameras = [];
         state.discount = 0;
         state.promoCode = '';
       })
