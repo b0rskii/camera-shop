@@ -1,19 +1,18 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import { getSuccessPopupStatus } from '../../../store/app-slice/selectors';
 import { successPopupStatusUpdate } from '../../../store/app-slice/app-slice';
-import { AppRoute } from '../../../const';
 import PopupLayout from '../popup-layout/popup-layout';
 
 type SuccessPopupProps = {
   title: string;
+  redirectRoute?: string;
 };
 
-function SuccessPopup({title}: SuccessPopupProps): JSX.Element {
+function SuccessPopup({title, redirectRoute}: SuccessPopupProps): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isPopupOpened = useAppSelector(getSuccessPopupStatus);
-  const {pathname} = useLocation();
 
   const setIsPopupOpened = (status: boolean) => {
     dispatch(successPopupStatusUpdate(status));
@@ -22,8 +21,8 @@ function SuccessPopup({title}: SuccessPopupProps): JSX.Element {
   const handleBackToShoppingButtonClick = () => {
     setIsPopupOpened(false);
 
-    if (pathname === AppRoute.Basket) {
-      navigate(AppRoute.Catalog);
+    if (redirectRoute) {
+      navigate(redirectRoute);
     }
   };
 

@@ -1,4 +1,4 @@
-import { BreadCrumb, PreviousBreadCrumbs, StatusMessage } from '../../const';
+import { BreadCrumb, PreviousBreadCrumbs, StatusMessage, AppRoute } from '../../const';
 import MainLayout from '../../components/main-layout/main-layout';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import BasketSection from '../../components/basket-section/basket-section';
@@ -17,7 +17,10 @@ function BasketPage(): JSX.Element {
           <BasketSection />
         </div>
         <BasketItemDeletingPopup />
-        <SuccessPopup title={StatusMessage.PostOrderSuccess} />
+        <SuccessPopup
+          title={StatusMessage.PostOrderSuccess}
+          redirectRoute={AppRoute.Catalog}
+        />
       </main>
     </MainLayout>
   );
