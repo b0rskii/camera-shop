@@ -17,8 +17,10 @@ describe('Component: AddToBasketPopup', () => {
   it('should render correctly if popup opened status is true', () => {
     const camera = makeMockCamera();
     const store = makeMockStore({
+      Cameras: {
+        selectedCamera: camera,
+      },
       App: {
-        currentProduct: camera,
         isAddToBasketPopupOpened: true,
       }
     });
@@ -40,8 +42,10 @@ describe('Component: AddToBasketPopup', () => {
   it('should not render if popup opened status is false', () => {
     const camera = makeMockCamera();
     const store = makeMockStore({
+      Cameras: {
+        selectedCamera: camera,
+      },
       App: {
-        currentProduct: camera,
         isAddToBasketPopupOpened: false,
       }
     });
@@ -63,8 +67,10 @@ describe('Component: AddToBasketPopup', () => {
   it('should dispatch "basketItemAdding" and "addToBasketPopupStatusUpdate" actions when user click to "add to basket" button', async () => {
     const camera = makeMockCamera();
     const store = makeMockStore({
+      Cameras: {
+        selectedCamera: camera,
+      },
       App: {
-        currentProduct: camera,
         isAddToBasketPopupOpened: true,
       }
     });

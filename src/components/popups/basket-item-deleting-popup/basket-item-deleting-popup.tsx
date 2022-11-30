@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import { getBasketItemDeletingPopupStatus, getCurrentProduct } from '../../../store/app-slice/selectors';
+import { getBasketItemDeletingPopupData } from '../../../store/app-slice/selectors';
 import { basketItemDeletingPopupStatusUpdate } from '../../../store/app-slice/app-slice';
 import { basketItemRemoving } from '../../../store/basket-slice/basket-slice';
 import PopupLayout from '../popup-layout/popup-layout';
@@ -8,17 +8,19 @@ import BasketItemShort from '../../basket-item-short/basket-item-short';
 
 function BasketItemDeletingPopup(): JSX.Element | null {
   const dispatch = useAppDispatch();
-  const isPopupOpened = useAppSelector(getBasketItemDeletingPopupStatus);
-  const product = useAppSelector(getCurrentProduct);
+  const {isPopupOpened, basketItem} = useAppSelector(getBasketItemDeletingPopupData);
 
-  if (!product) {
+  if (!basketItem) {
     return null;
   }
 
-  const {id} = product;
+  const {id} = basketItem;
 
   const setIsPopupOpened = (status: boolean) => {
-    dispatch(basketItemDeletingPopupStatusUpdate(status));
+    dispatch(basketItemDeletingPopupStatusUpdate({
+      isPopupOpened: status,
+      basketItem: null,
+    }));
   };
 
   const handleDeleteButtonClick = () => {
@@ -38,7 +40,7 @@ function BasketItemDeletingPopup(): JSX.Element | null {
     >
       <p className="title title--h4">Удалить этот товар?</p>
       <div className="basket-item basket-item--short">
-        <BasketItemShort item={product} />
+        <BasketItemShort item={basketItem} />
       </div>
       <div className="modal__buttons">
         <button

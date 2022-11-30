@@ -3,7 +3,6 @@ import { AppState } from '../../types/state';
 import { makeMockCamera } from '../../utils/mocks';
 import { postReviewAction } from '../api-actions';
 import {
-  currentProductUpdate,
   addToBasketPopupStatusUpdate,
   postReviewPopupStatusUpdate,
   successPopupStatusUpdate,
@@ -17,7 +16,6 @@ describe('Reducer: appReducer', () => {
 
   beforeEach(() => {
     initialState = {
-      currentProduct: null,
       isAddToBasketPopupOpened: false,
       isPostReviewPopupOpened: false,
       isSuccessPopupOpened: false,
@@ -31,21 +29,13 @@ describe('Reducer: appReducer', () => {
       .toEqual(initialState);
   });
 
-  it('should change current product to given value', () => {
+  it('should change add to basket popup status to given value', () => {
     const camera = makeMockCamera();
 
-    expect(appReducer(initialState, currentProductUpdate(camera)))
+    expect(appReducer(initialState, addToBasketPopupStatusUpdate({isPopupOpened: true, product: camera})))
       .toEqual({
         ...initialState,
-        currentProduct: camera
-      });
-  });
-
-  it('should change add to basket popup status to given value', () => {
-    expect(appReducer(initialState, addToBasketPopupStatusUpdate(true)))
-      .toEqual({
-        ...initialState,
-        isAddToBasketPopupOpened: true
+        isAddToBasketPopupOpened: true,
       });
   });
 
@@ -53,7 +43,7 @@ describe('Reducer: appReducer', () => {
     expect(appReducer(initialState, postReviewPopupStatusUpdate(true)))
       .toEqual({
         ...initialState,
-        isPostReviewPopupOpened: true
+        isPostReviewPopupOpened: true,
       });
   });
 
@@ -61,7 +51,7 @@ describe('Reducer: appReducer', () => {
     expect(appReducer(initialState, successPopupStatusUpdate(true)))
       .toEqual({
         ...initialState,
-        isSuccessPopupOpened: true
+        isSuccessPopupOpened: true,
       });
   });
 
@@ -69,15 +59,17 @@ describe('Reducer: appReducer', () => {
     expect(appReducer(initialState, successAddToBasketPopupStatusUpdate(true)))
       .toEqual({
         ...initialState,
-        isSuccessAddToBasketPopupOpened: true
+        isSuccessAddToBasketPopupOpened: true,
       });
   });
 
   it('should change basket item deleting popup status to given value', () => {
-    expect(appReducer(initialState, basketItemDeletingPopupStatusUpdate(true)))
+    const camera = makeMockCamera();
+
+    expect(appReducer(initialState, basketItemDeletingPopupStatusUpdate({isPopupOpened: true, basketItem: camera})))
       .toEqual({
         ...initialState,
-        isBasketItemDeletingPopupOpened: true
+        isBasketItemDeletingPopupOpened: true,
       });
   });
 
@@ -85,7 +77,7 @@ describe('Reducer: appReducer', () => {
     expect(appReducer(initialState, {type: basketItemAdding.type}))
       .toEqual({
         ...initialState,
-        isSuccessAddToBasketPopupOpened: true
+        isSuccessAddToBasketPopupOpened: true,
       });
   });
 
@@ -93,14 +85,14 @@ describe('Reducer: appReducer', () => {
     it('if fulfilled should set post review popup status to "false", success popup status to "true"', () => {
       const state = {
         ...initialState,
-        isPostReviewPopupOpened: true
+        isPostReviewPopupOpened: true,
       };
 
       expect(appReducer(initialState, postReviewAction.fulfilled))
         .toEqual({
           ...state,
           isPostReviewPopupOpened: false,
-          isSuccessPopupOpened: true
+          isSuccessPopupOpened: true,
         });
     });
   });
@@ -109,13 +101,13 @@ describe('Reducer: appReducer', () => {
     it('if fulfilled should set success popup status to "true"', () => {
       const state = {
         ...initialState,
-        isSuccessPopupOpened: false
+        isSuccessPopupOpened: false,
       };
 
       expect(appReducer(initialState, postReviewAction.fulfilled))
         .toEqual({
           ...state,
-          isSuccessPopupOpened: true
+          isSuccessPopupOpened: true,
         });
     });
   });

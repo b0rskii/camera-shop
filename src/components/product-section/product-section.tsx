@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { useAppDispatch } from '../../hooks/hooks';
-import { currentProductUpdate, addToBasketPopupStatusUpdate } from '../../store/app-slice/app-slice';
+import { addToBasketPopupStatusUpdate } from '../../store/app-slice/app-slice';
 import { Camera } from '../../types/types';
 import Rating from '../../components/rating/rating';
 import ProductTabs from '../../components/product-tabs/product-tabs';
@@ -15,8 +15,10 @@ function ProductSection({camera}: ProductSectionProps): JSX.Element {
   const {rating, reviewCount, price} = camera;
 
   const handleAddToBasketButtonClick = () => {
-    dispatch(currentProductUpdate(camera));
-    dispatch(addToBasketPopupStatusUpdate(true));
+    dispatch(addToBasketPopupStatusUpdate({
+      isPopupOpened: true,
+      product: camera,
+    }));
   };
 
   return (

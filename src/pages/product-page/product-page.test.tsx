@@ -45,7 +45,6 @@ describe('Component: ProductPage', () => {
         loadingError: null,
       },
       App: {
-        currentProduct: null,
         isAddToBasketPopupOpened: false,
         isPostReviewPopupOpened: false,
         isSuccessPopupOpened: false,

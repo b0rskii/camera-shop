@@ -1,7 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CamerasState } from '../../types/state';
-import { NameSpace } from '../../const';
+import { AddToBasketPopupData } from '../../types/types';
+import { addToBasketPopupStatusUpdate } from '../app-slice/app-slice';
 import { fetchCamerasAction, fetchSearchingCamerasAction } from '../api-actions';
+import { NameSpace } from '../../const';
 
 const initialState: CamerasState = {
   cameras: [],
@@ -9,6 +11,7 @@ const initialState: CamerasState = {
   isLoaded: false,
   loadingError: null,
   searchingCameras: [],
+  selectedCamera: null,
 };
 
 const camerasSlice = createSlice({
@@ -21,6 +24,9 @@ const camerasSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(addToBasketPopupStatusUpdate.type, (state, action: PayloadAction<AddToBasketPopupData>) => {
+        state.selectedCamera = action.payload.product;
+      })
       .addCase(fetchCamerasAction.pending, (state) => {
         state.isLoaded = false;
         state.loadingError = null;

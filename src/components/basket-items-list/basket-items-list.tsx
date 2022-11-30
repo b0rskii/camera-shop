@@ -1,11 +1,8 @@
 import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import {
-  getBasketCameras,
-  getBasketItems
-} from '../../store/basket-slice/selectors';
+import { getBasketCameras, getBasketItems } from '../../store/basket-slice/selectors';
 import { basketItemsCountUpdate } from '../../store/basket-slice/basket-slice';
-import { currentProductUpdate, basketItemDeletingPopupStatusUpdate } from '../../store/app-slice/app-slice';
+import { basketItemDeletingPopupStatusUpdate } from '../../store/app-slice/app-slice';
 import { Camera } from '../../types/types';
 import BasketItem from '../basket-item/basket-item';
 
@@ -21,8 +18,10 @@ function BasketItemsList(): JSX.Element {
 
   const removeBasketItem = useCallback(
     (product: Camera) => {
-      dispatch(currentProductUpdate(product));
-      dispatch(basketItemDeletingPopupStatusUpdate(true));
+      dispatch(basketItemDeletingPopupStatusUpdate({
+        isPopupOpened: true,
+        basketItem: product,
+      }));
     },
     [dispatch]
   );

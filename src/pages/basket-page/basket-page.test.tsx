@@ -26,7 +26,6 @@ describe('Component: BasketPage', () => {
       searchingCameras: [],
     },
     App: {
-      currentProduct: null,
       isBasketItemDeletingPopupOpened: false,
     },
     Basket: {

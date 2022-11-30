@@ -15,9 +15,11 @@ describe('Component: BasketItemDeletingPopup', () => {
     const camera = makeMockCamera();
     const store = makeMockStore({
       App: {
-        currentProduct: camera,
         isBasketItemDeletingPopupOpened: true,
-      }
+      },
+      Basket: {
+        selectedBasketItem: camera,
+      },
     });
 
     render(
@@ -35,9 +37,11 @@ describe('Component: BasketItemDeletingPopup', () => {
     const camera = makeMockCamera();
     const store = makeMockStore({
       App: {
-        currentProduct: camera,
         isBasketItemDeletingPopupOpened: false,
-      }
+      },
+      Basket: {
+        selectedBasketItem: camera,
+      },
     });
 
     render(
@@ -55,9 +59,11 @@ describe('Component: BasketItemDeletingPopup', () => {
     const camera = makeMockCamera();
     const store = makeMockStore({
       App: {
-        currentProduct: camera,
         isBasketItemDeletingPopupOpened: true,
-      }
+      },
+      Basket: {
+        selectedBasketItem: camera,
+      },
     });
 
     render(
@@ -79,9 +85,11 @@ describe('Component: BasketItemDeletingPopup', () => {
     const camera = makeMockCamera();
     const store = makeMockStore({
       App: {
-        currentProduct: camera,
         isBasketItemDeletingPopupOpened: true,
-      }
+      },
+      Basket: {
+        selectedBasketItem: camera,
+      },
     });
 
     render(

@@ -2,11 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { postReviewAction, postOrderAction } from '../api-actions';
 import { basketItemAdding } from '../basket-slice/basket-slice';
 import { AppState } from '../../types/state';
-import { Camera } from '../../types/types';
+import { AddToBasketPopupData, BasketItemDeletingPopupData } from '../../types/types';
 import { NameSpace } from '../../const';
 
 const initialState: AppState = {
-  currentProduct: null,
   isAddToBasketPopupOpened: false,
   isPostReviewPopupOpened: false,
   isSuccessPopupOpened: false,
@@ -18,11 +17,8 @@ const appSlice = createSlice({
   name: NameSpace.App,
   initialState,
   reducers: {
-    currentProductUpdate: (state, action: PayloadAction<Camera | null>) => {
-      state.currentProduct = action.payload;
-    },
-    addToBasketPopupStatusUpdate: (state, action: PayloadAction<boolean>) => {
-      state.isAddToBasketPopupOpened = action.payload;
+    addToBasketPopupStatusUpdate: (state, action: PayloadAction<AddToBasketPopupData>) => {
+      state.isAddToBasketPopupOpened = action.payload.isPopupOpened;
     },
     postReviewPopupStatusUpdate: (state, action: PayloadAction<boolean>) => {
       state.isPostReviewPopupOpened = action.payload;
@@ -33,8 +29,8 @@ const appSlice = createSlice({
     successAddToBasketPopupStatusUpdate: (state, action: PayloadAction<boolean>) => {
       state.isSuccessAddToBasketPopupOpened = action.payload;
     },
-    basketItemDeletingPopupStatusUpdate: (state, action: PayloadAction<boolean>) => {
-      state.isBasketItemDeletingPopupOpened = action.payload;
+    basketItemDeletingPopupStatusUpdate: (state, action: PayloadAction<BasketItemDeletingPopupData>) => {
+      state.isBasketItemDeletingPopupOpened = action.payload.isPopupOpened;
     },
   },
   extraReducers(builder) {
@@ -53,7 +49,6 @@ const appSlice = createSlice({
 });
 
 export const {
-  currentProductUpdate,
   addToBasketPopupStatusUpdate,
   postReviewPopupStatusUpdate,
   successPopupStatusUpdate,

@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import { getCurrentProduct, getAddToBasketPopupStatus } from '../../../store/app-slice/selectors';
+import { getAddToBasketPopupData } from '../../../store/app-slice/selectors';
 import { addToBasketPopupStatusUpdate } from '../../../store/app-slice/app-slice';
 import { basketItemAdding } from '../../../store/basket-slice/basket-slice';
 import PopupLayout from '../popup-layout/popup-layout';
@@ -7,15 +7,17 @@ import BasketItemShort from '../../basket-item-short/basket-item-short';
 
 function AddToBasketPopup(): JSX.Element | null {
   const dispatch = useAppDispatch();
-  const product = useAppSelector(getCurrentProduct);
-  const isPopupOpened = useAppSelector(getAddToBasketPopupStatus);
+  const {isPopupOpened, product} = useAppSelector(getAddToBasketPopupData);
 
   if (!product) {
     return null;
   }
 
   const setIsPopupOpened = (status: boolean) => {
-    dispatch(addToBasketPopupStatusUpdate(status));
+    dispatch(addToBasketPopupStatusUpdate({
+      isPopupOpened: status,
+      product: null,
+    }));
   };
 
   const handleButtonClick = () => {

@@ -59,7 +59,6 @@ const store = makeMockStore({
     error: null,
   },
   App: {
-    currentProduct: null,
     isAddToBasketPopupOpened: false,
     isPostReviewPopupOpened: false,
     isSuccessPopupOpened: false,
