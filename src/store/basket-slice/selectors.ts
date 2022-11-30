@@ -1,10 +1,11 @@
 import { createSelector } from 'reselect';
 import { State } from '../../types/state';
-import { BasketItem, Camera } from '../../types/types';
+import { BasketItem, Camera, TPromoCodeValidationStatus } from '../../types/types';
 
 export const getBasketItems = (state: State): BasketItem[] => state.Basket.basketItems;
 export const getDiscount = (state: State): number => state.Basket.discount;
 export const getPromoCode = (state: State): string => state.Basket.promoCode;
+export const getPromoCodeValidationStatus = (state: State): TPromoCodeValidationStatus => state.Basket.promoCodeValidationStatus;
 export const getOrderPostingStatus = (state: State): boolean => state.Basket.isOrderPosting;
 export const getOrderPostingError = (state: State): string | null => state.Basket.postingError;
 export const getBasketCameras = (state: State): Camera[] => state.Basket.cameras;

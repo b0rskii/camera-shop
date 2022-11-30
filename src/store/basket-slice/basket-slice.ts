@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { BasketState } from '../../types/state';
 import { postPromoCodeAction, postOrderAction, fetchBasketCamerasAction } from '../api-actions';
-import { NameSpace, DEFAULT_DISCOUNT } from '../../const';
+import { NameSpace, DEFAULT_DISCOUNT, PromoCodeValidationStatus } from '../../const';
 
 const initialState: BasketState = {
   basketItems: [],
@@ -10,6 +10,7 @@ const initialState: BasketState = {
   camerasLoadingError: null,
   discount: DEFAULT_DISCOUNT,
   promoCode: '',
+  promoCodeValidationStatus: PromoCodeValidationStatus.Unknown,
   isOrderPosting: false,
   postingError: null,
 };
@@ -65,11 +66,16 @@ const basketSlice = createSlice({
         state.isCamerasLoading = false;
         state.camerasLoadingError = error;
       })
+      .addCase(postPromoCodeAction.pending, (state, action) => {
+        state.promoCodeValidationStatus = PromoCodeValidationStatus.Unknown;
+      })
       .addCase(postPromoCodeAction.fulfilled, (state, action) => {
         state.discount = action.payload;
+        state.promoCodeValidationStatus = PromoCodeValidationStatus.Valid;
       })
       .addCase(postPromoCodeAction.rejected, (state) => {
         state.discount = 0;
+        state.promoCodeValidationStatus = PromoCodeValidationStatus.Invalid;
       })
       .addCase(postOrderAction.pending, (state) => {
         state.isOrderPosting = true;
@@ -81,6 +87,7 @@ const basketSlice = createSlice({
         state.cameras = [];
         state.discount = 0;
         state.promoCode = '';
+        state.promoCodeValidationStatus = PromoCodeValidationStatus.Unknown;
       })
       .addCase(postOrderAction.rejected, (state, action) => {
         const error = action.error.code || null;

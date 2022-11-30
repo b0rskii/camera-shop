@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import BasketPromoCode from './basket-promo-code';
+import { PromoCodeValidationStatus } from '../../const';
 
 const onApplyPromoCode = jest.fn();
 
@@ -8,7 +9,7 @@ describe('Component: BasketPromoCode', () => {
     render(
       <BasketPromoCode
         appliedPromoCode=''
-        isPromoCodeValid={false}
+        isPromoCodeValid={PromoCodeValidationStatus.Unknown}
         onApplyPromoCode={onApplyPromoCode}
       />
     );
@@ -30,7 +31,7 @@ describe('Component: BasketPromoCode', () => {
     render(
       <BasketPromoCode
         appliedPromoCode={PROMO_CODE}
-        isPromoCodeValid
+        isPromoCodeValid={PromoCodeValidationStatus.Valid}
         onApplyPromoCode={onApplyPromoCode}
       />
     );
@@ -47,7 +48,7 @@ describe('Component: BasketPromoCode', () => {
     render(
       <BasketPromoCode
         appliedPromoCode={PROMO_CODE}
-        isPromoCodeValid={false}
+        isPromoCodeValid={PromoCodeValidationStatus.Invalid}
         onApplyPromoCode={onApplyPromoCode}
       />
     );
@@ -64,7 +65,7 @@ describe('Component: BasketPromoCode', () => {
     render(
       <BasketPromoCode
         appliedPromoCode={PROMO_CODE}
-        isPromoCodeValid={false}
+        isPromoCodeValid={PromoCodeValidationStatus.Unknown}
         onApplyPromoCode={onApplyPromoCode}
       />
     );

@@ -204,9 +204,8 @@ export const postReviewAction = createAsyncThunk<Review, PostingReview, ThunkAPI
 export const postPromoCodeAction = createAsyncThunk<number, {coupon: string}, ThunkAPI>(
   `${NameSpace.Basket}/postPromoCode`,
   async (promoCode, {dispatch, extra: api}) => {
-    const {data} = await api.post<number>(APIRoute.Coupons, promoCode)
-      .finally(() => dispatch(promoCodeUpdate(promoCode.coupon)));
-
+    dispatch(promoCodeUpdate(promoCode.coupon));
+    const {data} = await api.post<number>(APIRoute.Coupons, promoCode);
     return data;
   },
 );

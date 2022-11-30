@@ -64,3 +64,5 @@ export type Order = {
   camerasIds: number[];
   coupon: string | null;
 };
+
+export type TPromoCodeValidationStatus = 'valid' | 'invalid' | 'unknown';

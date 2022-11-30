@@ -1,5 +1,5 @@
 import { store } from '../store/store';
-import { Camera, Promo, Review, BasketItem } from './types';
+import { Camera, Promo, Review, BasketItem, TPromoCodeValidationStatus } from './types';
 
 export type CamerasState = {
   cameras: Camera[];
@@ -74,6 +74,7 @@ export type BasketState = {
   camerasLoadingError: string | null;
   discount: number;
   promoCode: string;
+  promoCodeValidationStatus: TPromoCodeValidationStatus;
   isOrderPosting: boolean;
   postingError: string | null;
 };

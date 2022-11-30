@@ -12,7 +12,7 @@ import {
   postOrderAction
 } from '../api-actions';
 import { makeMockCamera } from '../../utils/mocks';
-import { DEFAULT_DISCOUNT } from '../../const';
+import { DEFAULT_DISCOUNT, PromoCodeValidationStatus } from '../../const';
 
 describe('Reducer: basketReducer', () => {
   let initialState: BasketState;
@@ -25,6 +25,7 @@ describe('Reducer: basketReducer', () => {
       camerasLoadingError: null,
       discount: DEFAULT_DISCOUNT,
       promoCode: '',
+      promoCodeValidationStatus: PromoCodeValidationStatus.Unknown,
       isOrderPosting: false,
       postingError: null,
     };
@@ -132,17 +133,31 @@ describe('Reducer: basketReducer', () => {
   });
 
   describe('postPromoCodeAction test', () => {
-    it('if fulfilled should update discount to given value', () => {
+    it('if pending should set promo code validation status to "unknown"', () => {
+      const state = {
+        ...initialState,
+        promoCodeValidationStatus: PromoCodeValidationStatus.Invalid,
+      };
+
+      expect(basketReducer(state, postPromoCodeAction.pending))
+        .toEqual({
+          ...state,
+          promoCodeValidationStatus: PromoCodeValidationStatus.Unknown,
+        });
+    });
+
+    it('if fulfilled should update discount to given value and set promo code validation status to "valid"', () => {
       const NEW_DISCOUNT = 15;
 
       expect(basketReducer(initialState, {type: postPromoCodeAction.fulfilled.type, payload: NEW_DISCOUNT}))
         .toEqual({
           ...initialState,
           discount: NEW_DISCOUNT,
+          promoCodeValidationStatus: PromoCodeValidationStatus.Valid,
         });
     });
 
-    it('if rejected should reset discount', () => {
+    it('if rejected should reset discount and set promo code validation status to "invalid"', () => {
       const DISCOUNT = 15;
       const state = {
         ...initialState,
@@ -153,6 +168,7 @@ describe('Reducer: basketReducer', () => {
         .toEqual({
           ...state,
           discount: 0,
+          promoCodeValidationStatus: PromoCodeValidationStatus.Invalid,
         });
     });
   });
@@ -190,6 +206,7 @@ describe('Reducer: basketReducer', () => {
         discount: DISCOUNT,
         promoCode: PROMO_CODE,
         isOrderPosting: true,
+        promoCodeValidationStatus: PromoCodeValidationStatus.Valid,
       };
 
       expect(basketReducer(state, postOrderAction.fulfilled))
@@ -200,6 +217,7 @@ describe('Reducer: basketReducer', () => {
           discount: 0,
           promoCode: '',
           isOrderPosting: false,
+          promoCodeValidationStatus: PromoCodeValidationStatus.Unknown,
         });
     });
 

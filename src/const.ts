@@ -131,3 +131,9 @@ export const InitialCatalogPriceLimit = {
   Min: 0,
   Max: Infinity,
 };
+
+export const PromoCodeValidationStatus = {
+  Valid: 'valid',
+  Invalid: 'invalid',
+  Unknown: 'unknown',
+} as const;

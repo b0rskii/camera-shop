@@ -1,9 +1,11 @@
 import { memo, useState, FormEvent, ChangeEvent } from 'react';
 import { removeSpaces } from '../../utils/utils';
+import { TPromoCodeValidationStatus } from '../../types/types';
+import { PromoCodeValidationStatus } from '../../const';
 
 type BasketPromoCodeProps = {
   appliedPromoCode: string;
-  isPromoCodeValid: boolean;
+  isPromoCodeValid: TPromoCodeValidationStatus;
   onApplyPromoCode: (coupon: string) => void;
 };
 
@@ -28,8 +30,8 @@ function BasketPromoCode(props: BasketPromoCodeProps): JSX.Element {
           <div
             className={`
               custom-input
-              ${appliedPromoCode.length && isPromoCodeValid ? 'is-valid' : ''}
-              ${appliedPromoCode.length && !isPromoCodeValid ? 'is-invalid' : ''}
+              ${isPromoCodeValid === PromoCodeValidationStatus.Valid ? 'is-valid' : ''}
+              ${isPromoCodeValid === PromoCodeValidationStatus.Invalid ? 'is-invalid' : ''}
             `}
             data-testid="promo-code-status"
           >

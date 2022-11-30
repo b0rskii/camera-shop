@@ -4,7 +4,8 @@ import {
   getBasketItemsTotalPrice,
   getDiscount,
   getOrderPostingStatus,
-  getPromoCode
+  getPromoCode,
+  getPromoCodeValidationStatus
 } from '../../store/basket-slice/selectors';
 import { postPromoCodeAction, postOrderAction } from '../../store/api-actions';
 import { DEFAULT_DISCOUNT } from '../../const';
@@ -16,6 +17,7 @@ function BasketSummary(): JSX.Element {
   const totalPrice = useAppSelector(getBasketItemsTotalPrice);
   const discount = useAppSelector(getDiscount);
   const appliedPromoCode = useAppSelector(getPromoCode);
+  const promoCodeValidationStatus = useAppSelector(getPromoCodeValidationStatus);
   const isOrderPosting = useAppSelector(getOrderPostingStatus);
 
   const applyPromoCode = useCallback(
@@ -36,7 +38,7 @@ function BasketSummary(): JSX.Element {
     <div className="basket__summary" data-testid="basket-summary">
       <BasketPromoCode
         appliedPromoCode={appliedPromoCode}
-        isPromoCodeValid={discount > 0}
+        isPromoCodeValid={promoCodeValidationStatus}
         onApplyPromoCode={applyPromoCode}
       />
       <BasketSummaryOrder
