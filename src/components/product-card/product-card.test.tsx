@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { Action } from '@reduxjs/toolkit';
-import { currentProductUpdate, addToBasketPopupStatusUpdate } from '../../store/app-slice/app-slice';
+import { addToBasketPopupStatusUpdate } from '../../store/app-slice/app-slice';
 import { createMemoryHistory } from 'history';
 import { makeMockCamera } from '../../utils/mocks';
 import HistoryRouter from '../history-router/history-router';
@@ -75,7 +75,6 @@ describe('Component: ProductCard', () => {
     const actionsTypes = store.getActions().map((action: Action<string>) => action.type);
 
     expect(actionsTypes).toEqual([
-      currentProductUpdate.type,
       addToBasketPopupStatusUpdate.type
     ]);
   });

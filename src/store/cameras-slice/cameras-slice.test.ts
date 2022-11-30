@@ -1,7 +1,8 @@
 import camerasReducer from './cameras-slice';
 import { CamerasState } from '../../types/state';
-import { makeMockCameras, Mock } from '../../utils/mocks';
+import { makeMockCamera, makeMockCameras, Mock } from '../../utils/mocks';
 import { fetchCamerasAction } from '../api-actions';
+import { addToBasketPopupStatusUpdate } from '../app-slice/app-slice';
 
 describe('Reducer: camerasReducer', () => {
   let initialState: CamerasState;
@@ -13,12 +14,24 @@ describe('Reducer: camerasReducer', () => {
       isLoaded: false,
       loadingError: null,
       searchingCameras: [],
+      selectedCamera: null,
     };
   });
 
   it('without additional parameters should return initial state', () => {
     expect(camerasReducer(undefined, {type: 'UnknownAction'}))
       .toEqual(initialState);
+  });
+
+  it('should update selected camera to given value on "addToBasketPopupStatusUpdate" action', () => {
+    const camera = makeMockCamera();
+    const payload = {isPopupOpened: true, product: camera};
+
+    expect(camerasReducer(initialState, {type: addToBasketPopupStatusUpdate.type, payload}))
+      .toEqual({
+        ...initialState,
+        selectedCamera: camera,
+      });
   });
 
   describe('fetchCamerasAction test', () => {

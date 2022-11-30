@@ -66,3 +66,13 @@ export type Order = {
 };
 
 export type TPromoCodeValidationStatus = 'valid' | 'invalid' | 'unknown';
+
+export type AddToBasketPopupData = {
+  isPopupOpened: boolean;
+  product: Camera | null;
+};
+
+export type BasketItemDeletingPopupData = {
+  isPopupOpened: boolean;
+  basketItem: Camera | null;
+};

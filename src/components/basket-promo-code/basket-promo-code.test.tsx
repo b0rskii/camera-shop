@@ -9,7 +9,7 @@ describe('Component: BasketPromoCode', () => {
     render(
       <BasketPromoCode
         appliedPromoCode=''
-        isPromoCodeValid={PromoCodeValidationStatus.Unknown}
+        promoCodeValidationStatus={PromoCodeValidationStatus.Unknown}
         onApplyPromoCode={onApplyPromoCode}
       />
     );
@@ -31,7 +31,7 @@ describe('Component: BasketPromoCode', () => {
     render(
       <BasketPromoCode
         appliedPromoCode={PROMO_CODE}
-        isPromoCodeValid={PromoCodeValidationStatus.Valid}
+        promoCodeValidationStatus={PromoCodeValidationStatus.Valid}
         onApplyPromoCode={onApplyPromoCode}
       />
     );
@@ -48,7 +48,7 @@ describe('Component: BasketPromoCode', () => {
     render(
       <BasketPromoCode
         appliedPromoCode={PROMO_CODE}
-        isPromoCodeValid={PromoCodeValidationStatus.Invalid}
+        promoCodeValidationStatus={PromoCodeValidationStatus.Invalid}
         onApplyPromoCode={onApplyPromoCode}
       />
     );
@@ -65,7 +65,7 @@ describe('Component: BasketPromoCode', () => {
     render(
       <BasketPromoCode
         appliedPromoCode={PROMO_CODE}
-        isPromoCodeValid={PromoCodeValidationStatus.Unknown}
+        promoCodeValidationStatus={PromoCodeValidationStatus.Unknown}
         onApplyPromoCode={onApplyPromoCode}
       />
     );

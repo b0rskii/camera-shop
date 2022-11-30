@@ -38,7 +38,7 @@ function BasketSummary(): JSX.Element {
     <div className="basket__summary" data-testid="basket-summary">
       <BasketPromoCode
         appliedPromoCode={appliedPromoCode}
-        isPromoCodeValid={promoCodeValidationStatus}
+        promoCodeValidationStatus={promoCodeValidationStatus}
         onApplyPromoCode={applyPromoCode}
       />
       <BasketSummaryOrder

@@ -7,6 +7,7 @@ export type CamerasState = {
   isLoaded: boolean;
   loadingError: string | null;
   searchingCameras: Camera[];
+  selectedCamera: Camera | null;
 };
 
 export type PromoState = {
@@ -38,7 +39,6 @@ export type ErrorState = {
 };
 
 export type AppState = {
-  currentProduct: Camera | null;
   isAddToBasketPopupOpened: boolean;
   isPostReviewPopupOpened: boolean;
   isSuccessPopupOpened: boolean;
@@ -75,6 +75,7 @@ export type BasketState = {
   discount: number;
   promoCode: string;
   promoCodeValidationStatus: TPromoCodeValidationStatus;
+  selectedBasketItem: Camera | null;
   isOrderPosting: boolean;
   postingError: string | null;
 };

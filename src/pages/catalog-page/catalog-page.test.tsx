@@ -35,7 +35,6 @@ describe('Component: CatalogPage', () => {
         loadingError: null,
       },
       App: {
-        currentProduct: null,
         isAddToBasketPopupOpened: false,
         isSuccessAddToBasketPopupOpened: false,
       },

@@ -5,12 +5,12 @@ import { PromoCodeValidationStatus } from '../../const';
 
 type BasketPromoCodeProps = {
   appliedPromoCode: string;
-  isPromoCodeValid: TPromoCodeValidationStatus;
+  promoCodeValidationStatus: TPromoCodeValidationStatus;
   onApplyPromoCode: (coupon: string) => void;
 };
 
 function BasketPromoCode(props: BasketPromoCodeProps): JSX.Element {
-  const {appliedPromoCode, isPromoCodeValid, onApplyPromoCode} = props;
+  const {appliedPromoCode, promoCodeValidationStatus, onApplyPromoCode} = props;
   const [promoCode, setPromoCode] = useState(appliedPromoCode);
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -30,8 +30,8 @@ function BasketPromoCode(props: BasketPromoCodeProps): JSX.Element {
           <div
             className={`
               custom-input
-              ${isPromoCodeValid === PromoCodeValidationStatus.Valid ? 'is-valid' : ''}
-              ${isPromoCodeValid === PromoCodeValidationStatus.Invalid ? 'is-invalid' : ''}
+              ${promoCodeValidationStatus === PromoCodeValidationStatus.Valid ? 'is-valid' : ''}
+              ${promoCodeValidationStatus === PromoCodeValidationStatus.Invalid ? 'is-invalid' : ''}
             `}
             data-testid="promo-code-status"
           >

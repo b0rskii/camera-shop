@@ -11,6 +11,7 @@ import {
   postPromoCodeAction,
   postOrderAction
 } from '../api-actions';
+import { basketItemDeletingPopupStatusUpdate } from '../app-slice/app-slice';
 import { makeMockCamera } from '../../utils/mocks';
 import { DEFAULT_DISCOUNT, PromoCodeValidationStatus } from '../../const';
 
@@ -26,6 +27,7 @@ describe('Reducer: basketReducer', () => {
       discount: DEFAULT_DISCOUNT,
       promoCode: '',
       promoCodeValidationStatus: PromoCodeValidationStatus.Unknown,
+      selectedBasketItem: null,
       isOrderPosting: false,
       postingError: null,
     };
@@ -129,6 +131,17 @@ describe('Reducer: basketReducer', () => {
       .toEqual({
         ...initialState,
         promoCode: NEW_PROMO_CODE_VALUE,
+      });
+  });
+
+  it('should update selected basket item to given value on "basketItemDeletingPopupStatusUpdate" action', () => {
+    const camera = makeMockCamera();
+    const payload = {isPopupOpened: true, basketItem: camera};
+
+    expect(basketReducer(initialState, {type: basketItemDeletingPopupStatusUpdate.type, payload}))
+      .toEqual({
+        ...initialState,
+        selectedBasketItem: camera,
       });
   });
 

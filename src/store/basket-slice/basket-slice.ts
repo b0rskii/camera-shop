@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { BasketState } from '../../types/state';
+import { BasketItemDeletingPopupData } from '../../types/types';
+import { basketItemDeletingPopupStatusUpdate } from '../app-slice/app-slice';
 import { postPromoCodeAction, postOrderAction, fetchBasketCamerasAction } from '../api-actions';
 import { NameSpace, DEFAULT_DISCOUNT, PromoCodeValidationStatus } from '../../const';
 
@@ -11,6 +13,7 @@ const initialState: BasketState = {
   discount: DEFAULT_DISCOUNT,
   promoCode: '',
   promoCodeValidationStatus: PromoCodeValidationStatus.Unknown,
+  selectedBasketItem: null,
   isOrderPosting: false,
   postingError: null,
 };
@@ -53,6 +56,9 @@ const basketSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(basketItemDeletingPopupStatusUpdate.type, (state, action: PayloadAction<BasketItemDeletingPopupData>) => {
+        state.selectedBasketItem = action.payload.basketItem;
+      })
       .addCase(fetchBasketCamerasAction.pending, (state) => {
         state.isCamerasLoading = true;
         state.camerasLoadingError = null;
