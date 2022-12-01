@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PriceFilter from './price-filter';
 
@@ -131,11 +131,50 @@ describe('Component: PriceFilter', () => {
     );
 
     const minPriceInput = screen.getByTestId('min-price-input');
-    minPriceInput.focus();
+    const maxPriceInput = screen.getByTestId('max-price-input');
 
+    minPriceInput.focus();
     await userEvent.keyboard('{enter}');
 
-    expect(onMinPriceUpdate).toBeCalled();
-    expect(onMaxPriceUpdate).toBeCalled();
+    expect(onMinPriceUpdate).toBeCalledTimes(1);
+
+    maxPriceInput.focus();
+    await userEvent.keyboard('{enter}');
+
+    expect(onMaxPriceUpdate).toBeCalledTimes(1);
+  });
+
+  it('should called callbacks when user blur inputs', () => {
+    const MIN_PRICE = null;
+    const MAX_PRICE = null;
+    const MIN_PRICE_LIMIT = null;
+    const MAX_PRICE_LIMIT = null;
+    const NEAREST_MIN_PRICE = null;
+    const NEAREST_MAX_PRICE = null;
+
+    render(
+      <PriceFilter
+        minPrice={MIN_PRICE}
+        maxPrice={MAX_PRICE}
+        minPriceLimit={MIN_PRICE_LIMIT}
+        maxPriceLimit={MAX_PRICE_LIMIT}
+        nearestMinPrice={NEAREST_MIN_PRICE}
+        nearestMaxPrice={NEAREST_MAX_PRICE}
+        onMinPriceUpdate={onMinPriceUpdate}
+        onMaxPriceUpdate={onMaxPriceUpdate}
+      />
+    );
+
+    const minPriceInput = screen.getByTestId('min-price-input');
+    const maxPriceInput = screen.getByTestId('max-price-input');
+
+    fireEvent.blur(minPriceInput);
+
+    expect(onMinPriceUpdate).toBeCalledTimes(1);
+
+    fireEvent.blur(maxPriceInput);
+
+    expect(onMaxPriceUpdate).toBeCalledTimes(1);
+
   });
 });

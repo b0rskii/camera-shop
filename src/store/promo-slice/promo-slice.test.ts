@@ -1,6 +1,5 @@
 import promoReducer from './promo-slice';
 import { PromoState } from '../../types/state';
-import { DEFAULT_ERROR_MESSAGE } from '../../const';
 import { makeMockPromo } from '../../utils/mocks';
 import { fetchPromoAction } from '../api-actions';
 
@@ -12,7 +11,6 @@ describe('Reducer: promoReducer', () => {
       promo: null,
       isLoaded: false,
       loadingError: null,
-      defaultError: DEFAULT_ERROR_MESSAGE,
     };
   });
 
@@ -54,11 +52,13 @@ describe('Reducer: promoReducer', () => {
     });
 
     it('if rejected should set promo loaded status to "true", promo loading error to default error', () => {
-      expect(promoReducer(initialState, fetchPromoAction.rejected))
+      const ERROR = '400';
+
+      expect(promoReducer(initialState, {type: fetchPromoAction.rejected.type, error: {code: ERROR}}))
         .toEqual({
           ...initialState,
           isLoaded: true,
-          loadingError: initialState.defaultError,
+          loadingError: ERROR,
         });
     });
   });

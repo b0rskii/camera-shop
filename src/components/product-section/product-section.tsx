@@ -1,9 +1,9 @@
+import { memo } from 'react';
 import { useAppDispatch } from '../../hooks/hooks';
-import { currentProductUpdate, addToBasketPopupStatusUpdate } from '../../store/app-slice/app-slice';
+import { addToBasketPopupStatusUpdate } from '../../store/app-slice/app-slice';
 import { Camera } from '../../types/types';
 import Rating from '../../components/rating/rating';
 import ProductTabs from '../../components/product-tabs/product-tabs';
-import { memo } from 'react';
 
 type ProductSectionProps = {
   camera: Camera;
@@ -15,8 +15,10 @@ function ProductSection({camera}: ProductSectionProps): JSX.Element {
   const {rating, reviewCount, price} = camera;
 
   const handleAddToBasketButtonClick = () => {
-    dispatch(currentProductUpdate(camera));
-    dispatch(addToBasketPopupStatusUpdate(true));
+    dispatch(addToBasketPopupStatusUpdate({
+      isPopupOpened: true,
+      product: camera,
+    }));
   };
 
   return (
@@ -25,8 +27,8 @@ function ProductSection({camera}: ProductSectionProps): JSX.Element {
         <div className="container">
           <div className="product__img">
             <picture>
-              <source type="image/webp" srcSet={`/${previewImgWebp}, /${previewImgWebp2x} 2x`} />
-              <img src={`/${previewImg}`} srcSet={`/${previewImg2x} 2x`} width="560" height="480" alt={name} />
+              <source type="image/webp" srcSet={`${previewImgWebp}, ${previewImgWebp2x} 2x`} />
+              <img src={`${previewImg}`} srcSet={`${previewImg2x} 2x`} width="560" height="480" alt={name} />
             </picture>
           </div>
           <div className="product__content">

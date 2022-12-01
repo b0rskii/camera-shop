@@ -35,49 +35,42 @@ const catalogFilterSlice = createSlice({
   initialState,
   reducers: {
     catalogFilterMinPriceUpdate: (state, action: PayloadAction<string | null>) => {
-      const newValue = action.payload;
+      const newValue = action.payload === '' ? null : action.payload;
 
-      state.nearestMinPrice = null;
-
-      if (newValue && Number(newValue) < state.minPriceLimit) {
-        state.minPrice = state.minPriceLimit.toString();
+      if (newValue === state.minPrice || newValue === state.nearestMinPrice) {
         return;
       }
+
+      state.nearestMinPrice = null;
 
       if (!state.maxPrice && newValue && Number(newValue) > state.maxPriceLimit) {
         state.minPrice = state.maxPriceLimit.toString();
         return;
       }
 
-      if (!newValue) {
-        state.minPrice = state.minPriceLimit.toString();
-        return;
+      if (state.maxPrice && newValue && Number(newValue) > Number(state.nearestMaxPrice)) {
+        state.nearestMaxPrice = null;
+        state.maxPrice = newValue;
       }
 
       state.minPrice = newValue;
     },
     catalogFilterMaxPriceUpdate: (state, action: PayloadAction<string | null>) => {
-      const newValue = action.payload;
+      const newValue = action.payload === '' ? null : action.payload;
 
-      state.nearestMaxPrice = null;
-
-      if (newValue && Number(newValue) > state.maxPriceLimit) {
-        state.maxPrice = state.maxPriceLimit.toString();
+      if (newValue === state.maxPrice || newValue === state.nearestMaxPrice) {
         return;
       }
+
+      state.nearestMaxPrice = null;
 
       if (!state.minPrice && newValue && Number(newValue) < state.minPriceLimit) {
         state.maxPrice = state.minPriceLimit.toString();
         return;
       }
 
-      if (state.minPrice && newValue && Number(newValue) < Number(state.minPrice)) {
-        state.maxPrice = state.minPrice;
-        return;
-      }
-
-      if (!newValue) {
-        state.maxPrice = state.maxPriceLimit.toString();
+      if (state.minPrice && newValue && Number(newValue) < Number(state.nearestMinPrice)) {
+        state.maxPrice = state.nearestMinPrice;
         return;
       }
 

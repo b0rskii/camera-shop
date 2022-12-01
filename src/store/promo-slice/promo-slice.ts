@@ -1,13 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PromoState } from '../../types/state';
-import { NameSpace, DEFAULT_ERROR_MESSAGE } from '../../const';
+import { NameSpace } from '../../const';
 import { fetchPromoAction } from '../api-actions';
 
 const initialState: PromoState = {
   promo: null,
   isLoaded: false,
   loadingError: null,
-  defaultError: DEFAULT_ERROR_MESSAGE,
 };
 
 const promoSlice = createSlice({
@@ -25,9 +24,10 @@ const promoSlice = createSlice({
         state.isLoaded = true;
         state.loadingError = null;
       })
-      .addCase(fetchPromoAction.rejected, (state) => {
+      .addCase(fetchPromoAction.rejected, (state, action) => {
+        const error = action.error.code || null;
         state.isLoaded = true;
-        state.loadingError = state.defaultError;
+        state.loadingError = error;
       });
   },
 });

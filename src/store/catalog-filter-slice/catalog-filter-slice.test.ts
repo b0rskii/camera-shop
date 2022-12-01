@@ -71,22 +71,17 @@ describe('Reducer: catalogFilterReducer', () => {
   });
 
   describe('catalogFilterMinPriceUpdate action', () => {
-    it('if value is null should set min price to min limit value', () => {
-      const MIN_PRICE_LIMIT = 1000;
-      const INITIAL_MIN_PRICE = '2000';
-      const VALUE = null;
+    it('if new value is equal previous value should no update', () => {
+      const MIN_PRICE = '5000';
+      const VALUE = '5000';
 
       const state = {
         ...initialState,
-        minPrice: INITIAL_MIN_PRICE,
-        minPriceLimit: MIN_PRICE_LIMIT,
+        minPrice: MIN_PRICE,
       };
 
       expect(catalogFilterReducer(state, catalogFilterMinPriceUpdate(VALUE)))
-        .toEqual({
-          ...state,
-          minPrice: MIN_PRICE_LIMIT.toString(),
-        });
+        .toEqual(state);
     });
 
     it('if value in limits should update min price to given value', () => {
@@ -104,22 +99,6 @@ describe('Reducer: catalogFilterReducer', () => {
         .toEqual({
           ...state,
           minPrice: VALUE,
-        });
-    });
-
-    it('if value less than min limit should set min price to min limit value', () => {
-      const MIN_PRICE_LIMIT = 1000;
-      const VALUE = '500';
-
-      const state = {
-        ...initialState,
-        minPriceLimit: MIN_PRICE_LIMIT,
-      };
-
-      expect(catalogFilterReducer(state, catalogFilterMinPriceUpdate(VALUE)))
-        .toEqual({
-          ...state,
-          minPrice: MIN_PRICE_LIMIT.toString(),
         });
     });
 
@@ -155,25 +134,57 @@ describe('Reducer: catalogFilterReducer', () => {
           nearestMinPrice: null,
         });
     });
-  });
 
-  describe('catalogFilterMaxPriceUpdate action', () => {
-    it('if value is null should set max price to max limit value', () => {
-      const MAX_PRICE_LIMIT = 10000;
-      const INITIAL_MAX_PRICE = '8000';
-      const VALUE = null;
+    it('if new value is empty string should set new value to "null"', () => {
+      const VALUE = '';
+      const MIN_PRICE = '1000';
 
       const state = {
         ...initialState,
-        maxPrice: INITIAL_MAX_PRICE,
-        maxPriceLimit: MAX_PRICE_LIMIT,
+        minPrice: MIN_PRICE,
+        nearestMinPrice: MIN_PRICE,
+      };
+
+      expect(catalogFilterReducer(state, catalogFilterMinPriceUpdate(VALUE)))
+        .toEqual({
+          ...state,
+          minPrice: null,
+          nearestMinPrice: null,
+        });
+    });
+
+    it('if value is greater than the set maximum price', () => {
+      const VALUE = '6000';
+      const MAX_PRICE = '5000';
+
+      const state = {
+        ...initialState,
+        maxPrice: MAX_PRICE,
+        nearestMaxPrice: MAX_PRICE,
+      };
+
+      expect(catalogFilterReducer(state, catalogFilterMinPriceUpdate(VALUE)))
+        .toEqual({
+          ...state,
+          minPrice: VALUE,
+          maxPrice: VALUE,
+          nearestMaxPrice: null,
+        });
+    });
+  });
+
+  describe('catalogFilterMaxPriceUpdate action', () => {
+    it('if new value is equal previous value should no update', () => {
+      const MAX_PRICE = '5000';
+      const VALUE = '5000';
+
+      const state = {
+        ...initialState,
+        maxPrice: MAX_PRICE,
       };
 
       expect(catalogFilterReducer(state, catalogFilterMaxPriceUpdate(VALUE)))
-        .toEqual({
-          ...state,
-          maxPrice: MAX_PRICE_LIMIT.toString(),
-        });
+        .toEqual(state);
     });
 
     it('if value in limits should update max price to given value', () => {
@@ -210,22 +221,6 @@ describe('Reducer: catalogFilterReducer', () => {
         });
     });
 
-    it('if value less than min price should set max price to min price value', () => {
-      const INITIAL_MIN_PRICE = '3000';
-      const VALUE = '2000';
-
-      const state = {
-        ...initialState,
-        minPrice: INITIAL_MIN_PRICE,
-      };
-
-      expect(catalogFilterReducer(state, catalogFilterMaxPriceUpdate(VALUE)))
-        .toEqual({
-          ...state,
-          maxPrice: INITIAL_MIN_PRICE,
-        });
-    });
-
     it('should reset nearest max price', () => {
       const NEAREST_MAX_PRICE = '5000';
       const VALUE = '2000';
@@ -240,6 +235,41 @@ describe('Reducer: catalogFilterReducer', () => {
           ...state,
           maxPrice: VALUE,
           nearestMaxPrice: null,
+        });
+    });
+
+    it('if new value is empty string should set new value to "null"', () => {
+      const VALUE = '';
+      const MAX_PRICE = '1000';
+
+      const state = {
+        ...initialState,
+        maxPrice: MAX_PRICE,
+        nearestMaxPrice: MAX_PRICE,
+      };
+
+      expect(catalogFilterReducer(state, catalogFilterMaxPriceUpdate(VALUE)))
+        .toEqual({
+          ...state,
+          maxPrice: null,
+          nearestMaxPrice: null,
+        });
+    });
+
+    it('if value less than set min price should set max price to nearest min price value', () => {
+      const VALUE = '500';
+      const MIN_PRICE = '1000';
+
+      const state = {
+        ...initialState,
+        minPrice: MIN_PRICE,
+        nearestMinPrice: MIN_PRICE,
+      };
+
+      expect(catalogFilterReducer(state, catalogFilterMaxPriceUpdate(VALUE)))
+        .toEqual({
+          ...state,
+          maxPrice: MIN_PRICE,
         });
     });
   });

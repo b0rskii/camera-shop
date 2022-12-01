@@ -11,7 +11,7 @@ import { AppRoute, InitialCatalogPriceLimit } from '../../const';
 import HistoryRouter from '../../components/history-router/history-router';
 import App from './app';
 
-const DEFAULT_ERROR = 'error';
+const DEFAULT_DISCOUNT = 0;
 const CAMERAS_TOTAL_COUNT = 50;
 const ID = 1;
 
@@ -34,40 +34,36 @@ const store = makeMockStore({
     isLoaded: true,
     loadingError: null,
     searchingCameras: [],
-    defaultError: DEFAULT_ERROR,
   },
   Promo: {
     promo: null,
     isLoaded: false,
     loadingError: null,
-    defaultError: DEFAULT_ERROR,
   },
   CurrentCamera: {
     currentCamera: camera,
     isLoaded: true,
     loadingError: null,
-    defaultError: DEFAULT_ERROR,
   },
   SimilarCameras: {
     similarCameras: [],
     isLoaded: false,
     loadingError: null,
-    defaultError: DEFAULT_ERROR,
   },
   Reviews: {
     reviews: [],
     isLoaded: false,
     loadingError: null,
-    defaultError: DEFAULT_ERROR,
   },
   Error: {
     error: null,
   },
   App: {
-    currentProduct: null,
     isAddToBasketPopupOpened: false,
     isPostReviewPopupOpened: false,
     isSuccessPopupOpened: false,
+    isSuccessAddToBasketPopupOpened: false,
+    isBasketItemDeletingPopupOpened: false,
   },
   CatalogPagination: {
     currentPage: null,
@@ -86,6 +82,16 @@ const store = makeMockStore({
     maxPriceLimit: InitialCatalogPriceLimit.Max,
     nearestMinPrice: null,
     nearestMaxPrice: null,
+  },
+  Basket: {
+    basketItems: [],
+    cameras: [],
+    isCamerasLoading: false,
+    camerasLoadingError: null,
+    discount: DEFAULT_DISCOUNT,
+    promoCode: '',
+    isOrderPosting: false,
+    postingError: null,
   },
 });
 
@@ -120,6 +126,15 @@ describe('Component: App', () => {
     render(fakeApp);
 
     expect(screen.getByTestId('basket-page')).toBeInTheDocument();
+  });
+
+  it('should render error page when user navigate to "/error"', () => {
+    history.push(AppRoute.Error);
+
+    render(fakeApp);
+
+    expect(screen.getByText(/Произошла ошибка/i)).toBeInTheDocument();
+    expect(screen.getByText(/Вернуться назад/i)).toBeInTheDocument();
   });
 
   it('should render not found page when user navigate to non-existent route', () => {

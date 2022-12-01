@@ -4,9 +4,9 @@ import './not-found-page.css';
 
 function NotFoundPage(): JSX.Element {
   return (
-    <div className="not-found-page">
-      <h2 className="not-found-page__title">Страница не найдена</h2>
-      <Link to={AppRoute.Main} className="not-found-page__link">
+    <div className="error-page">
+      <h2 className="error-page__title">Страница не найдена</h2>
+      <Link to={AppRoute.Main} className="error-page__link">
         На главную
       </Link>
     </div>

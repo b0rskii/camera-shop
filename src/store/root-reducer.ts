@@ -10,6 +10,7 @@ import appReducer from './app-slice/app-slice';
 import catalogPaginationReducer from './catalog-pagination-slice/catalog-pagination-slice';
 import catalogSortReducer from './catalog-sort-slice/catalog-sort-slice';
 import catalogFilterReducer from './catalog-filter-slice/catalog-filter-slice';
+import basketReducer from './basket-slice/basket-slice';
 
 export const rootReducer = combineReducers({
   [NameSpace.Cameras]: camerasReducer,
@@ -22,4 +23,5 @@ export const rootReducer = combineReducers({
   [NameSpace.CatalogPagination]: catalogPaginationReducer,
   [NameSpace.CatalogSort]: catalogSortReducer,
   [NameSpace.CatalogFilter]: catalogFilterReducer,
+  [NameSpace.Basket]: basketReducer,
 });

@@ -1,7 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { Camera, Promo, Review, PostingReview } from '../types/types';
-import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT, NameSpace, AppQuery, SortOrder } from '../const';
+import { promoCodeUpdate } from './basket-slice/basket-slice';
+import { redirectToRoute } from './actions';
+import { Camera, Promo, Review, PostingReview, Order } from '../types/types';
+import { APIRoute, APIQuery, CARDS_PER_PAGE_COUNT, NameSpace, AppQuery, SortOrder, AppRoute } from '../const';
 import { State } from '../types/state';
 
 const TOTAL_COUNT_HEADER = 'x-total-count';
@@ -48,12 +50,11 @@ export const fetchMinPriceCameraAction = createAsyncThunk<Camera, undefined, Thu
   `${NameSpace.Cameras}/fetchMinPriceCamera`,
   async (_arg, {getState, extra: api}) => {
     const state: State = getState();
-    const {minPrice, category, type, level} = state.CatalogFilter;
+    const {category, type, level} = state.CatalogFilter;
 
     const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
       params: {
         [APIQuery.Sort]: AppQuery.CatalogPriceFilter,
-        [`${AppQuery.CatalogPriceFilter}${APIQuery.Min}`]: minPrice,
         [AppQuery.CatalogCategoryFilter]: category,
         [AppQuery.CatalogTypeFilter]: type,
         [AppQuery.CatalogLevelFilter]: level,
@@ -69,13 +70,12 @@ export const fetchMaxPriceCameraAction = createAsyncThunk<Camera, undefined, Thu
   `${NameSpace.Cameras}/fetchMaxPriceCamera`,
   async (_arg, {getState, extra: api}) => {
     const state: State = getState();
-    const {maxPrice, category, type, level} = state.CatalogFilter;
+    const {category, type, level} = state.CatalogFilter;
 
     const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
       params: {
         [APIQuery.Sort]: AppQuery.CatalogPriceFilter,
         [APIQuery.Order]: SortOrder.Desc,
-        [`${AppQuery.CatalogPriceFilter}${APIQuery.Max}`]: maxPrice,
         [AppQuery.CatalogCategoryFilter]: category,
         [AppQuery.CatalogTypeFilter]: type,
         [AppQuery.CatalogLevelFilter]: level,
@@ -178,10 +178,63 @@ export const fetchReviewsAction = createAsyncThunk<Review[], string, ThunkAPI>(
   }
 );
 
+export const fetchBasketCamerasAction = createAsyncThunk<Camera[], undefined, ThunkAPI>(
+  `${NameSpace.Basket}/fetchBasketCameras`,
+  async (_arg, {getState, extra: api}) => {
+    const state: State = getState();
+    const itemsIds = state.Basket.basketItems.map((item) => item.id.toString());
+
+    const {data} = await api.get<Camera[]>(APIRoute.Cameras, {
+      params: {
+        [AppQuery.CameraId]: itemsIds,
+      },
+    });
+    return data;
+  }
+);
+
 export const postReviewAction = createAsyncThunk<Review, PostingReview, ThunkAPI>(
   `${NameSpace.Reviews}/postReview`,
   async (review, {extra: api}) => {
     const {data} = await api.post<Review>(APIRoute.Reviews, review);
     return data;
+  },
+);
+
+export const postPromoCodeAction = createAsyncThunk<number, {coupon: string}, ThunkAPI>(
+  `${NameSpace.Basket}/postPromoCode`,
+  async (promoCode, {dispatch, extra: api}) => {
+    dispatch(promoCodeUpdate(promoCode.coupon));
+    const {data} = await api.post<number>(APIRoute.Coupons, promoCode);
+    return data;
+  },
+);
+
+export const postOrderAction = createAsyncThunk<void, undefined, ThunkAPI>(
+  `${NameSpace.Basket}/postOrder`,
+  async (_arg, {dispatch, getState, extra: api}) => {
+    const state: State = getState();
+    const basketItems = state.Basket.basketItems;
+    const promoCode = state.Basket.promoCode;
+    const coupon = promoCode.length ? promoCode : null;
+    const camerasIds: number[] = [];
+
+    basketItems.forEach((item) => {
+      for (let i = 0; i < item.count; i++) {
+        camerasIds.push(item.id);
+      }
+    });
+
+    const order: Order = {
+      camerasIds,
+      coupon,
+    };
+
+    try {
+      await api.post(APIRoute.Orders, order);
+    } catch(error) {
+      dispatch(redirectToRoute(AppRoute.Error));
+      throw error;
+    }
   },
 );

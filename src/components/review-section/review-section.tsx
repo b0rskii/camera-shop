@@ -50,7 +50,7 @@ function ReviewSection({id}: ReviewSectionProps): JSX.Element {
           <Loader wrapper/>}
 
           {reviewsLoadingError &&
-          <Error message={reviewsLoadingError} />}
+          <Error />}
 
           {isReviewsLoaded && !reviewsLoadingError && reviews.length < 1 &&
           <h3 className="title title--h4">Пока нет ни одного отзыва</h3>}

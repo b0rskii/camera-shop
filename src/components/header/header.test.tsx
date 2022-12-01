@@ -23,6 +23,9 @@ const store = makeMockStore({
   Cameras: {
     searchingCameras: [],
   },
+  Basket: {
+    basketItems: [],
+  },
 });
 
 describe('Component: Header', () => {

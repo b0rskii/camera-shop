@@ -1,23 +1,29 @@
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import { getCurrentProduct, getAddToBasketPopupStatus } from '../../../store/app-slice/selectors';
+import { getAddToBasketPopupData } from '../../../store/app-slice/selectors';
 import { addToBasketPopupStatusUpdate } from '../../../store/app-slice/app-slice';
+import { basketItemAdding } from '../../../store/basket-slice/basket-slice';
 import PopupLayout from '../popup-layout/popup-layout';
+import BasketItemShort from '../../basket-item-short/basket-item-short';
 
 function AddToBasketPopup(): JSX.Element | null {
   const dispatch = useAppDispatch();
-  const product = useAppSelector(getCurrentProduct);
-  const isPopupOpened = useAppSelector(getAddToBasketPopupStatus);
+  const {isPopupOpened, product} = useAppSelector(getAddToBasketPopupData);
 
   if (!product) {
     return null;
   }
 
   const setIsPopupOpened = (status: boolean) => {
-    dispatch(addToBasketPopupStatusUpdate(status));
+    dispatch(addToBasketPopupStatusUpdate({
+      isPopupOpened: status,
+      product: null,
+    }));
   };
 
-  const {previewImgWebp, previewImgWebp2x, previewImg, previewImg2x} = product;
-  const {name, vendorCode, type, category, level, price} = product;
+  const handleButtonClick = () => {
+    dispatch(basketItemAdding(product.id));
+    setIsPopupOpened(false);
+  };
 
   return (
     <PopupLayout
@@ -26,29 +32,14 @@ function AddToBasketPopup(): JSX.Element | null {
     >
       <p className="title title--h4">Добавить товар в корзину</p>
       <div className="basket-item basket-item--short">
-        <div className="basket-item__img">
-          <picture>
-            <source type="image/webp" srcSet={`/${previewImgWebp}, /${previewImgWebp2x} 2x`} />
-            <img src={`/${previewImg}`} srcSet={`/${previewImg2x} 2x`} width="140" height="120" alt={name} />
-          </picture>
-        </div>
-        <div className="basket-item__description">
-          <p className="basket-item__title">{name}</p>
-          <ul className="basket-item__list">
-            <li className="basket-item__list-item">
-              <span className="basket-item__article">Артикул: </span>
-              <span className="basket-item__number">{vendorCode}</span>
-            </li>
-            <li className="basket-item__list-item">{`${type} ${category.toLowerCase()}`}</li>
-            <li className="basket-item__list-item">{level} уровень</li>
-          </ul>
-          <p className="basket-item__price">
-            <span className="visually-hidden">Цена:</span>{price.toLocaleString()} ₽
-          </p>
-        </div>
+        <BasketItemShort item={product} isWithPrice />
       </div>
       <div className="modal__buttons">
-        <button className="btn btn--purple modal__btn modal__btn--fit-width" type="button">
+        <button
+          onClick={handleButtonClick}
+          className="btn btn--purple modal__btn modal__btn--fit-width"
+          type="button"
+        >
           <svg width="24" height="16" aria-hidden="true">
             <use xlinkHref="#icon-add-basket"></use>
           </svg>

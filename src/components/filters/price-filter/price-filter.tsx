@@ -1,4 +1,4 @@
-import { useState, useEffect, KeyboardEvent, memo } from 'react';
+import { useState, useEffect, KeyboardEvent, memo, ChangeEvent } from 'react';
 import { KeyName } from '../../../const';
 
 type PriceFilterProps = {
@@ -21,18 +21,51 @@ function PriceFilter(props: PriceFilterProps): JSX.Element {
 
   useEffect(() => {
     setMinPriceInputValue(nearestMinPrice ? nearestMinPrice : minPrice);
-    setMaxPriceInputValue(nearestMaxPrice ? nearestMaxPrice : maxPrice);
-  }, [minPrice, maxPrice, nearestMinPrice, nearestMaxPrice]);
+  }, [minPrice, nearestMinPrice]);
 
-  const handlePriceFilterEnterKeyDown = (evt: KeyboardEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    setMaxPriceInputValue(nearestMaxPrice ? nearestMaxPrice : maxPrice);
+  }, [maxPrice, nearestMaxPrice]);
+
+  const handleMinPriceChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const value = evt.currentTarget.value;
+
+    if (Number(value) < 0) {
+      setMinPriceInputValue('');
+      return;
+    }
+
+    setMinPriceInputValue(value);
+  };
+
+  const handleMaxPriceChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const value = evt.currentTarget.value;
+
+    if (Number(value) < 0) {
+      setMaxPriceInputValue('');
+      return;
+    }
+
+    setMaxPriceInputValue(value);
+  };
+
+  const handleMinPriceFilterEnterKeyDown = (evt: KeyboardEvent<HTMLInputElement>) => {
     if (evt.key === KeyName.Enter) {
       onMinPriceUpdate(minPriceInputValue);
+    }
+  };
+
+  const handleMaxPriceFilterEnterKeyDown = (evt: KeyboardEvent<HTMLInputElement>) => {
+    if (evt.key === KeyName.Enter) {
       onMaxPriceUpdate(maxPriceInputValue);
     }
   };
 
-  const handlePriceFilterBlur = () => {
+  const handleMinPriceFilterBlur = () => {
     onMinPriceUpdate(minPriceInputValue);
+  };
+
+  const handleMaxPriceFilterBlur = () => {
     onMaxPriceUpdate(maxPriceInputValue);
   };
 
@@ -43,9 +76,9 @@ function PriceFilter(props: PriceFilterProps): JSX.Element {
         <div className="custom-input">
           <label>
             <input
-              onChange={(evt) => setMinPriceInputValue(evt.target.value)}
-              onKeyDown={(evt) => handlePriceFilterEnterKeyDown(evt)}
-              onBlur={handlePriceFilterBlur}
+              onChange={handleMinPriceChange}
+              onKeyDown={handleMinPriceFilterEnterKeyDown}
+              onBlur={handleMinPriceFilterBlur}
               type="number"
               name="price"
               placeholder={minPriceLimit ? minPriceLimit : 'от'}
@@ -57,9 +90,9 @@ function PriceFilter(props: PriceFilterProps): JSX.Element {
         <div className="custom-input">
           <label>
             <input
-              onChange={(evt) => setMaxPriceInputValue(evt.target.value)}
-              onKeyDown={(evt) => handlePriceFilterEnterKeyDown(evt)}
-              onBlur={handlePriceFilterBlur}
+              onChange={handleMaxPriceChange}
+              onKeyDown={handleMaxPriceFilterEnterKeyDown}
+              onBlur={handleMaxPriceFilterBlur}
               type="number"
               name="priceUp"
               placeholder={maxPriceLimit ? maxPriceLimit : 'до'}

@@ -14,7 +14,11 @@ describe('Component: Slider', () => {
   it('should render with control buttons if products count more then displayed items count', () => {
     const DISPLAYED_ITEMS_COUNT = 3;
     const cameras = makeMockCameras();
-    const store = makeMockStore();
+    const store = makeMockStore({
+      Basket: {
+        basketItems: [],
+      },
+    });
 
     render(
       <Provider store={store}>
@@ -35,7 +39,11 @@ describe('Component: Slider', () => {
   it('should render without control buttons if products count not more then displayed items count', () => {
     const DISPLAYED_ITEMS_COUNT = 10;
     const cameras = makeMockCameras();
-    const store = makeMockStore();
+    const store = makeMockStore({
+      Basket: {
+        basketItems: [],
+      },
+    });
 
     render(
       <Provider store={store}>
@@ -57,7 +65,11 @@ describe('Component: Slider', () => {
     const DISPLAYED_ITEMS_COUNT = 3;
     const DEFAULT_START_INDEX = 0;
     const cameras = makeMockCameras();
-    const store = makeMockStore();
+    const store = makeMockStore({
+      Basket: {
+        basketItems: [],
+      },
+    });
 
     render(
       <Provider store={store}>
@@ -100,7 +112,11 @@ describe('Component: Slider', () => {
   it('prev button should be disabled if slider starts on first item', () => {
     const DISPLAYED_ITEMS_COUNT = 3;
     const cameras = makeMockCameras();
-    const store = makeMockStore();
+    const store = makeMockStore({
+      Basket: {
+        basketItems: [],
+      },
+    });
 
     render(
       <Provider store={store}>
@@ -121,7 +137,11 @@ describe('Component: Slider', () => {
   it('next button should be disabled if slider ends on last item', async () => {
     const DISPLAYED_ITEMS_COUNT = 8;
     const cameras = makeMockCameras();
-    const store = makeMockStore();
+    const store = makeMockStore({
+      Basket: {
+        basketItems: [],
+      },
+    });
 
     render(
       <Provider store={store}>

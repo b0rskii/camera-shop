@@ -6,6 +6,7 @@ import ProductPage from '../../pages/product-page/product-page';
 import BasketPage from '../../pages/basket-page/basket-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import ErrorMessage from '../error-message/error-message';
+import ErrorPage from '../../pages/error-page/error-page';
 
 function App(): JSX.Element {
   return (
@@ -27,6 +28,10 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.Basket}
           element={<BasketPage />}
+        />
+        <Route
+          path={AppRoute.Error}
+          element={<ErrorPage />}
         />
         <Route
           path="*"

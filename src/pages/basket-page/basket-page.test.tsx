@@ -9,6 +9,8 @@ import { Provider } from 'react-redux';
 import HistoryRouter from '../../components/history-router/history-router';
 import BasketPage from './basket-page';
 
+const DEFAULT_DISCOUNT = 0;
+
 const middlewares = [thunk.withExtraArgument(api)];
 const makeMockStore = configureMockStore<
   State,
@@ -22,6 +24,16 @@ describe('Component: BasketPage', () => {
   const store = makeMockStore({
     Cameras: {
       searchingCameras: [],
+    },
+    App: {
+      isBasketItemDeletingPopupOpened: false,
+    },
+    Basket: {
+      basketItems: [],
+      discount: DEFAULT_DISCOUNT,
+      promoCode: '',
+      isOrderPosting: false,
+      postingError: null,
     },
   });
 

@@ -1,13 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { CurrentCameraState } from '../../types/state';
-import { NameSpace, DEFAULT_ERROR_MESSAGE } from '../../const';
+import { NameSpace } from '../../const';
 import { fetchCurrentCameraAction } from '../api-actions';
 
 const initialState: CurrentCameraState = {
   currentCamera: null,
   isLoaded: false,
   loadingError: null,
-  defaultError: DEFAULT_ERROR_MESSAGE,
 };
 
 const currentCameraSlice = createSlice({
@@ -25,9 +24,10 @@ const currentCameraSlice = createSlice({
         state.isLoaded = true;
         state.loadingError = null;
       })
-      .addCase(fetchCurrentCameraAction.rejected, (state) => {
+      .addCase(fetchCurrentCameraAction.rejected, (state, action) => {
+        const error = action.error.code || null;
         state.isLoaded = true;
-        state.loadingError = state.defaultError;
+        state.loadingError = error;
       });
   },
 });

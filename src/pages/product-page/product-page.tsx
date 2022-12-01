@@ -17,6 +17,7 @@ import AddToBasketPopup from '../../components/popups/add-to-basket-popup/add-to
 import UpButton from '../../components/up-button/up-button';
 import PostReviewPopup from '../../components/popups/post-review-popup/post-review-popup';
 import SuccessPopup from '../../components/popups/success-popup/success-popup';
+import SuccessAddToBasketPopup from '../../components/popups/success-add-to-basket-popup/success-add-to-basket-popup';
 import Loader from '../../components/loader/loader';
 import Error from '../../components/error/error';
 
@@ -40,7 +41,7 @@ function ProductPage(): JSX.Element {
   }, [dispatch, id]);
 
   if (cameraLoadingError) {
-    return <Error message={cameraLoadingError} />;
+    return <Error />;
   }
 
   if (!isCameraLoaded || camera === null || !id) {
@@ -62,6 +63,7 @@ function ProductPage(): JSX.Element {
         <AddToBasketPopup />
         <PostReviewPopup />
         <SuccessPopup title={StatusMessage.PostReviewSuccess} />
+        <SuccessAddToBasketPopup />
       </main>
       <UpButton />
     </MainLayout>

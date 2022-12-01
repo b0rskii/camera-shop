@@ -1,4 +1,11 @@
+import { Camera } from '../types/types';
+
 const DATE_ATTRIBUTE_LENGTH = 10;
+
+const PhotoCameraCategoryValue = {
+  Server: 'Фотоаппарат',
+  Client: 'Фотокамера',
+};
 
 const ToReviewDate = new Intl.DateTimeFormat('ru', {
   day: 'numeric',
@@ -32,3 +39,23 @@ export const debounce = (callback: ReturnType<typeof Function>, delay: number) =
     }, delay);
   };
 };
+
+export const removeSpaces = (string: string) => string.replace(/\s+/g, '');
+
+export const adaptCameraToClient = (camera: Camera) => {
+  const adaptedCamera = {
+    ...camera,
+    previewImg: `/${camera.previewImg}`,
+    previewImg2x: `/${camera.previewImg2x}`,
+    previewImgWebp: `/${camera.previewImgWebp}`,
+    previewImgWebp2x: `/${camera.previewImgWebp2x}`,
+    category: camera.category === PhotoCameraCategoryValue.Server
+      ? PhotoCameraCategoryValue.Client
+      : camera.category,
+  };
+
+  return adaptedCamera;
+};
+
+export const adaptCamerasToClient = (cameras: Camera[]) =>
+  cameras.map((camera) => adaptCameraToClient(camera));

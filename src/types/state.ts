@@ -1,5 +1,5 @@
 import { store } from '../store/store';
-import { Camera, Promo, Review } from './types';
+import { Camera, Promo, Review, BasketItem, TPromoCodeValidationStatus } from './types';
 
 export type CamerasState = {
   cameras: Camera[];
@@ -7,35 +7,31 @@ export type CamerasState = {
   isLoaded: boolean;
   loadingError: string | null;
   searchingCameras: Camera[];
-  defaultError: string;
+  selectedCamera: Camera | null;
 };
 
 export type PromoState = {
   promo: Promo | null;
   isLoaded: boolean;
   loadingError: string | null;
-  defaultError: string;
 };
 
 export type CurrentCameraState = {
   currentCamera: Camera | null;
   isLoaded: boolean;
   loadingError: string | null;
-  defaultError: string;
 };
 
 export type SimilarCamerasState = {
   similarCameras: Camera[];
   isLoaded: boolean;
   loadingError: string | null;
-  defaultError: string;
 };
 
 export type ReviewsState = {
   reviews: Review[];
   isLoaded: boolean;
   loadingError: string | null;
-  defaultError: string;
 };
 
 export type ErrorState = {
@@ -43,10 +39,11 @@ export type ErrorState = {
 };
 
 export type AppState = {
-  currentProduct: Camera | null;
   isAddToBasketPopupOpened: boolean;
   isPostReviewPopupOpened: boolean;
   isSuccessPopupOpened: boolean;
+  isSuccessAddToBasketPopupOpened: boolean;
+  isBasketItemDeletingPopupOpened: boolean;
 };
 
 export type CatalogPaginationState = {
@@ -68,6 +65,19 @@ export type CatalogFilterState = {
   maxPriceLimit: number;
   nearestMinPrice: string | null;
   nearestMaxPrice: string | null;
+};
+
+export type BasketState = {
+  basketItems: BasketItem[];
+  cameras: Camera[];
+  isCamerasLoading: boolean;
+  camerasLoadingError: string | null;
+  discount: number;
+  promoCode: string;
+  promoCodeValidationStatus: TPromoCodeValidationStatus;
+  selectedBasketItem: Camera | null;
+  isOrderPosting: boolean;
+  postingError: string | null;
 };
 
 export type State = ReturnType<typeof store.getState>;

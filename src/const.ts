@@ -5,6 +5,7 @@ export const DISPLAYED_SLIDER_ITEMS_COUNT = 3;
 export const DEFAULT_DISPLAYED_REVIEWS_COUNT = 3;
 export const COMMENT_MIN_LENGTH = 5;
 export const DEFAULT_ERROR_MESSAGE = 'Произошла ошибка. Попробуйте повторить попытку.';
+export const DEFAULT_DISCOUNT = 0;
 
 export const KeyName = {
   Esc: 'Escape',
@@ -18,6 +19,7 @@ export const AppRoute = {
   Product: '/product/',
   ProductId: '/product/:id/*',
   Basket: '/basket',
+  Error: '/error',
 } as const;
 
 export const AppQuery = {
@@ -31,6 +33,7 @@ export const AppQuery = {
   CatalogCategoryFilter: 'category',
   CatalogTypeFilter: 'type',
   CatalogLevelFilter: 'level',
+  CameraId: 'id',
 } as const;
 
 export const APIRoute = {
@@ -38,6 +41,8 @@ export const APIRoute = {
   Promo: '/promo',
   Similar: '/similar',
   Reviews: '/reviews',
+  Coupons: '/coupons',
+  Orders: '/orders',
 } as const;
 
 export const APIQuery = {
@@ -66,6 +71,7 @@ export const NameSpace = {
   CatalogPagination: 'CatalogPagination',
   CatalogSort: 'CatalogSort',
   CatalogFilter: 'CatalogFilter',
+  Basket: 'Basket',
 } as const;
 
 export const BreadCrumb = {
@@ -118,9 +124,16 @@ export const RatingInput = {
 
 export const StatusMessage = {
   PostReviewSuccess: 'Спасибо за отзыв',
+  PostOrderSuccess: 'Спасибо за покупку',
 } as const;
 
 export const InitialCatalogPriceLimit = {
   Min: 0,
   Max: Infinity,
 };
+
+export const PromoCodeValidationStatus = {
+  Valid: 'valid',
+  Invalid: 'invalid',
+  Unknown: 'unknown',
+} as const;

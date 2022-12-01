@@ -65,12 +65,12 @@ describe('Component: Banner', () => {
   });
 
   it('should render error component if data loaded with error', () => {
+    const ERROR = '400';
     const store = makeMockStore({
       Promo: {
         promo: null,
         isLoaded: true,
-        loadingError: DEFAULT_ERROR_MESSAGE,
-        defaultError: DEFAULT_ERROR_MESSAGE,
+        loadingError: ERROR,
       }
     });
 

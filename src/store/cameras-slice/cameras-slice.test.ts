@@ -1,8 +1,8 @@
 import camerasReducer from './cameras-slice';
 import { CamerasState } from '../../types/state';
-import { DEFAULT_ERROR_MESSAGE } from '../../const';
-import { makeMockCameras, Mock } from '../../utils/mocks';
+import { makeMockCamera, makeMockCameras, Mock } from '../../utils/mocks';
 import { fetchCamerasAction } from '../api-actions';
+import { addToBasketPopupStatusUpdate } from '../app-slice/app-slice';
 
 describe('Reducer: camerasReducer', () => {
   let initialState: CamerasState;
@@ -14,13 +14,24 @@ describe('Reducer: camerasReducer', () => {
       isLoaded: false,
       loadingError: null,
       searchingCameras: [],
-      defaultError: DEFAULT_ERROR_MESSAGE,
+      selectedCamera: null,
     };
   });
 
   it('without additional parameters should return initial state', () => {
     expect(camerasReducer(undefined, {type: 'UnknownAction'}))
       .toEqual(initialState);
+  });
+
+  it('should update selected camera to given value on "addToBasketPopupStatusUpdate" action', () => {
+    const camera = makeMockCamera();
+    const payload = {isPopupOpened: true, product: camera};
+
+    expect(camerasReducer(initialState, {type: addToBasketPopupStatusUpdate.type, payload}))
+      .toEqual({
+        ...initialState,
+        selectedCamera: camera,
+      });
   });
 
   describe('fetchCamerasAction test', () => {
@@ -61,11 +72,13 @@ describe('Reducer: camerasReducer', () => {
     });
 
     it('if rejected should set cameras loaded status to "true", cameras loading error to default error', () => {
-      expect(camerasReducer(initialState, fetchCamerasAction.rejected))
+      const ERROR = '400';
+
+      expect(camerasReducer(initialState, {type: fetchCamerasAction.rejected.type, error: {code: ERROR}}))
         .toEqual({
           ...initialState,
           isLoaded: true,
-          loadingError: initialState.defaultError,
+          loadingError: ERROR,
         });
     });
   });

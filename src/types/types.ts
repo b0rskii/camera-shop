@@ -54,3 +54,25 @@ export type FilterValue = {
   Title: string;
   DisableFilter: string | null;
 };
+
+export type BasketItem = {
+  id: number;
+  count: number;
+};
+
+export type Order = {
+  camerasIds: number[];
+  coupon: string | null;
+};
+
+export type TPromoCodeValidationStatus = 'valid' | 'invalid' | 'unknown';
+
+export type AddToBasketPopupData = {
+  isPopupOpened: boolean;
+  product: Camera | null;
+};
+
+export type BasketItemDeletingPopupData = {
+  isPopupOpened: boolean;
+  basketItem: Camera | null;
+};

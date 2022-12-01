@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import { getSuccessPopupStatus } from '../../../store/app-slice/selectors';
 import { successPopupStatusUpdate } from '../../../store/app-slice/app-slice';
@@ -5,14 +6,24 @@ import PopupLayout from '../popup-layout/popup-layout';
 
 type SuccessPopupProps = {
   title: string;
+  redirectRoute?: string;
 };
 
-function SuccessPopup({title}: SuccessPopupProps): JSX.Element {
+function SuccessPopup({title, redirectRoute}: SuccessPopupProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const isPopupOpened = useAppSelector(getSuccessPopupStatus);
 
   const setIsPopupOpened = (status: boolean) => {
     dispatch(successPopupStatusUpdate(status));
+  };
+
+  const handleBackToShoppingButtonClick = () => {
+    setIsPopupOpened(false);
+
+    if (redirectRoute) {
+      navigate(redirectRoute);
+    }
   };
 
   return (
@@ -26,7 +37,7 @@ function SuccessPopup({title}: SuccessPopupProps): JSX.Element {
       </svg>
       <div className="modal__buttons">
         <button
-          onClick={() => dispatch(successPopupStatusUpdate(false))}
+          onClick={handleBackToShoppingButtonClick}
           className="btn btn--purple modal__btn modal__btn--fit-width"
           type="button"
         >

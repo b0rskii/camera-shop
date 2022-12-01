@@ -1,6 +1,5 @@
 import reviewsReducer from './reviews-slice';
 import { ReviewsState } from '../../types/state';
-import { DEFAULT_ERROR_MESSAGE } from '../../const';
 import { makeMockReviews, makeMockReview } from '../../utils/mocks';
 import { fetchReviewsAction, postReviewAction } from '../api-actions';
 
@@ -12,7 +11,6 @@ describe('Reducer: reviewsReducer', () => {
       reviews: [],
       isLoaded: false,
       loadingError: null,
-      defaultError: DEFAULT_ERROR_MESSAGE,
     };
   });
 
@@ -54,11 +52,13 @@ describe('Reducer: reviewsReducer', () => {
     });
 
     it('if rejected should set reviews loaded status to "true", reviews loading error to default error', () => {
-      expect(reviewsReducer(initialState, fetchReviewsAction.rejected))
+      const ERROR = '400';
+
+      expect(reviewsReducer(initialState, {type: fetchReviewsAction.rejected.type, error: {code: ERROR}}))
         .toEqual({
           ...initialState,
           isLoaded: true,
-          loadingError: initialState.defaultError,
+          loadingError: ERROR,
         });
     });
   });

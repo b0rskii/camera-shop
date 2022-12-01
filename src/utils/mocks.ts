@@ -1,11 +1,11 @@
-import { Camera, Promo, Review, PostingReview, FilterValue } from '../types/types';
+import { Camera, Promo, Review, PostingReview, FilterValue, BasketItem } from '../types/types';
 
 export const Mock = {
   CamerasTotalCount: '50',
 } as const;
 
-export const makeMockCamera = (): Camera => ({
-  id: 1,
+export const makeMockCamera = (id = 1): Camera => ({
+  id,
   name: 'Ретрокамера Dus Auge lV',
   vendorCode: 'DA4IU67AD5',
   type: 'Коллекционная',
@@ -21,10 +21,10 @@ export const makeMockCamera = (): Camera => ({
   reviewCount: 16
 });
 
-export const makeMockCameras = (): Camera[] => {
+export const makeMockCameras = (count = 9): Camera[] => {
   const cameras: Camera[] = [];
 
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < count; i++) {
     cameras.push({
       id: i + 1,
       name: 'Ретрокамера Dus Auge lV',
@@ -106,4 +106,17 @@ export const makeMockFilterValues = (): FilterValue[] => {
   }
 
   return filterValues;
+};
+
+export const makeMockBasketItems = (count = 3): BasketItem[] => {
+  const basketItems: BasketItem[] = [];
+
+  for (let i = 0; i < count; i++) {
+    basketItems.push({
+      id: i + 1,
+      count: 1,
+    });
+  }
+
+  return basketItems;
 };

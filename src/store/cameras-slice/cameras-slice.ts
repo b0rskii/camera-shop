@@ -1,7 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CamerasState } from '../../types/state';
-import { NameSpace, DEFAULT_ERROR_MESSAGE } from '../../const';
+import { AddToBasketPopupData } from '../../types/types';
+import { addToBasketPopupStatusUpdate } from '../app-slice/app-slice';
 import { fetchCamerasAction, fetchSearchingCamerasAction } from '../api-actions';
+import { NameSpace } from '../../const';
 
 const initialState: CamerasState = {
   cameras: [],
@@ -9,7 +11,7 @@ const initialState: CamerasState = {
   isLoaded: false,
   loadingError: null,
   searchingCameras: [],
-  defaultError: DEFAULT_ERROR_MESSAGE
+  selectedCamera: null,
 };
 
 const camerasSlice = createSlice({
@@ -22,6 +24,9 @@ const camerasSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(addToBasketPopupStatusUpdate.type, (state, action: PayloadAction<AddToBasketPopupData>) => {
+        state.selectedCamera = action.payload.product;
+      })
       .addCase(fetchCamerasAction.pending, (state) => {
         state.isLoaded = false;
         state.loadingError = null;
@@ -37,9 +42,10 @@ const camerasSlice = createSlice({
         state.isLoaded = true;
         state.loadingError = null;
       })
-      .addCase(fetchCamerasAction.rejected, (state) => {
+      .addCase(fetchCamerasAction.rejected, (state, action) => {
+        const error = action.error.code || null;
         state.isLoaded = true;
-        state.loadingError = state.defaultError;
+        state.loadingError = error;
       })
       .addCase(fetchSearchingCamerasAction.fulfilled, (state, action) => {
         state.searchingCameras = action.payload;

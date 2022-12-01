@@ -37,6 +37,9 @@ const store = makeMockStore({
     nearestMinPrice: null,
     nearestMaxPrice: null,
   },
+  Basket: {
+    basketItems: [],
+  },
 });
 
 describe('Component: ProductsList', () => {

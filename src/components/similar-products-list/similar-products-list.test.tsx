@@ -14,7 +14,11 @@ describe('Component: SimilarProductsList', () => {
     const START_DISPLAYED_INDEX = 0;
     const DISPLAYED_ITEMS_COUNT = 3;
     const cameras = makeMockCameras();
-    const store = makeMockStore();
+    const store = makeMockStore({
+      Basket: {
+        basketItems: [],
+      },
+    });
 
     render(
       <Provider store={store}>

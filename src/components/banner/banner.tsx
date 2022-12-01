@@ -22,7 +22,7 @@ function Banner(): JSX.Element {
   if (promoLoadingError) {
     return (
       <div className="banner">
-        <Error message={promoLoadingError} />
+        <Error />
       </div>
     );
   }
