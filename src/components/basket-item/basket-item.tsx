@@ -1,4 +1,4 @@
-import { memo, ChangeEvent } from 'react';
+import { memo } from 'react';
 import { Camera } from '../../types/types';
 import BasketItemShort from '../basket-item-short/basket-item-short';
 import Counter from '../counter/counter';
@@ -16,34 +16,8 @@ function BasketItem(props: BasketItemProps): JSX.Element {
   const {item, itemsCount, minItemsCount, maxItemsCount, onRemoveButtonClick, onCounterChange} = props;
   const {price, id} = item;
 
-  const handleCounterChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const newValue = Number(evt.currentTarget.value);
-
-    if (newValue < minItemsCount) {
-      onCounterChange(id, minItemsCount);
-      return;
-    }
-
-    if (newValue > maxItemsCount) {
-      onCounterChange(id, maxItemsCount);
-      return;
-    }
-
+  const handleCounterChange = (newValue: number) => {
     onCounterChange(id, newValue);
-  };
-
-  const handleDecrementButtonClick = () => {
-    if (itemsCount === minItemsCount) {
-      return;
-    }
-    onCounterChange(id, itemsCount - 1);
-  };
-
-  const handleIncrementButtonClick = () => {
-    if (itemsCount === maxItemsCount) {
-      return;
-    }
-    onCounterChange(id, itemsCount + 1);
   };
 
   return (
@@ -54,9 +28,9 @@ function BasketItem(props: BasketItemProps): JSX.Element {
       </p>
       <Counter
         value={itemsCount}
-        onDecrement={handleDecrementButtonClick}
-        onIncrement={handleIncrementButtonClick}
-        onChange={handleCounterChange}
+        minLimit={minItemsCount}
+        maxLimit={maxItemsCount}
+        onApplyValue={handleCounterChange}
       />
       <div className="basket-item__total-price">
         <span className="visually-hidden">Общая цена:</span>{(price * itemsCount).toLocaleString()} ₽

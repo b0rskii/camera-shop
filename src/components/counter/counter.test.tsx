@@ -1,21 +1,21 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Counter from './counter';
 
 const VALUE = 1;
+const MIN_LIMIT = 1;
+const MAX_LIMIT = 10;
 
-const onDecrement = jest.fn();
-const onIncrement = jest.fn();
-const onChange = jest.fn();
+const onApplyValue = jest.fn();
 
 describe('Component: Counter', () => {
   it('should render correctly', () => {
     render(
       <Counter
         value={VALUE}
-        onDecrement={onDecrement}
-        onIncrement={onIncrement}
-        onChange={onChange}
+        minLimit={MIN_LIMIT}
+        maxLimit={MAX_LIMIT}
+        onApplyValue={onApplyValue}
       />
     );
 
@@ -24,50 +24,27 @@ describe('Component: Counter', () => {
     expect(screen.getByTestId('increment-button')).toBeInTheDocument();
   });
 
-  it('should called "onDecrement" when user clicked to decrement button', async () => {
+  it('should called "onApplyValue" when user press enter or blur on input', async () => {
     render(
       <Counter
         value={VALUE}
-        onDecrement={onDecrement}
-        onIncrement={onIncrement}
-        onChange={onChange}
+        minLimit={MIN_LIMIT}
+        maxLimit={MAX_LIMIT}
+        onApplyValue={onApplyValue}
       />
     );
 
-    await userEvent.click(screen.getByTestId('decrement-button'));
+    const inputElement = screen.getByTestId('basket-items-count');
 
-    expect(onDecrement).toBeCalledTimes(1);
-    expect(onIncrement).toBeCalledTimes(0);
-  });
+    inputElement.focus();
+    await userEvent.type(inputElement, '55');
+    await userEvent.keyboard('{enter}');
 
-  it('should called "onIncrement" when user clicked to increment button', async () => {
-    render(
-      <Counter
-        value={VALUE}
-        onDecrement={onDecrement}
-        onIncrement={onIncrement}
-        onChange={onChange}
-      />
-    );
+    expect(onApplyValue).toBeCalledTimes(1);
 
-    await userEvent.click(screen.getByTestId('increment-button'));
+    await userEvent.type(inputElement, '22');
+    fireEvent.blur(inputElement);
 
-    expect(onDecrement).toBeCalledTimes(0);
-    expect(onIncrement).toBeCalledTimes(1);
-  });
-
-  it('should called "onChange" when user change input value', async () => {
-    render(
-      <Counter
-        value={VALUE}
-        onDecrement={onDecrement}
-        onIncrement={onIncrement}
-        onChange={onChange}
-      />
-    );
-
-    await userEvent.type(screen.getByTestId('basket-items-count'), '55');
-
-    expect(onChange).toBeCalledTimes(2);
+    expect(onApplyValue).toBeCalledTimes(2);
   });
 });
